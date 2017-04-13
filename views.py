@@ -14,7 +14,7 @@ def downloadJS(request, domain):
     response['Content-Disposition'] = 'attachment; filename=visit.js'
     return response
 
-def directJS(request, domain):
+def trackerJS(request, domain):
     context = { 'domain': domain, 'url': request.META['HTTP_HOST'], }
     return render(request, 'tracker/tracker.js', context=context, content_type=conf['contenttype_js'],)
 

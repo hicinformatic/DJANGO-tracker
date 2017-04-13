@@ -22,7 +22,7 @@ class Domain(models.Model):
         return self.domain
 
     def save(self, *args, **kwargs):
-        self.javascript = conf['example'].format(self.id.hex, reverse('tracker:downloadJS', args=(self.id.hex,)), )
+        self.javascript = conf['example'].format(reverse('tracker:trackerJS', args=(self.id.hex,)), reverse('tracker:trackerSVG', args=(self.id.hex,)),)
         super(Domain, self).save(*args, **kwargs)
     
 
