@@ -71,7 +71,7 @@ conf['example'] = """
 /// URL_STATIC -> Static URL hosting the javascript file
 <script src="{{ URL_STATIC }}/visit.js"></script>
 <script>
-visit.id = '%s';"
+visit.id = '%s';
 visit.add('height', window.screen.height);
 visit.add('width', window.screen.width);
 visit.visit();
