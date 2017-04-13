@@ -9,7 +9,7 @@ function visit(url=null) {
         this.add('title', document.title);
         params = this.params.join('&');
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", url + '/visit.html/{{ domain }}/', true);
+        xhr.open("POST", this.url + '/visit.html/{{ domain }}/', true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send(params); 
         this.params = [];
@@ -17,10 +17,10 @@ function visit(url=null) {
     this.start = function() {
         if( this.url == null ) {
             alert('null');
-            this.url = ''
+            this.url = '';
         }else{
             alert('pas null');
-            this.url = '//' + this.url
+            this.url = '//' + this.url;
         }
     }
     this.start();
