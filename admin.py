@@ -5,8 +5,8 @@ from .models import Domain, DataAuthorized, Tracked
 
 @admin.register(Domain)
 class DomainAdmin(admin.ModelAdmin):
-    list_display = ( 'visitor', 'key', 'value', 'domain', 'create', 'update', )
-    readonly_fields = ( 'visitor', 'key', 'value', 'domain', 'create', 'update', )
+    list_display = ( 'domain', 'id',  )
+    readonly_fields = ( 'domain', 'id', 'create', 'update', )
 
 @admin.register(DataAuthorized)
 class DataAuthorizedAdmin(admin.ModelAdmin):
