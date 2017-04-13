@@ -70,7 +70,7 @@ conf['datas'] = [
 
 conf['example'] = """<!--
 [--URL_STATIC--]  -> Static URL hosting the javascript file
-[--URL_TRACKER--] -> URL of the tracker
+[--URL_TRACKER--] -> URL of the tracker | Leave empty if the host is the same
 -->
 
 <!-- Own host JS | better -->
@@ -80,6 +80,7 @@ conf['example'] = """<!--
 
 <!-- Use example -->
 <script>
+visit = new visit('[--URL_TRACKER--]');
 visit.add('height', window.screen.height);
 visit.add('width', window.screen.width);
 visit.visit();
