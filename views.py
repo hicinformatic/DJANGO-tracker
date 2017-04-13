@@ -3,6 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .settings import conf
 from .functions import isTrack
+from .forms import trackFormDatas
 from uuid import uuid4
 
 def trackerSVG(request, visitor=''):
