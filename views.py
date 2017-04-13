@@ -26,9 +26,10 @@ def trackerSVG(request, domain, visitor=''):
             Tracked(visitor=visitor, key='User-Agent', value=request.META['HTTP_USER_AGENT'], domain=domain),
             Tracked(visitor=visitor, key='AcceptLanguage', value=request.META['HTTP_ACCEPT_LANGUAGE'], domain=domain),
         ])
+    HttpResponse('<svg width="0" height="0"><text>%s</text></svg>' % visitor, content_type=conf['contenttype_svg'])
     request.session[conf['store']] = visitor
-    response.set_signed_cookie(conf['store'], visitor, salt=conf['salt'])
-    return HttpResponse('<svg width="0" height="0"><text>%s</text></svg>' % visitor, content_type=conf['contenttype_svg'])
+    return response.set_signed_cookie(conf['store'], visitor, salt=conf['salt'])
+     
 
 @csrf_exempt
 def trackerDATAS(request, domain):
