@@ -20,8 +20,9 @@ function visit(url) {
             this.url = '';
         }else{
             alert('pas null');
-            this.url = '//' + this.url;
+            this.url = '//' + url;
         }
+        alert(this.url);
     }
     this.start();
 }
