@@ -4,7 +4,7 @@ from django.db import models
 from django.utils.translation import ugettext as _
 
 class Domain(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, verbose_name=_('Unique ID'),)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, verbose_name=_('Unique ID'), help_text=_('visit.id = ') + self.id, )
     domain = models.URLField(verbose_name=_('Domain authorized'),)
     status = models.BooleanField(default=True, verbose_name=_('Enable'),)
     counter = models.BigIntegerField(default=0, verbose_name=_('Counter'),)
