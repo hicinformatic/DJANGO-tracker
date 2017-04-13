@@ -6,7 +6,7 @@ def isTrack(request, visitor):
     except Exception: pass
     try: return request.get_signed_cookie(conf['store'], salt=conf['salt'])
     except Exception: pass
-    return visitor if visitor != '' else str(uuid.uuid4)
+    return visitor if visitor != '' else str(uuid.uuid4())
 
 def firsTrack(request):
     try: 
