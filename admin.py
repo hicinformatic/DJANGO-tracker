@@ -18,8 +18,8 @@ class DomainAdmin(admin.ModelAdmin):
 
     def visitJS(self, obj):
         return u'<a href="%s">%s</a>' % (reverse('tracker:trackerJS', args=(obj.id.hex,)), _('Direct JS'), )
-    visitSVG.allow_tags = True
-    visitSVG.short_description = _('JS')
+    visitJS.allow_tags = True
+    visitJS.short_description = _('JS')
 
     def visitSVG(self, obj):
         return u'<a href="%s">%s</a>' % (reverse('tracker:trackerSVG', args=(obj.id.hex,)), _('noscript SVG'), )
