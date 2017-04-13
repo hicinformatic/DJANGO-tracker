@@ -16,11 +16,11 @@ function visit(url) {
     };
     this.start = function() {
         if( typeof url !== 'undefined' ) {
-            alert('null');
-            this.url = '';
-        }else{
             alert('pas null');
             this.url = '//' + url;
+        }else{
+            alert('null');
+            this.url = '';
         }
         alert(this.url);
     }
