@@ -1,8 +1,8 @@
 var visit = visit || {};
-visit.id = '{{ domain }}';
 visit.params = [];
 visit.add = function(key, value) { this.params.push(key + '=' + value); }
 visit.visit = function() {
+    alert('start');
     this.add('url', this.url);
     this.add('title', this.document.title);
     params = params.join('&');
