@@ -21,7 +21,7 @@ class Domain(models.Model):
         return self.domain
 
     def save(self, *args, **kwargs):
-        self.javascript = conf['example']  % self.id.hex
+        self.javascript = conf['example'].format(self.id.hex)
         super(Domain, self).save(*args, **kwargs)
     
 
