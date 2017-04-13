@@ -1,6 +1,8 @@
 from django.conf import settings
 from shutil import copyfile
+import os
 
+appdir = os.path.dirname(os.path.realpath(__file__))
 conf = {}
 
 # Global
@@ -73,4 +75,4 @@ for k,v in conf.items():
     except Exception:
         pass
 
-copyfile('tracker.js', settings.STATIC_ROOT + 'visit.js')
+copyfile(appdir + '/tracker.js', settings.STATIC_ROOT + 'visit.js')
