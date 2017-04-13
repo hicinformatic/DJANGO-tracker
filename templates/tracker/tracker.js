@@ -1,4 +1,4 @@
-function visit(url=null) {
+function visit(url) {
     this.params = [];
     this.url = url;
     this.add = function(key, value) {
@@ -15,7 +15,7 @@ function visit(url=null) {
         this.params = [];
     };
     this.start = function() {
-        if( this.url == null ) {
+        if( typeof this.url !== 'undefined' ) {
             alert('null');
             this.url = '';
         }else{
