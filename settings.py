@@ -26,6 +26,7 @@ conf['contenttype_js'] = 'application/javascript; charset=%s' % conf['charset']
 
 # Default datas
 conf['datas'] = [
+    'visitor',
     'connectEnd',
     'connectStart',
     'domComplete',

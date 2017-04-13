@@ -40,6 +40,7 @@ def trackerDATAS(request, domain):
         form = trackFormDatas(request.POST)
         if form.is_valid():
             visitor = isTrack(request, form.clean_data['visitor'])
+            form.clean_data.pop('visitor')
             datas = []
             if firsTrack(request):
                 datas.append(Tracked(visitor=visitor, key='User-Agent', value=request.META['HTTP_USER_AGENT'], domain=domain))
