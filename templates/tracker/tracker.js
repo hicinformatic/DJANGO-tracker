@@ -1,6 +1,6 @@
 function visit(url) {
     this.params = [];
-    this.url = url;
+    this.url;
     this.add = function(key, value) {
         this.params.push(key + '=' + value);
     };
@@ -15,7 +15,7 @@ function visit(url) {
         this.params = [];
     };
     this.start = function() {
-        if( typeof this.url !== 'undefined' ) {
+        if( typeof url !== 'undefined' ) {
             alert('null');
             this.url = '';
         }else{
