@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
 from .settings import conf
-from .functions import isTrack
+from .functions import isTrack, firsTrack
 from .decorators import localcall, localcalloradmin, localcalloradminorstaff
 from .forms import trackFormDatas
 from .models import Tracked
