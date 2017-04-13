@@ -13,6 +13,8 @@ class DomainAdmin(admin.ModelAdmin):
 
     def downloadJS(self, obj):
         return u'<a href="%s">%s</a>' % (reverse('tracker:downloadJS', args=(obj.id.hex,)), _('Download javascript'), )
+    downloadJS.allow_tags = True
+    downloadJS.short_description = _('Download')
 
 def loadDatasAuthorized(modeladmin, request, queryset):
     with open(conf['appdir'] + '/moreconf.py', 'w') as f:
