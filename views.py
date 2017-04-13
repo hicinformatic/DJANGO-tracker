@@ -33,4 +33,6 @@ def trackerDATAS(request, domain):
         request.session[conf['first']] = visitor
         response.set_signed_cookie(conf['store'], visitor, salt=conf['salt'], max_age=conf['maxage'])
         response.set_signed_cookie(conf['first'], visitor, salt=conf['salt'], max_age=conf['maxage'])
-    return response
+    else:
+        form = trackFormDatas()
+    return HttpResponse('<form method="POST">%s<input type="submit"></form>' % form)
