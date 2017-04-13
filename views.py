@@ -7,8 +7,8 @@ from .functions import isTrack
 from .decorators import localcall, localcalloradmin, localcalloradminorstaff
 from .forms import trackFormDatas
 
-def downloadJS(request, id):
-    context = { 'id': id, 'url': request.META['HTTP_HOST'], }
+def downloadJS(request, domain):
+    context = { 'domain': domain, 'url': request.META['HTTP_HOST'], }
     return render(request, 'tracker/tracker.js', context=context, content_type=conf['contenttype_js'])
 
 def trackerSVG(request, visitor=''):
