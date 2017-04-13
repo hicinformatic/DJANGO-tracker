@@ -19,7 +19,7 @@ def trackerJS(request, domain):
     context = { 'domain': domain, 'url': request.META['HTTP_HOST'], }
     return render(request, 'tracker/tracker.js', context=context, content_type=conf['contenttype_js'],)
 
-def trackerSVG(request, domain):
+def trackerSVG(request, domain, visitor=''):
     visitor = isTrack(request, visitor)
     if firsTrack(request):
         Tracked.objects.bulk_create([
