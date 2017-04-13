@@ -12,17 +12,17 @@ class DomainAdmin(admin.ModelAdmin):
     readonly_fields = ( 'id', 'status', 'javascript', 'counter', 'create', 'update', )
 
     def downloadJS(self, obj):
-        return u'<a href="%s">%s</a>' % (reverse('tracker:downloadJS', args=(obj.id.hex,)), _('Download javascript'), )
+        return u'<a href="%s">%s</a>' % (reverse('tracker:downloadJS', args=(str(obj.id),)), _('Download javascript'), )
     downloadJS.allow_tags = True
     downloadJS.short_description = _('Download')
 
     def visitJS(self, obj):
-        return u'<a href="%s">%s</a>' % (reverse('tracker:trackerJS', args=(obj.id.hex,)), _('Direct JS'), )
+        return u'<a href="%s">%s</a>' % (reverse('tracker:trackerJS', args=(str(obj.id),)), _('Direct JS'), )
     visitJS.allow_tags = True
     visitJS.short_description = _('JS')
 
     def visitSVG(self, obj):
-        return u'<a href="%s">%s</a>' % (reverse('tracker:trackerSVG', args=(obj.id.hex,)), _('noscript SVG'), )
+        return u'<a href="%s">%s</a>' % (reverse('tracker:trackerSVG', args=(str(obj.id),)), _('noscript SVG'), )
     visitSVG.allow_tags = True
     visitSVG.short_description = _('SVG')
 
