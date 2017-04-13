@@ -77,7 +77,7 @@ visit.add('width', window.screen.width);
 visit.visit();
 </script>
 <!-- DOMAINS -> URL of the tracker -->
-<noscript><img width=0 height=0 src="{{ DOMAINS }}/visit.svg"></noscript>'
+<noscript><img width=0 height=0 src="{{ DOMAINS }}/visit.svg"></noscript>
 """
 
 for k,v in conf.items():
