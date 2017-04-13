@@ -67,8 +67,7 @@ conf['datas'] = [
     'Resize_outerHeight',
 ]
 
-conf['example'] = """
-<!--
+conf['example'] = """<!--
 [--URL_STATIC--]  -> Static URL hosting the javascript file
 [--URL_TRACKER--] -> URL of the tracker
 -->
