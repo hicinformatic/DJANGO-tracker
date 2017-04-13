@@ -27,12 +27,12 @@ def disableDatasAuthorized(modeladmin, request, queryset):
         queryset.update(status=False, load=True)
         DataAuthorized.objects.exclude(id__in=queryset).update(load=False)
         modeladmin.message_user(request, _('Authorized data disable'), 'success')
-loadDatasAuthorized.short_description = _('Disable authorized data')
+disableDatasAuthorized.short_description = _('Disable authorized data')
 @admin.register(DataAuthorized)
 class DataAuthorizedAdmin(admin.ModelAdmin):
     list_display = ( 'key', 'status', 'load', 'counter', )
     readonly_fields = ( 'create', 'update', 'load', 'counter', )
-    actions = [ loadDatasAuthorized, ]
+    actions = [ loadDatasAuthorized, disableDatasAuthorized, ]
 
 @admin.register(Tracked)
 class TrackedAdmin(admin.ModelAdmin):
