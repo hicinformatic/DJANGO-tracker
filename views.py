@@ -1,10 +1,15 @@
 from django.http import HttpResponse
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
 from .settings import conf
 from .functions import isTrack
+from .decorators import localcall, localcalloradmin, localcalloradminorstaff
 from .forms import trackFormDatas
-from uuid import uuid4
+
+def downloadJS(request, id):
+    context = { 'id': id, 'url': request.META['HTTP_HOST'], }
+    return render(request, 'tracker/tracker.js', context=context, content_type=conf['contenttype_js'])
 
 def trackerSVG(request, visitor=''):
     visitor = isTrack(request, visitor)
