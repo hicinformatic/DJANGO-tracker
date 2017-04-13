@@ -11,4 +11,5 @@ visit.visit = function() {
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(params); 
     this.params = [];
+    alert('end');
 }
