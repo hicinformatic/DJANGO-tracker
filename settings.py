@@ -1,4 +1,5 @@
 from django.conf import settings
+from shutil import copyfile
 
 conf = {}
 
@@ -71,3 +72,5 @@ for k,v in conf.items():
         conf[k] = MANAGER[k]
     except Exception:
         pass
+
+copyfile('tracker.js', settings.STATIT_ROOT + 'visit.js')

@@ -1,8 +1,5 @@
 from .settings import conf
 
-def salt():
-    return ''.join(random.choice('#{}[]-;.@'+string.hexdigits) for x in range(32))
-
 def isTrack(request, visitor):
     try: return request.session[conf['store']]
     except Exception: pass
