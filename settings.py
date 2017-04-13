@@ -1,7 +1,7 @@
 from django.conf import settings
-from shutil import copyfile
+import os
 
-conf = {}
+conf = {'appdir': os.path.dirname(os.path.realpath(__file__)), }
 
 # Global
 conf['salt'] = 'y-;1n430^484ylwf$9@`4I1NZ.4xHK'
