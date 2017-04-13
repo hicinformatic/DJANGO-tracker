@@ -14,7 +14,7 @@ function visit(url=null) {
         xhr.send(params); 
         this.params = [];
     };
-    this.start function() {
+    this.start = function() {
         if( this.url == null ) {
             alert('null');
             this.url = ''
