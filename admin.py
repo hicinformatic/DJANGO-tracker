@@ -11,7 +11,7 @@ class DomainAdmin(admin.ModelAdmin):
 
 def loadDatasAuthorized(modeladmin, request, queryset):
     with open(conf['appdir'] + '/moreconf.py', 'w') as f:
-        f.write('more = [\r')
+        f.write('more = [\n')
         for q in queryset:
             f.write(q.key + ',\n')
         f.write(']')
