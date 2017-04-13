@@ -15,9 +15,9 @@ def loadDatasAuthorized(modeladmin, request, queryset):
         for q in queryset:
             if q.status is True:
                 f.write("    '" + q.key + "',\n")
-                queryset[q].load = True
+                queryset[q.key].load = True
             else:
-                queryset[q].load = False
+                queryset[q.key].load = False
         f.write(']')
         f.closed
         queryset.save()
