@@ -80,10 +80,12 @@ conf['example'] = """<!--
 
 <!-- Use example -->
 <script>
-visit = new visit('[--URL_TRACKER--]');
-visit.add('height', window.screen.height);
-visit.add('width', window.screen.width);
-visit.visit();
+(function() {
+    visit = new visit('[--URL_TRACKER--]');
+    visit.add('height', window.screen.height);
+    visit.add('width', window.screen.width);
+    visit.visit();
+})();
 </script>
 <noscript><img width=0 height=0 src="[--URL_TRACKER--]{1}"></noscript>
 """
