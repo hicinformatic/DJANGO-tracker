@@ -9,7 +9,9 @@ from .forms import trackFormDatas
 
 def downloadJS(request, domain):
     context = { 'domain': domain, 'url': request.META['HTTP_HOST'], }
-    return render(request, 'tracker/tracker.js', context=context, content_type=conf['contenttype_js'])
+    response = render(request, 'tracker/tracker.js', context=context, content_type=conf['contenttype_js'],)
+    response['Content-Disposition'] = 'attachment; filename=visit.js'
+    return response
 
 def trackerSVG(request, visitor=''):
     visitor = isTrack(request, visitor)
