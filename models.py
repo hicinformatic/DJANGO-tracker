@@ -8,7 +8,7 @@ class Domain(models.Model):
     domain = models.URLField(verbose_name=_('Domain authorized'),)
     status = models.BooleanField(default=True, verbose_name=_('Enable'),)
     counter = models.BigIntegerField(default=0, verbose_name=_('Counter'),)
-    javascript = models.TextField(blank=True, null=True, editable=False, verbose_name=_('Javascript integration'))
+    javascript = models.CharField(max_length=254, blank=True, null=True, editable=False, verbose_name=_('Javascript integration'))
     create = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('Creation date'),)
     update = models.DateTimeField(auto_now=True, editable=False, verbose_name=_('Update date'),)
 
@@ -21,7 +21,7 @@ class Domain(models.Model):
 
     def save(self, *args, **kwargs):
         self.javascript = 'visit.id = %s;' % self.id.hex
-        super(Authenta, self).save(*args, **kwargs)
+        super(Domain, self).save(*args, **kwargs)
     
 
 class DataAuthorized(models.Model):
