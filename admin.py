@@ -10,7 +10,7 @@ class DomainAdmin(admin.ModelAdmin):
     readonly_fields = ( 'domain', 'id', 'create', 'update', )
 
 def loadDatasAuthorized(modeladmin, request, queryset):
-    with open(conf['appdir'] + '/moreconf.py', 'a') as f:
+    with open(conf['appdir'] + '/moreconf.py', 'w') as f:
         f.write('more = [\r')
         for q in queryset:
             f.write(q.key + ',\n')
