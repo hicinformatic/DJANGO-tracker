@@ -26,7 +26,3 @@ function visit(url) {
     }
     this.start();
 }
-visit = new visit();
-visit.add('height', window.screen.height);
-visit.add('width', window.screen.width);
-visit.visit();
