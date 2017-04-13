@@ -15,11 +15,12 @@ def loadDatasAuthorized(modeladmin, request, queryset):
         for q in queryset:
             if q.status is True:
                 f.write("    '" + q.key + "',\n")
+                queryset[q].load = True
             else:
-                q.load = False
+                queryset[q].load = False
         f.write(']')
         f.closed
-        queryset.update(status=True, load=True)
+        queryset.save()
         DataAuthorized.objects.exclude(id__in=queryset).update(load=False)
         modeladmin.message_user(request, _('Authorized data loaded'), 'success')
 loadDatasAuthorized.short_description = _('Loads authorized data')
