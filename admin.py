@@ -9,7 +9,7 @@ class DomainAdmin(admin.ModelAdmin):
     readonly_fields = ( 'visitor', 'key', 'value', 'domain', 'create', 'update', )
 
 @admin.register(DataAuthorized)
-class DataAuthorizedInline(admin.TabularInline):
+class DataAuthorizedAdmin(admin.ModelAdmin):
     list_display = ( 'key', 'create', 'update', )
     readonly_fields = ( 'key', 'create', 'update', )
 
