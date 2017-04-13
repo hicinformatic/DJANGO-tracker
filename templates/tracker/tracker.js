@@ -15,14 +15,7 @@ function visit(url) {
         this.params = [];
     };
     this.start = function() {
-        if( typeof url !== 'undefined' ) {
-            alert('pas null');
-            this.url = '//' + url;
-        }else{
-            alert('null');
-            this.url = '';
-        }
-        alert(this.url);
+        this.url = typeof url !== 'undefined' ? '//' + url : '';
     }
     this.start();
 }
