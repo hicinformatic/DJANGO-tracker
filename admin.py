@@ -7,7 +7,7 @@ from .settings import conf
 @admin.register(Domain)
 class DomainAdmin(admin.ModelAdmin):
     list_display = ( 'domain', 'id', 'status', 'counter', )
-    readonly_fields = ( 'domain', 'id', 'create', 'update', )
+    readonly_fields = ( 'id', 'status', 'counter', 'create', 'update', )
 
 def loadDatasAuthorized(modeladmin, request, queryset):
     with open(conf['appdir'] + '/moreconf.py', 'w') as f:
