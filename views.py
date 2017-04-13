@@ -7,11 +7,16 @@ from .functions import isTrack
 from .decorators import localcall, localcalloradmin, localcalloradminorstaff
 from .forms import trackFormDatas
 
+@localcalloradminorstaff
 def downloadJS(request, domain):
     context = { 'domain': domain, 'url': request.META['HTTP_HOST'], }
     response = render(request, 'tracker/tracker.js', context=context, content_type=conf['contenttype_js'],)
     response['Content-Disposition'] = 'attachment; filename=visit.js'
     return response
+
+def directJS(request, domain):
+    context = { 'domain': domain, 'url': request.META['HTTP_HOST'], }
+    return render(request, 'tracker/tracker.js', context=context, content_type=conf['contenttype_js'],)
 
 def trackerSVG(request, visitor=''):
     visitor = isTrack(request, visitor)
