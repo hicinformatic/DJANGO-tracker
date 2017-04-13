@@ -3,7 +3,7 @@ from django.utils.translation import ugettext as _
 
 from .models import Domain, DataAuthorized, Tracked
 from .settings import conf
-from django.core.cache import cache
+
 
 @admin.register(Domain)
 class DomainAdmin(admin.ModelAdmin):
@@ -16,12 +16,10 @@ def loadDatasAuthorized(modeladmin, request, queryset):
         for q in queryset:
             if q.status is True:
                 f.write("    '" + q.key + "',\n")
-        f.write(']')
-        f.closed
+        f.write(']').closed
         queryset.filter(status=False).update(load=False)
         queryset.filter(status=True).update(load=True)
         DataAuthorized.objects.exclude(id__in=queryset).update(load=False)
-        cache.clear()
         modeladmin.message_user(request, _('Authorized data loaded'), 'success')
 loadDatasAuthorized.short_description = _('Loads authorized data')
 def disableDatasAuthorized(modeladmin, request, queryset):
