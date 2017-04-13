@@ -1,7 +1,9 @@
 from django.db import models
 
+from uuid import uuid4
+
 class Domain(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, verbose_name=_('Unique ID'),)
+    id = models.UUIDField(primary_key=True, default=uuid4, editable=False, verbose_name=_('Unique ID'),)
     domain = models.URLField(editable=False, verbose_name=_('Domain authorized'),)
     create = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('Creation date'),)
     update = models.DateTimeField(auto_now=True, editable=False, verbose_name=_('Update date'),)
