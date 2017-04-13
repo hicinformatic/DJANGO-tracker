@@ -3,12 +3,12 @@ from .models import Domain, DataAuthorized, Tracked
 
 @admin.register(Domain)
 class DomainAdmin(admin.ModelAdmin):
-    list_display = ( 'domain', 'id',  )
+    list_display = ( 'domain', 'id', 'status',  )
     readonly_fields = ( 'domain', 'id', 'create', 'update', )
 
 @admin.register(DataAuthorized)
 class DataAuthorizedAdmin(admin.ModelAdmin):
-    list_display = ( 'key', 'create', 'update', )
+    list_display = ( 'key', 'status', )
     readonly_fields = ( 'create', 'update', )
 
 @admin.register(Tracked)

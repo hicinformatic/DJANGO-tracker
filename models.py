@@ -6,6 +6,7 @@ from uuid import uuid4
 class Domain(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False, verbose_name=_('Unique ID'),)
     domain = models.URLField(editable=False, verbose_name=_('Domain authorized'),)
+    status = models.BooleanField(default=True, verbose_name=_('Enable'),)
     create = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('Creation date'),)
     update = models.DateTimeField(auto_now=True, editable=False, verbose_name=_('Update date'),)
 
@@ -18,6 +19,7 @@ class Domain(models.Model):
 
 class DataAuthorized(models.Model):
     key = models.CharField(max_length=254, unique=True, verbose_name=_('Data'),)
+    status = models.BooleanField(default=True, verbose_name=_('Enable'),)
     create = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('Creation date'),)
     update = models.DateTimeField(auto_now=True, editable=False, verbose_name=_('Update date'),)
 
