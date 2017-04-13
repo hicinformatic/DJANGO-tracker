@@ -69,14 +69,14 @@ conf['datas'] = [
 
 conf['example'] = """
 <!--
-URL_STATIC -> Static URL hosting the javascript file
-URL_TRACKER -> URL of the tracker
+[--URL_STATIC--]  -> Static URL hosting the javascript file
+[--URL_TRACKER--] -> URL of the tracker
 -->
 
 <!-- Own host JS | better -->
-<script src="{--URL_STATIC--}/visit.js"></script>
+<script src="[--URL_STATIC--]/visit.js"></script>
 <!-- Direct host JS -->
-<script src="{--URL_TRACKER--}/visit.js/{0}/"></script>
+<script src="[--URL_TRACKER--]/visit.js/{0}/"></script>
 
 <!-- Use example -->
 <script>
@@ -84,7 +84,7 @@ visit.add('height', window.screen.height);
 visit.add('width', window.screen.width);
 visit.visit();
 </script>
-<noscript><img width=0 height=0 src="{--URL_TRACKER--}/visit.svg/{0}/"></noscript>
+<noscript><img width=0 height=0 src="[--URL_TRACKER--]/visit.svg/{0}/"></noscript>
 """
 
 for k,v in conf.items():

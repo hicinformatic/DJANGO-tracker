@@ -9,7 +9,7 @@ class Domain(models.Model):
     status = models.BooleanField(default=True, verbose_name=_('Enable'),)
     counter = models.BigIntegerField(default=0, verbose_name=_('Counter'),)
     javascript = models.TextField(blank=True, null=True, editable=False, verbose_name=_('Javascript integration'),
-        help_text=_('Change {{ URL_STATIC }} by your static files url and {{ DOMAINS }} by tracker domain'))
+        help_text=_('Change [--URL_STATIC--] by your static files url and [--URL_TRACKER--] by tracker domain'))
     create = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('Creation date'),)
     update = models.DateTimeField(auto_now=True, editable=False, verbose_name=_('Update date'),)
 
