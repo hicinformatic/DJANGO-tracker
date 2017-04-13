@@ -42,7 +42,7 @@ class DataAuthorized(models.Model):
         return self.key
 
 class Tracked(models.Model):
-    visitor = models.CharField(max_length=32, editable=False, verbose_name=_('Unique ID'),)
+    visitor = models.CharField(max_length=36, editable=False, verbose_name=_('Unique ID'),)
     key = models.CharField(max_length=254, editable=False, verbose_name=_('Key'),)
     value = models.TextField(editable=False, verbose_name=_('Value'),)
     domain = models.URLField(editable=False, verbose_name=_('Domain associated'),)
