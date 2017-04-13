@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from .settings import conf
 import uuid
@@ -21,7 +22,7 @@ class Domain(models.Model):
         return self.domain
 
     def save(self, *args, **kwargs):
-        self.javascript = conf['example'].format(self.id.hex)
+        self.javascript = conf['example'].format(self.id.hex, reverse('tracker:downloadJS', args=(self.id.hex,)), )
         super(Domain, self).save(*args, **kwargs)
     
 
