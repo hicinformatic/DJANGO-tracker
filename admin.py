@@ -23,8 +23,8 @@ def loadDatasAuthorized(modeladmin, request, queryset):
 loadDatasAuthorized.short_description = _('Loads authorized data')
 @admin.register(DataAuthorized)
 class DataAuthorizedAdmin(admin.ModelAdmin):
-    list_display = ( 'key', 'status', 'counter', )
-    readonly_fields = ( 'create', 'update', 'counter', )
+    list_display = ( 'key', 'status', 'load', 'counter', )
+    readonly_fields = ( 'create', 'update', 'load', 'counter', )
     actions = [ loadDatasAuthorized, ]
 
 @admin.register(Tracked)
