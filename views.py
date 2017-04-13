@@ -39,13 +39,13 @@ def trackerDATAS(request, domain):
     if request.method == 'POST':
         form = trackFormDatas(request.POST)
         if form.is_valid():
-            visitor = isTrack(request, form.clean_data['visitor'])
-            form.clean_data.pop('visitor')
+            visitor = isTrack(request, form.cleaned_data['visitor'])
+            form.cleaned_data.pop('visitor')
             datas = []
             if firsTrack(request):
                 datas.append(Tracked(visitor=visitor, key='User-Agent', value=request.META['HTTP_USER_AGENT'], domain=domain))
                 datas.append(Tracked(visitor=visitor, key='AcceptLanguage', value=request.META['HTTP_ACCEPT_LANGUAGE'], domain=domain))
-            for key,value in form.clean_data.items():
+            for key,value in form.cleaned_data.items():
                 if value != '': datas.append(Tracked(visitor=visitor, key=key, value=value, domain=domain))
             Tracked.objects.bulk_create(datas)
         response = HttpResponse('OK', content_type=conf['contenttype_txt'])
