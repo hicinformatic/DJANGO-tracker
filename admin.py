@@ -8,7 +8,7 @@ from .settings import conf
 
 @admin.register(Domain)
 class DomainAdmin(admin.ModelAdmin):
-    list_display = ( 'domain', 'id', 'downloadJS', 'visitSVG', 'status', 'counter', )
+    list_display = ( 'domain', 'id', 'downloadJS', 'visitJS', 'visitSVG', 'status', 'counter', )
     readonly_fields = ( 'id', 'status', 'javascript', 'counter', 'create', 'update', )
 
     def downloadJS(self, obj):
