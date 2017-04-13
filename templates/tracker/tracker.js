@@ -17,3 +17,6 @@ function visit() {
         alert('end');
     };
 }
+visit.add('height', window.screen.height);
+visit.add('width', window.screen.width);
+visit.visit();
