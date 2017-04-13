@@ -6,6 +6,7 @@ from .settings import conf
 from .functions import isTrack
 from .decorators import localcall, localcalloradmin, localcalloradminorstaff
 from .forms import trackFormDatas
+from .models import Tracked
 
 @localcalloradminorstaff
 def downloadJS(request, domain):
