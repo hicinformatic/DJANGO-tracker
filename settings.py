@@ -1,6 +1,5 @@
 from django.conf import settings
 from shutil import copyfile
-import os
 
 conf = {}
 

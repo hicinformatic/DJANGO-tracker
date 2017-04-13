@@ -17,7 +17,7 @@ class Domain(models.Model):
         return self.domain
 
 class DataAuthorized(models.Model):
-    key = models.CharField(max_length=254, editable=False, verbose_name=_('Data'),)
+    key = models.CharField(max_length=254, unique=True, verbose_name=_('Data'),)
     create = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('Creation date'),)
     update = models.DateTimeField(auto_now=True, editable=False, verbose_name=_('Update date'),)
 
