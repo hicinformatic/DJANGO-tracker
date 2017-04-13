@@ -17,7 +17,7 @@ class DomainAdmin(admin.ModelAdmin):
     downloadJS.short_description = _('JS')
 
     def visitSVG(self, obj):
-        return u'<a href="%s">%s</a>' % (reverse('tracker:visitSVG', args=(obj.id.hex,)), _('noscript SVG'), )
+        return u'<a href="%s">%s</a>' % (reverse('tracker:trackerSVG', args=(obj.id.hex,)), _('noscript SVG'), )
     visitSVG.allow_tags = True
     visitSVG.short_description = _('SVG')
 
