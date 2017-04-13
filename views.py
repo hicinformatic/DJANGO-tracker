@@ -32,7 +32,6 @@ def trackerSVG(request, domain, visitor=''):
     response.set_signed_cookie(conf['store'], visitor, salt=conf['salt'], max_age=conf['maxage'])
     response.set_signed_cookie(conf['first'], visitor, salt=conf['salt'], max_age=conf['maxage'])
     return response
-     
 
 @csrf_exempt
 def trackerDATAS(request, domain):
