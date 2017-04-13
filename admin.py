@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
 
 from .models import Domain, DataAuthorized, Tracked
 from .settings import conf
@@ -7,8 +8,11 @@ from .settings import conf
 
 @admin.register(Domain)
 class DomainAdmin(admin.ModelAdmin):
-    list_display = ( 'domain', 'id', 'status', 'counter', )
+    list_display = ( 'domain', 'id', 'downloadJS', 'status', 'counter', )
     readonly_fields = ( 'id', 'status', 'javascript', 'counter', 'create', 'update', )
+
+    def downloadJS(self, obj):
+        return u'<a href="%s">%s</a>' % (reverse('Tracker:downloadJS', args=(obj.id,)), _('Download javascript'), )
 
 def loadDatasAuthorized(modeladmin, request, queryset):
     with open(conf['appdir'] + '/moreconf.py', 'w') as f:
