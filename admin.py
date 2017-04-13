@@ -9,7 +9,7 @@ class DomainAdmin(admin.ModelAdmin):
 @admin.register(DataAuthorized)
 class DataAuthorizedAdmin(admin.ModelAdmin):
     list_display = ( 'key', 'create', 'update', )
-    readonly_fields = ( 'key', 'create', 'update', )
+    readonly_fields = ( 'create', 'update', )
 
 @admin.register(Tracked)
 class TrackedAdmin(admin.ModelAdmin):
