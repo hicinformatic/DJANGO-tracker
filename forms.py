@@ -1,6 +1,6 @@
 from django import forms
-
 from .settings import conf
+
 try:
     from .moreconf import more
     DatasAuthorized = conf['datas']+more
