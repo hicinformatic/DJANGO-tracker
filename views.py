@@ -19,12 +19,13 @@ def trackerJS(request, domain):
     context = { 'domain': domain, 'url': request.META['HTTP_HOST'], }
     return render(request, 'tracker/tracker.js', context=context, content_type=conf['contenttype_js'],)
 
-def trackerSVG(request, visitor=''):
+def trackerSVG(request, domain):
     visitor = isTrack(request, visitor)
-    Tracked.objects.bulk_create([
-        Tracked(visitor=visitor, key='User-Agent', value=request.META['HTTP_USER_AGENT'], domain=domain),
-        Tracked(visitor=visitor, key='AcceptLanguage', value=request.META['HTTP_ACCEPT_LANGUAGE'], domain=domain),
-    ])
+    if firsTrack(request):
+        Tracked.objects.bulk_create([
+            Tracked(visitor=visitor, key='User-Agent', value=request.META['HTTP_USER_AGENT'], domain=domain),
+            Tracked(visitor=visitor, key='AcceptLanguage', value=request.META['HTTP_ACCEPT_LANGUAGE'], domain=domain),
+        ])
     request.session[conf['store']] = visitor
     response.set_signed_cookie(conf['store'], visitor, salt=conf['salt'])
     return HttpResponse('<svg width="0" height="0"><text>%s</text></svg>' % visitor, content_type=conf['contenttype_svg'])
