@@ -13,10 +13,13 @@ def loadDatasAuthorized(modeladmin, request, queryset):
     with open(conf['appdir'] + '/moreconf.py', 'w') as f:
         f.write('more = [\n')
         for q in queryset:
-            f.write(q.key + ',\n')
+            if q.status is True:
+                f.write("    '" + q.key + "',\n")
         f.write(']')
-    f.closed
-    modeladmin.message_user(request, _('Authorized data loaded'), 'success')
+        f.closed
+        queryset.update(status=True, load=True)
+        DataAuthorized.objects.exclude(id__in=queryset).update(load=False)
+        modeladmin.message_user(request, _('Authorized data loaded'), 'success')
 loadDatasAuthorized.short_description = _('Loads authorized data')
 @admin.register(DataAuthorized)
 class DataAuthorizedAdmin(admin.ModelAdmin):
