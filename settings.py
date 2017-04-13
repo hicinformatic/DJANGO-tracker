@@ -68,7 +68,7 @@ conf['datas'] = [
 ]
 
 conf['example'] = """
-/// URL_STATIC -> Static URL hosting the javascript file
+// URL_STATIC -> Static URL hosting the javascript file
 <script src="{{ URL_STATIC }}/visit.js"></script>
 <script>
 visit.id = '%s';
