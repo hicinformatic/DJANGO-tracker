@@ -15,21 +15,19 @@ def loadDatasAuthorized(modeladmin, request, queryset):
         for q in queryset:
             if q.status is True:
                 f.write("    '" + q.key + "',\n")
-                queryset[q.key].load = True
-            else:
-                queryset[q.key].load = False
         f.write(']')
         f.closed
-        queryset.save()
+        queryset.filter(status=False).update(load=False)
+        queryset.filter(status=True).update(load=True)
         DataAuthorized.objects.exclude(id__in=queryset).update(load=False)
         modeladmin.message_user(request, _('Authorized data loaded'), 'success')
 loadDatasAuthorized.short_description = _('Loads authorized data')
 def disableDatasAuthorized(modeladmin, request, queryset):
     with open(conf['appdir'] + '/moreconf.py', 'w') as f:
-        queryset.update(status=False, )
+        queryset.update(status=False, load=True)
         DataAuthorized.objects.exclude(id__in=queryset).update(load=False)
         modeladmin.message_user(request, _('Authorized data disable'), 'success')
-loadDatasAuthorized.short_description = _('Loads authorized data')
+loadDatasAuthorized.short_description = _('Disable authorized data')
 @admin.register(DataAuthorized)
 class DataAuthorizedAdmin(admin.ModelAdmin):
     list_display = ( 'key', 'status', 'load', 'counter', )
