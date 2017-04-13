@@ -26,7 +26,7 @@ class DataAuthorized(models.Model):
         verbose_name_plural = _('Datas authorized')
 
     def __str__(self):
-        return self.domain
+        return self.key
 
 class Tracked(models.Model):
     visitor = models.CharField(max_length=32, editable=False, verbose_name=_('Unique ID'),)
