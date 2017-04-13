@@ -73,4 +73,4 @@ for k,v in conf.items():
     except Exception:
         pass
 
-copyfile('tracker.js', settings.STATIT_ROOT + 'visit.js')
+copyfile('tracker.js', settings.STATIC_ROOT + 'visit.js')
