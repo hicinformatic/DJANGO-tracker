@@ -8,13 +8,18 @@ from .settings import conf
 
 @admin.register(Domain)
 class DomainAdmin(admin.ModelAdmin):
-    list_display = ( 'domain', 'id', 'downloadJS', 'status', 'counter', )
+    list_display = ( 'domain', 'id', 'downloadJS', 'visitSVG', 'status', 'counter', )
     readonly_fields = ( 'id', 'status', 'javascript', 'counter', 'create', 'update', )
 
     def downloadJS(self, obj):
         return u'<a href="%s">%s</a>' % (reverse('tracker:downloadJS', args=(obj.id.hex,)), _('Download javascript'), )
     downloadJS.allow_tags = True
-    downloadJS.short_description = _('Download')
+    downloadJS.short_description = _('JS')
+
+    def visitSVG(self, obj):
+        return u'<a href="%s">%s</a>' % (reverse('tracker:visitSVG', args=(obj.id.hex,)), _('noscript SVG'), )
+    visitSVG.allow_tags = True
+    visitSVG.short_description = _('SVG')
 
 def loadDatasAuthorized(modeladmin, request, queryset):
     with open(conf['appdir'] + '/moreconf.py', 'w') as f:
