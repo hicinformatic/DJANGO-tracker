@@ -12,7 +12,7 @@ class DomainAdmin(admin.ModelAdmin):
     readonly_fields = ( 'id', 'status', 'javascript', 'counter', 'create', 'update', )
 
     def downloadJS(self, obj):
-        return u'<a href="%s">%s</a>' % (reverse('tracker:downloadJS', args=(obj.id,)), _('Download javascript'), )
+        return u'<a href="%s">%s</a>' % (reverse('tracker:downloadJS', args=(obj.id.hex,)), _('Download javascript'), )
 
 def loadDatasAuthorized(modeladmin, request, queryset):
     with open(conf['appdir'] + '/moreconf.py', 'w') as f:
