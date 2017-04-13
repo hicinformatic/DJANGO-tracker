@@ -2,7 +2,7 @@ from django import forms
 
 from .settings import conf
 try:
-    from .more import moreconf
+    from .more import more
     conf['data'] = conf['data']+more
 except Exception:
     pass
