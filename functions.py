@@ -1,4 +1,3 @@
-from .models import Connected, Visitor
 from .settings import conf
 
 def salt():
