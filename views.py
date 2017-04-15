@@ -1,7 +1,7 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+from django.core import serializers
 
 from .settings import conf
 from .functions import isTrack, firsTrack
@@ -62,4 +62,4 @@ def trackerDATAS(request, domain):
 
 def NjsonDATAS(request):
     datas = Tracked.objects.reverse()[:50]
-    return JsonResponse(list(datas))
+    return JsonResponse(serializers.serialize('json', datas), safe=False)
