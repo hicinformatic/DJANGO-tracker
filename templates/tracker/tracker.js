@@ -1,9 +1,9 @@
 function visit(url) {
     this.params = [];
     this.url;
-    this.add = function(key, value) {
-        this.params.push(key + '=' + value);
-    };
+    this.add = function(key, value) { this.params.push(key + '=' + value); };
+    this.start = function() { this.url = typeof url !== 'undefined' ? '//' + url : ''; }
+    this.start();
     this.visit = function() {
         this.add('url', window.location.href);
         this.add('title', document.title);
@@ -14,8 +14,4 @@ function visit(url) {
         xhr.send(params); 
         this.params = [];
     };
-    this.start = function() {
-        this.url = typeof url !== 'undefined' ? '//' + url : '';
-    }
-    this.start();
 }
