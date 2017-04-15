@@ -60,6 +60,13 @@ class Visitor(models.Model):
     visitor = models.CharField(max_length=36, editable=False, verbose_name=_('Unique ID'), )
     domain = models.ForeignKey(Domain, verbose_name=_('Domain associated'), )
 
+    class Meta:
+        verbose_name        = _('Visitor')
+        verbose_name_plural = _('Visitors')
+
+    def __str__(self):
+        return self.visitor
+
 class DataAssociated(models.Model):
     visitor = models.ForeignKey(Visitor, verbose_name=_('Visitor associated'), )
     key = models.CharField(max_length=254, unique=True, verbose_name=_('Key'),)

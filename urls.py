@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^visit.svg/(?P<domain>.{1,36})/(?P<visitor>.{1,36})/$', views.trackerSVG, name='trackerSVG'),
     url(r'^visit.html/(?P<domain>.{1,36})/$', views.trackerDATAS, name='trackerDATAS'),
     url(r'^downlad.js/(?P<domain>.{1,36})/$', views.downloadJS, name='downloadJS'),
+    url(r'^ndatas.json$', views.NjsonDATAS, name='NjsonDATAS'),
 ]

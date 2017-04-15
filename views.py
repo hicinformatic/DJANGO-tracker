@@ -1,12 +1,13 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 from .settings import conf
 from .functions import isTrack, firsTrack
 from .decorators import localcall, localcalloradmin, localcalloradminorstaff
 from .forms import trackFormDatas
-from .models import Tracked
+from .models import Tracked, Visitor, DataAssociated
 
 @localcalloradminorstaff
 def downloadJS(request, domain):
@@ -58,3 +59,7 @@ def trackerDATAS(request, domain):
     else:
         form = trackFormDatas()
     return HttpResponse('<form method="POST">%s<input type="submit"></form>' % form)
+
+def NjsonDATAS(request):
+    datas = Tracked.objects.reverse()[:50]
+    return JsonResponse(list(datas))
