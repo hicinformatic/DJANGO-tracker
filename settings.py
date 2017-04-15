@@ -18,6 +18,7 @@ conf['charset'] = 'utf-8'
 # Delta
 conf['delta'] = 86400
 conf['maxage'] = 86400
+conf['ndatas'] = 50
 
 # Content Type
 conf['contenttype_txt'] = 'text/plain; charset=%s' % conf['charset']

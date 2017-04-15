@@ -61,5 +61,5 @@ def trackerDATAS(request, domain):
     return HttpResponse('<form method="POST">%s<input type="submit"></form>' % form)
 
 def NjsonDATAS(request):
-    datas = Tracked.objects.reverse()[:50]
+    datas = Tracked.objects.reverse()[:conf['ndatas']]
     return JsonResponse(serializers.serialize('json', datas), safe=False)

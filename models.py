@@ -73,3 +73,10 @@ class DataAssociated(models.Model):
     value = models.CharField(max_length=254, unique=True, verbose_name=_('Data'),)
     status = models.BooleanField(default=True, verbose_name=_('Enable'),)
     create = models.DateTimeField(editable=False, verbose_name=_('Creation date'),)
+
+    class Meta:
+        verbose_name        = _('Data')
+        verbose_name_plural = _('Datas')
+
+    def __str__(self):
+        return self.key
