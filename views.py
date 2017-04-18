@@ -68,7 +68,7 @@ def NjsonDATAS(request):
 
 @localcalloradminorstaff
 @permission_required('Tracker.can_start')
-def start(request, task):
+def Start(request, task):
     if task in conf['tasks']:
         task = conf['tasks'][task]
         return HttpResponse(_('OK | Task started: %s' %task), content_type='text/plain')
