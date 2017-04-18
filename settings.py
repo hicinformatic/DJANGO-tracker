@@ -30,14 +30,14 @@ conf['contenttype_js'] = 'application/javascript; charset=%s' % conf['charset']
 
 # Tasks
 conf['tasks'] = (
-    (1, 'sort(Recurring)'),
-    (2, 'report(Hourly)'),
-    (3, 'report(Daily)'),
-    (4, 'report(Monthly)'),
-    (5, 'report(Annually)'),
-    (6, 'purge(Visit)'),
-    (7, 'purge(Report)'),
-    (8, 'purge(Task)'),
+    (0, 'sort(Recurring)'),
+    (1, 'report(Hourly)'),
+    (2, 'report(Daily)'),
+    (3, 'report(Monthly)'),
+    (4, 'report(Annually)'),
+    (5, 'purge(Visit)'),
+    (6, 'purge(Report)'),
+    (7, 'purge(Task)'),
 )
 conf['scripts'] = {
     'sort(Recurring)':  conf['appdir'] + '/tasks/sort_recurring.py',
