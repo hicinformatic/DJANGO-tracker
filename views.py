@@ -9,7 +9,9 @@ from .settings import conf
 from .functions import isTrack, firsTrack
 from .decorators import localcall, localcalloradmin, localcalloradminorstaff
 from .forms import trackFormDatas
-from .models import Tracked, Visitor, DataAssociated
+from .models import Tracked, Visitor, DataAssociated, Task
+
+from datetime import datetime, timedelta
 
 @localcalloradminorstaff
 def downloadJS(request, domain):
@@ -71,6 +73,23 @@ def NjsonDATAS(request):
 def Start(request, task):
     if any(int(task) in code for code in conf['tasks']):
         name = conf['tasks'][int(task)][1]
+        delta = conf['deltas'][name]
+        try:
+            if isinstance(delta, int):
+                delta = datetime.today() - timedelta(seconds=delta)
+                Task.objects.get(task=task, create__gte=delta)
+            elif delta == 'Monthly':
+                now = datetime.datetime.now()
+                month = now.month-1 if now.month > 1 else 12
+                year = now.year-1 if month == 12 else now.year
+                Task.objects.get(task=task, create__year=year, create__month=month)
+            elif delta == 'Annually':
+                year = datetime.datetime.now().year-1
+                Task.objects.get(task=task, create__year=year)
+            else:
+                return HttpResponseServerError(_('KO | Task delta unavailable: {} - {}'.format(task, name)), content_type='text/plain')
+        except Task.DoesNotExist:
+            newtask = Task(task=task)
         return HttpResponse(_('OK | Task started: {} - {}'.format(task, name)), content_type='text/plain')
     else:
         return HttpResponseServerError(_('KO | Task unavailable: %s' %task), content_type='text/plain')

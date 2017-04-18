@@ -83,9 +83,9 @@ class DataAssociated(models.Model):
         return self.key
 
 class Task(models.Model):
-    activity = models.PositiveSmallIntegerField(choices=conf['tasks'], default=1, editable=False, verbose_name=_('Activity'), validators=[MinValueValidator(1),MaxValueValidator(8)], )
+    task = models.PositiveSmallIntegerField(choices=conf['tasks'], default=1, editable=False, verbose_name=_('Activity'), validators=[MinValueValidator(1),MaxValueValidator(8)], )
     message	= models.CharField(default=_('Started'), editable=False, max_length=254, verbose_name=_('Message in front'),)
-    status = models.PositiveSmallIntegerField(choices=conf['status'], default=1, editable=False, verbose_name=_('Activity'), validators=[MinValueValidator(1),MaxValueValidator(8)], )
+    status = models.PositiveSmallIntegerField(choices=conf['status'], default=1, editable=False, verbose_name=_('Status'), validators=[MinValueValidator(1),MaxValueValidator(8)], )
     error = models.TextField(blank=True, editable=False, null=True, verbose_name=_('Error encountered'),)
     updateby = models.CharField(blank=True, editable=False, max_length=254, null=True, verbose_name=_('Last update by'),)
     create = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('Creation date'),)
