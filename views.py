@@ -1,4 +1,4 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, HttpResponseServerError, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
@@ -63,3 +63,78 @@ def trackerDATAS(request, domain):
 def NjsonDATAS(request):
     datas = Tracked.objects.reverse()[:conf['ndatas']]
     return JsonResponse(serializers.serialize('json', datas), safe=False)
+
+@permission_required('Tracker.can_start')
+def start(request, task):
+    if task in conf['tasks']:
+        task = conf['tasks'][task]
+        return HttpResponse(_('OK | Task started: %s' %task), content_type='text/plain')
+    else:
+        return HttpResponseServerError(_('KO | Task unavailable'), content_type='text/plain')
+    #delta = datetime.today() - timedelta(hours=Activity_Delta)
+    #try:
+    #    delta = datetime.today() - timedelta(hours=Activity_Delta)
+    #    sbactivity = SendinBlueActivity.objects.get(activity=activity, status=True, datecreate__gte=delta)
+    #    canlaunch = True if sbactivity.datecreate < delta else False
+    #except Exception:
+    #    canlaunch = True  
+    #if canlaunch is True:
+    #    if os.name == 'posix': task = 'nohup {0} {1} > /dev/null 2>&1&'
+    #    if os.name == 'nt': task = 'start {0} {1} > NUL'
+    #    try:
+    #        os.popen(task.format( conf['binary'], conf['scripts'][int(activity)]) )
+    #        return HttpResponse(_('OK | Task started: '), content_type='text/plain')
+    #    except Exception as e:
+    #        pass
+    return HttpResponseServerError(_('KO | Unable to start task'), content_type='text/plain')
+       
+# ------------------------------------------- #
+# START
+# ------------------------------------------- #
+# Enregistre le démarrage d'une activité
+@localcall
+@csrf_exempt
+@login_required(login_url='/authentication/failure/401')
+@permission_required('SendinBlue.can_start')
+def start(request, activity):
+    running = False
+    try:
+        delta = timezone.now() - timedelta(hours=Activity_Delta)
+        activities = SendinBlueActivity.objects.filter(activity=activity, status=True)
+        for activity in activities:
+            if activity.datecreate < delta:
+                activity.status = False
+                activity.updateby = request.user.username
+                activity.save()
+            else:
+                running = True
+    except SendinBlueActivity.DoesNotExist:
+        pass
+    if running is False:
+        try:
+            activity = SendinBlueActivity(activity=activity, updateby=request.user.username)
+            activity.full_clean()
+            activity.success()
+        except Exception:
+            return HttpResponse(ko(106), content_type='text/plain')
+    else:
+        return HttpResponse(ko(108), content_type='text/plain')
+    return HttpResponse(ok(activity.id), content_type='text/plain')
+
+# ------------------------------------------- #
+# STOP
+# ------------------------------------------- #
+# Enregistre la fin d'une activité
+@localcall
+@csrf_exempt
+@login_required(login_url='/authentication/failure/401')
+@permission_required('SendinBlue.can_stop')
+def stop(request, activity):
+    try:
+        activity = SendinBlueActivity.objects.get(activity=activity, status=True)
+        activity.status = False
+        activity.updateby = request.user.username
+        activity.save()
+    except Exception:
+        return HttpResponse(ko(107), content_type='text/plain')
+    return HttpResponse(ok(False), content_type='text/plain')

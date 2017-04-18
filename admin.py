@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 
-from .models import Tracked, DataAuthorized, Domain, Visitor, DataAssociated
+from .models import Tracked, DataAuthorized, Domain, Visitor, DataAssociated, Task
 from .settings import conf
 
 @admin.register(Tracked)
@@ -62,3 +62,8 @@ class VisitorAdmin(admin.ModelAdmin):
     list_display = ( 'visitor', 'domain', )
     readonly_fields = ( 'visitor', 'domain', )
     inlines = [ VisitorInline, ]
+
+@admin.register(Task)
+class TrackedAdmin(admin.ModelAdmin):
+    list_display = ( 'activity', 'message', 'status', 'create', )
+    readonly_fields = ( 'activity', 'message', 'status', 'error', 'updateby', 'create', 'update', )

@@ -26,7 +26,7 @@ class DataAuthorized(models.Model):
     counter = models.BigIntegerField(default=0, verbose_name=_('Counter'),)
     load = models.BooleanField(default=False, verbose_name=_('Load'),)
     create = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('Creation date'),)
-    update = models.DateTimeField(auto_now=True, editable=False, verbose_name=_('Update date'),)
+    update = models.DateTimeField(auto_now=True, editable=False, verbose_name=_('Last modification date'),)
 
     class Meta:
         verbose_name        = _('Data authorized')
@@ -43,7 +43,7 @@ class Domain(models.Model):
     javascript = models.TextField(blank=True, null=True, editable=False, verbose_name=_('Javascript integration'),
         help_text=_('Change [--URL_STATIC--] by your static files url and [--URL_TRACKER--] by tracker domain'))
     create = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('Creation date'),)
-    update = models.DateTimeField(auto_now=True, editable=False, verbose_name=_('Update date'),)
+    update = models.DateTimeField(auto_now=True, editable=False, verbose_name=_('Last modification date'),)
 
     class Meta:
         verbose_name        = _('Domain authorized')
@@ -80,3 +80,23 @@ class DataAssociated(models.Model):
 
     def __str__(self):
         return self.key
+
+class Task(models.Model):
+    activity = models.PositiveSmallIntegerField(choices=conf['tasks'], default=1, editable=False, verbose_name=_('Activity'), validators=[MinValueValidator(1),MaxValueValidator(8)], )
+    message	= models.CharField(default=_('Started'), editable=False, max_length=254, verbose_name=_('Message in front'),)
+    status = models.PositiveSmallIntegerField(choices=conf['status'], default=1, editable=False, verbose_name=_('Activity'), validators=[MinValueValidator(1),MaxValueValidator(8)], )
+    error = models.TextField(blank=True, editable=False, null=True, verbose_name=_('Error encountered'),)
+    updateby = models.CharField(blank=True, editable=False, max_length=254, null=True, verbose_name=_('Last update by'),)
+    create = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('Creation date'),)
+    update = models.DateTimeField(auto_now=True, editable=False, verbose_name=_('Last modification date'),)
+
+    class Meta:
+        verbose_name        = _('#Task')
+        verbose_name_plural = _('#Tasks')
+        permissions = (
+            ('can_start', _('Can start there tasks')),
+            ('can_stop', _('Can stop there tasks')),
+        )
+
+    def __str__(self):
+        return self.get_activity_display()

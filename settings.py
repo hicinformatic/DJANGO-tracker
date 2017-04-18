@@ -1,7 +1,10 @@
 from django.conf import settings
 import os
 
-conf = {'appdir': os.path.dirname(os.path.realpath(__file__)), }
+conf = {
+    'appdir': os.path.dirname(os.path.realpath(__file__)),
+    'binary': '/bin/python',
+}
 
 # Global
 conf['salt'] = 'y-;1n430^484ylwf$9@`4I1NZ.4xHK'
@@ -16,7 +19,6 @@ conf['ip'] = '127.0.0.1'
 conf['charset'] = 'utf-8'
 
 # Delta
-conf['delta'] = 86400
 conf['maxage'] = 86400
 conf['ndatas'] = 50
 
@@ -24,6 +26,43 @@ conf['ndatas'] = 50
 conf['contenttype_txt'] = 'text/plain; charset=%s' % conf['charset']
 conf['contenttype_svg'] = 'image/svg+xml; charset=%s' % conf['charset']
 conf['contenttype_js'] = 'application/javascript; charset=%s' % conf['charset']
+
+# Tasks
+conf['tasks'] = (
+    (1, 'sort(Recurring)'),
+    (2, 'report(Hourly)'),
+    (3, 'report(Daily)'),
+    (4, 'report(Monthly)'),
+    (5, 'report(Annually)'),
+    (6, 'purge(Visit)'),
+    (7, 'purge(Report)'),
+    (8, 'purge(Task)'),
+)
+conf['scripts'] = {
+    'sort(Recurring)':  conf['appdir'] + '/tasks/sort_recurring.py',
+    'report(Hourly)':   conf['appdir'] + '/tasks/report_hourly.py',
+    'report(Daily)':    conf['appdir'] + '/tasks/report_daily.py',
+    'report(Monthly)':  conf['appdir'] + '/tasks/report_monthly.py',
+    'report(Annually)': conf['appdir'] + '/tasks/report_annually.py',
+    'purge(Report)':    conf['appdir'] + '/tasks/purge_visit.py',
+    'purge(Visit)':     conf['appdir'] + '/tasks/purge_report.py',
+    'purge(Task)':      conf['appdir'] + '/tasks/purge_task.py',
+}
+conf['deltas'] = {
+    'sort(Recurring)':  300,
+    'report(Hourly)':   3600,
+    'report(Daily)':    86400,
+    'report(Monthly)':  'Monthly',
+    'report(Annually)': 'Annually',
+    'purge(Report)':    300,
+    'purge(Visit)':     3600,
+}
+
+conf['status'] = (
+    (1, _('Running')),
+    (2, _('Terminated')),
+    (3, _('In error')),
+)
 
 # Default datas
 conf['datas'] = [
