@@ -66,6 +66,7 @@ def NjsonDATAS(request):
     datas = Tracked.objects.reverse()[:conf['ndatas']]
     return JsonResponse(serializers.serialize('json', datas), safe=False)
 
+@localcalloradminorstaff
 @permission_required('Tracker.can_start')
 def start(request, task):
     if task in conf['tasks']:
@@ -94,49 +95,49 @@ def start(request, task):
 # START
 # ------------------------------------------- #
 # Enregistre le démarrage d'une activité
-@localcall
-@csrf_exempt
-@login_required(login_url='/authentication/failure/401')
-@permission_required('SendinBlue.can_start')
-def start(request, activity):
-    running = False
-    try:
-        delta = timezone.now() - timedelta(hours=Activity_Delta)
-        activities = SendinBlueActivity.objects.filter(activity=activity, status=True)
-        for activity in activities:
-            if activity.datecreate < delta:
-                activity.status = False
-                activity.updateby = request.user.username
-                activity.save()
-            else:
-                running = True
-    except SendinBlueActivity.DoesNotExist:
-        pass
-    if running is False:
-        try:
-            activity = SendinBlueActivity(activity=activity, updateby=request.user.username)
-            activity.full_clean()
-            activity.success()
-        except Exception:
-            return HttpResponse(ko(106), content_type='text/plain')
-    else:
-        return HttpResponse(ko(108), content_type='text/plain')
-    return HttpResponse(ok(activity.id), content_type='text/plain')
+#@localcall
+#@csrf_exempt
+#@login_required(login_url='/authentication/failure/401')
+#@permission_required('SendinBlue.can_start')
+#def start(request, activity):
+#    running = False
+#    try:
+#        delta = timezone.now() - timedelta(hours=Activity_Delta)
+#        activities = SendinBlueActivity.objects.filter(activity=activity, status=True)
+#        for activity in activities:
+#            if activity.datecreate < delta:
+#                activity.status = False
+#                activity.updateby = request.user.username
+#                activity.save()
+#            else:
+#                running = True
+#    except SendinBlueActivity.DoesNotExist:
+#        pass
+#    if running is False:
+#        try:
+#            activity = SendinBlueActivity(activity=activity, updateby=request.user.username)
+#            activity.full_clean()
+#            activity.success()
+#        except Exception:
+#            return HttpResponse(ko(106), content_type='text/plain')
+#    else:
+#        return HttpResponse(ko(108), content_type='text/plain')
+#    return HttpResponse(ok(activity.id), content_type='text/plain')
 
 # ------------------------------------------- #
 # STOP
 # ------------------------------------------- #
 # Enregistre la fin d'une activité
-@localcall
-@csrf_exempt
-@login_required(login_url='/authentication/failure/401')
-@permission_required('SendinBlue.can_stop')
-def stop(request, activity):
-    try:
-        activity = SendinBlueActivity.objects.get(activity=activity, status=True)
-        activity.status = False
-        activity.updateby = request.user.username
-        activity.save()
-    except Exception:
-        return HttpResponse(ko(107), content_type='text/plain')
-    return HttpResponse(ok(False), content_type='text/plain')
+#@localcall
+#@csrf_exempt
+#@login_required(login_url='/authentication/failure/401')
+#@permission_required('SendinBlue.can_stop')
+#def stop(request, activity):
+#    try:
+#        activity = SendinBlueActivity.objects.get(activity=activity, status=True)
+#        activity.status = False
+#        activity.updateby = request.user.username
+#        activity.save()
+#    except Exception:
+#        return HttpResponse(ko(107), content_type='text/plain')
+#    return HttpResponse(ok(False), content_type='text/plain')
