@@ -73,7 +73,7 @@ def Start(request, task):
         task = conf['tasks'][task]
         return HttpResponse(_('OK | Task started: %s' %task), content_type='text/plain')
     else:
-        return HttpResponseServerError(_('KO | Task unavailable'), content_type='text/plain')
+        return HttpResponseServerError(_('KO | Task unavailable: %s' %task), content_type='text/plain')
     #delta = datetime.today() - timedelta(hours=Activity_Delta)
     #try:
     #    delta = datetime.today() - timedelta(hours=Activity_Delta)
