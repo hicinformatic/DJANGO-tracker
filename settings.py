@@ -1,3 +1,4 @@
+from django.utils.translation import ugettext as _
 from django.conf import settings
 import os
 

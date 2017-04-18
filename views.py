@@ -1,4 +1,5 @@
 from django.http import HttpResponse, HttpResponseServerError, JsonResponse
+from django.utils.translation import ugettext as _
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
