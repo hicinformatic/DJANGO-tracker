@@ -70,7 +70,8 @@ def NjsonDATAS(request):
 @permission_required('Tracker.can_start')
 def Start(request, task):
     if any(int(task) in code for code in conf['tasks']):
-        return HttpResponse(_('OK | Task started: %s' %task), content_type='text/plain')
+        name = conf['tasks'][int(task)][1]
+        return HttpResponse(_('OK | Task started: {} - {}'.format(task, name)), content_type='text/plain')
     else:
         return HttpResponseServerError(_('KO | Task unavailable: %s' %task), content_type='text/plain')
     #delta = datetime.today() - timedelta(hours=Activity_Delta)
