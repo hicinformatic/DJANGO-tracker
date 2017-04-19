@@ -86,7 +86,8 @@ def Order(request, task):
             else:
                 return HttpResponseServerError(_('KO | Task delta unavailable: {} - {}'.format(task, name)), content_type='text/plain')
         except Task.DoesNotExist:
-            thetask = Task(task=task).save()
+            thetask = Task(task=task)
+            thetask.save()
         return HttpResponse(_('OK | Task ordered:  {} | Delta: {} | id: {}'.format(name, delta, thetask.id)), content_type='text/plain')
     else:
         return HttpResponseServerError(_('KO | Task unavailable: %s' %task), content_type='text/plain')
