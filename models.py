@@ -99,4 +99,4 @@ class Task(models.Model):
         )
 
     def __str__(self):
-        return self.get_activity_display()
+        return self.get_task_display()
