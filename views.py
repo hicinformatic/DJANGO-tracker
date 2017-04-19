@@ -84,13 +84,13 @@ def Order(request, task):
                 delta = datetime.now()
                 thetask = Task.objects.get(task=task, update__year=delta.year)
             else:
-                return HttpResponseServerError(_('KO | Task delta unavailable: {} - {}'.format(task, name)), content_type='text/plain')
+                return HttpResponseServerError(_('status: KO\nTask: {}\nerror: 1\ninfo: {}'.format(task, conf['error'][1])), content_type='text/plain')
         except Task.DoesNotExist:
             thetask = Task(task=task)
             thetask.save()
-        return HttpResponse(_('OK | Task ordered: {} | Delta: {} | id: {}'.format(name, delta, thetask.id)), content_type='text/plain')
+        return HttpResponse(_('status: OK\ntask: {}\ndelta: {}\nid: {}'.format(name, delta, thetask.id)), content_type='text/plain')
     else:
-        return HttpResponseServerError(_('status: KO\nTask: {}\nError: 0\Info: {}'.format(task, conf['error'][0])), content_type='text/plain')
+        return HttpResponseServerError(_('status: KO\nTask: {}\nerror: 0\ninfo: {}'.format(task, conf['error'][0])), content_type='text/plain')
 
 @localcalloradminorstaff
 def Start(request, task):

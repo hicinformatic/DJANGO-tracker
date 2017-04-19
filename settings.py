@@ -67,6 +67,7 @@ conf['status'] = (
 )
 conf['error'] = [
     _('Task unavailable'),
+    _('Delta unavailable'),
 ]
 
 # Default datas
