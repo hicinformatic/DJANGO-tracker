@@ -78,8 +78,8 @@ def Order(request, task):
                 delta = datetime.today() - timedelta(seconds=delta)
                 Task.objects.get(task=task, create__gte=delta)
             elif delta == 'Monthly':
-                now = datetime.now()
-                month = now.month-1 if now.month > 1 else 12
+                now = datetime.now().month
+                #month = now.month-1 if now.month > 1 else 12
                 #year = now.year-1 if month == 12 else now.year
                 Task.objects.get(task=task, create__month=month)
             elif delta == 'Annually':
