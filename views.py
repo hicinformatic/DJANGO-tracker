@@ -78,20 +78,15 @@ def Order(request, task):
                 delta = datetime.today() - timedelta(seconds=delta)
                 thetask = Task.objects.get(task=task, update__gte=delta)
             elif delta == 'Monthly':
-                now = datetime.datetime.now()
-                delta = now.month-1 if now.month > 1 else 12
-                year = now.year-1 if month == 12 else now.year
-                thetask = Task.objects.get(task=task, update__year=year, update__month=delta)
+                delta = datetime.datetime.now()
+                thetask = Task.objects.get(task=task, update__year=delta.year, update__month=delta.month)
             elif delta == 'Annually':
-                delta = datetime.now().year-1
-                thetask = Task.objects.get(task=task, update__year=delta)
+                delta = datetime.now().year
+                thetask = Task.objects.get(task=task, update__year=delta.year)
             else:
                 return HttpResponseServerError(_('KO | Task delta unavailable: {} - {}'.format(task, name)), content_type='text/plain')
         except Task.DoesNotExist:
-            thetask = Task(task=task)
-        if thetask.status == 1:
-            thetask.status = 2
-            thetask.save()            
+            thetask = Task(task=task).save()
         return HttpResponse(_('OK | Task ordered:  {} | Delta: {} | id: {}'.format(name, delta, thetask.id)), content_type='text/plain')
     else:
         return HttpResponseServerError(_('KO | Task unavailable: %s' %task), content_type='text/plain')

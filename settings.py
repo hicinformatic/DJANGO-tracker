@@ -60,11 +60,10 @@ conf['deltas'] = {
 }
 conf['status'] = (
     (0, _('In error')),
-    (1, _('Created')),
-    (2, _('Ordered')),
-    (3, _('Started')),
-    (4, _('Running')),
-    (5, _('Complete')),
+    (1, _('Ordered')),
+    (2, _('Started')),
+    (3, _('Running')),
+    (4, _('Complete')),
 )
 
 # Default datas
