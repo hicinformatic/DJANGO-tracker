@@ -81,7 +81,7 @@ def Order(request, task):
                 now = datetime.now().month
                 #month = now.month-1 if now.month > 1 else 12
                 #year = now.year-1 if month == 12 else now.year
-                Task.objects.get(task=task, create__month=month)
+                Task.objects.get(task=task, create__month=now)
             elif delta == 'Annually':
                 year = datetime.now().year-1
                 Task.objects.get(task=task, create__year=year)
