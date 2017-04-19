@@ -1,3 +1,4 @@
+
 from django.contrib import admin
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
@@ -64,6 +65,6 @@ class VisitorAdmin(admin.ModelAdmin):
     inlines = [ VisitorInline, ]
 
 @admin.register(Task)
-class TrackedAdmin(admin.ModelAdmin):
-    list_display = ( 'activity', 'message', 'status', 'create', )
-    readonly_fields = ( 'activity', 'message', 'status', 'error', 'updateby', 'create', 'update', )
+class TaskAdmin(admin.ModelAdmin):
+    list_display = ( 'task', 'info', 'status', 'create', )
+    readonly_fields = ( 'task', 'info', 'status', 'error', 'updateby', 'create', 'update', )
