@@ -76,7 +76,7 @@ def Order(request, task):
         try:
             if isinstance(delta, int):
                 delta = datetime.today() - timedelta(seconds=delta)
-                thetask = Task.objects.get(task=task, update__lte=delta)
+                thetask = Task.objects.get(task=task, update__gte=delta)
             elif delta == 'Monthly':
                 now = datetime.datetime.now()
                 month = now.month-1 if now.month > 1 else 12
