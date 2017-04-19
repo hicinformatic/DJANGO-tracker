@@ -81,7 +81,7 @@ def Order(request, task):
                 delta = datetime.datetime.now()
                 thetask = Task.objects.get(task=task, update__year=delta.year, update__month=delta.month)
             elif delta == 'Annually':
-                delta = datetime.now().year
+                delta = datetime.now()
                 thetask = Task.objects.get(task=task, update__year=delta.year)
             else:
                 return HttpResponseServerError(_('KO | Task delta unavailable: {} - {}'.format(task, name)), content_type='text/plain')
