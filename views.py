@@ -75,7 +75,7 @@ def Order(request, task):
         delta = conf['deltas'][name]
         try:
             if isinstance(delta, int):
-                delta = datetime.today() - timedelta(seconds=delta)
+                delta = datetime.today() - timedelta(seconds=-delta)
                 thetask = Task.objects.get(task=task, update__lte=delta)
             elif delta == 'Monthly':
                 now = datetime.datetime.now()
