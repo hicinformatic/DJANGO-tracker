@@ -80,8 +80,8 @@ def Order(request, task):
             elif delta == 'Monthly':
                 now = datetime.now()
                 month = now.month-1 if now.month > 1 else 12
-                year = now.year-1 if month == 12 else now.year
-                Task.objects.get(task=task, create__year=year, create__month=month)
+                #year = now.year-1 if month == 12 else now.year
+                Task.objects.get(task=task, create__month=month)
             elif delta == 'Annually':
                 year = datetime.now().year-1
                 Task.objects.get(task=task, create__year=year)
