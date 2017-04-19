@@ -88,9 +88,9 @@ def Order(request, task):
         except Task.DoesNotExist:
             thetask = Task(task=task)
             thetask.save()
-        return HttpResponse(_('OK | Task ordered:  {} | Delta: {} | id: {}'.format(name, delta, thetask.id)), content_type='text/plain')
+        return HttpResponse(_('OK | Task ordered: {} | Delta: {} | id: {}'.format(name, delta, thetask.id)), content_type='text/plain')
     else:
-        return HttpResponseServerError(_('KO | Task unavailable: %s' %task), content_type='text/plain')
+        return HttpResponseServerError(_('status: KO\nTask: {}\nError: 0\Info: {}'.format(task, conf['error'][0])), content_type='text/plain')
 
 @localcalloradminorstaff
 def Start(request, task):

@@ -65,6 +65,9 @@ conf['status'] = (
     (3, _('Running')),
     (4, _('Complete')),
 )
+conf['error'] = [
+    _('Task unavailable'),
+]
 
 # Default datas
 conf['datas'] = [
