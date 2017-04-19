@@ -92,7 +92,7 @@ def Order(request, task):
         if thetask.status == 1:
             thetask.status = 2
             thetask.save()            
-        return HttpResponse(_('OK | Task ordered: {} - {}'.format(task, name)), content_type='text/plain')
+        return HttpResponse(_('OK | Task ordered: {} - {} - {}'.format(task, name, thetask.id)), content_type='text/plain')
     else:
         return HttpResponseServerError(_('KO | Task unavailable: %s' %task), content_type='text/plain')
 
