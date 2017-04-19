@@ -58,11 +58,12 @@ conf['deltas'] = {
     'purge(Report)':    300,
     'purge(Visit)':     3600,
 }
-
 conf['status'] = (
-    (1, _('Running')),
-    (2, _('Terminated')),
-    (3, _('In error')),
+    (0, _('In error')),
+    (1, _('Ordered')),
+    (2, _('Started')),
+    (3, _('Running')),
+    (4, _('Complete')),
 )
 
 # Default datas

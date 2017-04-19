@@ -8,5 +8,9 @@ urlpatterns = [
     url(r'^visit.html/(?P<domain>.{1,36})/$', views.trackerDATAS, name='trackerDATAS'),
     url(r'^downlad.js/(?P<domain>.{1,36})/$', views.downloadJS, name='downloadJS'),
     url(r'^ndatas.json$', views.NjsonDATAS, name='NjsonDATAS'),
-    url(r'^start/(?P<task>\d+)/$', views.Start, name='Start'),
+    url(r'^tracker/tasks/order/(?P<task>\d+)/$', views.Order, name='Order'),
+    url(r'^tracker/tasks/start/(?P<task>\d+)/$', views.Start, name='Start'),
+    url(r'^tracker/tasks/running/(?P<task>\d+)/$', views.Running, name='Running'),
+    url(r'^tracker/tasks/complete/(?P<task>\d+)/$', views.Complete, name='Complete'),
+    url(r'^tracker/tasks/error/(?P<task>\d+)/$', views.Error, name='Error'),
 ]

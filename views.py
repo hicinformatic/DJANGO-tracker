@@ -69,8 +69,8 @@ def NjsonDATAS(request):
     return JsonResponse(serializers.serialize('json', datas), safe=False)
 
 @localcalloradminorstaff
-@permission_required('Tracker.can_start')
-def Start(request, task):
+@permission_required('Tracker.can_task')
+def Order(request, task):
     if any(int(task) in code for code in conf['tasks']):
         name = conf['tasks'][int(task)][1]
         delta = conf['deltas'][name]
@@ -90,9 +90,14 @@ def Start(request, task):
                 return HttpResponseServerError(_('KO | Task delta unavailable: {} - {}'.format(task, name)), content_type='text/plain')
         except Task.DoesNotExist:
             newtask = Task(task=task)
-        return HttpResponse(_('OK | Task started: {} - {}'.format(task, name)), content_type='text/plain')
+        return HttpResponse(_('OK | Task ordered: {} - {}'.format(task, name)), content_type='text/plain')
     else:
         return HttpResponseServerError(_('KO | Task unavailable: %s' %task), content_type='text/plain')
+
+
+@localcalloradminorstaff
+@permission_required('Tracker.can_task')
+def Start(request, task):
     #delta = datetime.today() - timedelta(hours=Activity_Delta)
     #try:
     #    delta = datetime.today() - timedelta(hours=Activity_Delta)
@@ -108,6 +113,21 @@ def Start(request, task):
     #        return HttpResponse(_('OK | Task started: '), content_type='text/plain')
     #    except Exception as e:
     #        pass
+    return HttpResponseServerError(_('KO | Unable to start task'), content_type='text/plain')
+
+@localcalloradminorstaff
+@permission_required('Tracker.can_task')
+def Running(request, task):
+    return HttpResponseServerError(_('KO | Unable to start task'), content_type='text/plain')
+
+@localcalloradminorstaff
+@permission_required('Tracker.can_task')
+def Complete(request, task):
+    return HttpResponseServerError(_('KO | Unable to start task'), content_type='text/plain')
+
+@localcalloradminorstaff
+@permission_required('Tracker.can_task')
+def Error(request, task):
     return HttpResponseServerError(_('KO | Unable to start task'), content_type='text/plain')
        
 # ------------------------------------------- #
