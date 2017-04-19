@@ -69,7 +69,6 @@ def NjsonDATAS(request):
     return JsonResponse(serializers.serialize('json', datas), safe=False)
 
 @localcalloradminorstaff
-@permission_required('Tracker.can_task')
 def Order(request, task):
     if any(int(task) in code for code in conf['tasks']):
         name = conf['tasks'][int(task)][1]
@@ -96,7 +95,6 @@ def Order(request, task):
 
 
 @localcalloradminorstaff
-@permission_required('Tracker.can_task')
 def Start(request, task):
     #delta = datetime.today() - timedelta(hours=Activity_Delta)
     #try:
@@ -116,17 +114,14 @@ def Start(request, task):
     return HttpResponseServerError(_('KO | Unable to start task'), content_type='text/plain')
 
 @localcalloradminorstaff
-@permission_required('Tracker.can_task')
 def Running(request, task):
     return HttpResponseServerError(_('KO | Unable to start task'), content_type='text/plain')
 
 @localcalloradminorstaff
-@permission_required('Tracker.can_task')
 def Complete(request, task):
     return HttpResponseServerError(_('KO | Unable to start task'), content_type='text/plain')
 
 @localcalloradminorstaff
-@permission_required('Tracker.can_task')
 def Error(request, task):
     return HttpResponseServerError(_('KO | Unable to start task'), content_type='text/plain')
        
