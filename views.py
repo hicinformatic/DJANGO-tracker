@@ -78,12 +78,12 @@ def Order(request, task):
                 delta = datetime.today() - timedelta(seconds=delta)
                 Task.objects.get(task=task, create__gte=delta)
             elif delta == 'Monthly':
-                now = datetime.datetime.now()
+                now = datetime.now()
                 month = now.month-1 if now.month > 1 else 12
                 year = now.year-1 if month == 12 else now.year
                 Task.objects.get(task=task, create__year=year, create__month=month)
             elif delta == 'Annually':
-                year = datetime.datetime.now().year-1
+                year = datetime.now().year-1
                 Task.objects.get(task=task, create__year=year)
             else:
                 return HttpResponseServerError(_('KO | Task delta unavailable: {} - {}'.format(task, name)), content_type='text/plain')
