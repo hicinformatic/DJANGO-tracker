@@ -76,15 +76,15 @@ def Order(request, task):
         try:
             if isinstance(delta, int):
                 delta = datetime.today() - timedelta(seconds=delta)
-                thetask = Task.objects.get(task=task, update__gte=delta)
+                thetask = Task.objects.get(task=task, update__lte=delta)
             elif delta == 'Monthly':
                 now = datetime.datetime.now()
-                month = now.month-1 if now.month > 1 else 12
+                delta = now.month-1 if now.month > 1 else 12
                 year = now.year-1 if month == 12 else now.year
-                thetask = Task.objects.get(task=task, update__year=year, update__month=month)
+                thetask = Task.objects.get(task=task, update__year=year, update__month=delta)
             elif delta == 'Annually':
-                year = datetime.now().year-1
-                thetask = Task.objects.get(task=task, update__year=year)
+                delta = datetime.now().year-1
+                thetask = Task.objects.get(task=task, update__year=delta)
             else:
                 return HttpResponseServerError(_('KO | Task delta unavailable: {} - {}'.format(task, name)), content_type='text/plain')
         except Task.DoesNotExist:
@@ -92,7 +92,7 @@ def Order(request, task):
         if thetask.status == 1:
             thetask.status = 2
             thetask.save()            
-        return HttpResponse(_('OK | Task ordered: {} - {} - {}'.format(task, name, thetask.id)), content_type='text/plain')
+        return HttpResponse(_('OK | Task ordered:  {} | Delta: {} | id: {}'.format(name, delta, thetask.id)), content_type='text/plain')
     else:
         return HttpResponseServerError(_('KO | Task unavailable: %s' %task), content_type='text/plain')
 
