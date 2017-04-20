@@ -4,7 +4,7 @@ import os
 
 conf = {
     'appdir': os.path.dirname(os.path.realpath(__file__)),
-    'binary': '/bin/python',
+    'binary': '/bin',
 }
 
 # Global
@@ -58,6 +58,7 @@ conf['deltas'] = {
     'purge(Report)':    300,
     'purge(Visit)':     3600,
 }
+conf['killscript'] = 1200
 conf['status'] = (
     (0, _('In error')),
     (1, _('Ordered')),
@@ -68,6 +69,7 @@ conf['status'] = (
 conf['error'] = [
     _('Task unavailable'),
     _('Delta unavailable'),
+    _('Operating system not supported'),
 ]
 
 # Default datas

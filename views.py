@@ -12,6 +12,7 @@ from .forms import trackFormDatas
 from .models import Tracked, Visitor, DataAssociated, Task
 
 from datetime import datetime, timedelta
+import subprocess
 
 @localcalloradminorstaff
 def downloadJS(request, domain):
@@ -78,7 +79,7 @@ def Order(request, task):
                 delta = datetime.today() - timedelta(seconds=delta)
                 thetask = Task.objects.get(task=task, update__gte=delta)
             elif delta == 'Monthly':
-                delta = datetime.datetime.now()
+                delta = datetime.now()
                 thetask = Task.objects.get(task=task, update__year=delta.year, update__month=delta.month)
             elif delta == 'Annually':
                 delta = datetime.now()
@@ -88,9 +89,19 @@ def Order(request, task):
         except Task.DoesNotExist:
             thetask = Task(task=task)
             thetask.save()
-        return HttpResponse(_('status: OK\ntask: {}\ndelta: {}\nid: {}'.format(name, delta, thetask.id)), content_type='text/plain')
+            if os.name == 'posix': 
+                check = '{0}/bash checkBash.sh {1} {2}'
+                bgtask = '{0}/nohup {0}/bash {1} > /dev/null 2>&1&'
+            #elif os.name == 'nt':
+            #    check = '{0} checkBat.bat  {1} {2}'
+            #    bgtask = 'start {0} {1} > NUL'
+            else:
+                return HttpResponseServerError(_('status: KO\ntask: {}\nerror: 2\ninfo: {}'.format(task, conf['error'][2])), content_type='text/plain')
+            if subprocess.check_output(check.format(conf['binary'], conf['scripts'][name], conf['killscript'])):
+                return HttpResponse(_('status: OK\ntask: {}\ndelta: {}\nid: {}'.format(name, delta, thetask.id)), content_type='text/plain')
+            return HttpResponse(_('status: OK\ntask: {}\ndelta: {}\nid: {}'.format(name, delta, thetask.id)), content_type='text/plain')
     else:
-        return HttpResponseServerError(_('status: KO\nTask: {}\nerror: 0\ninfo: {}'.format(task, conf['error'][0])), content_type='text/plain')
+        return HttpResponseServerError(_('status: KO\ntask: {}\nerror: 0\ninfo: {}'.format(task, conf['error'][0])), content_type='text/plain')
 
 @localcalloradminorstaff
 def Start(request, task):
