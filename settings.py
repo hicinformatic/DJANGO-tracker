@@ -1,64 +1,65 @@
 from django.utils.translation import ugettext as _
 from django.conf import settings
-import os
+import os, syslog
 
-conf = {
-    'appdir': os.path.dirname(os.path.realpath(__file__)),
-    'binary': '/bin',
-}
+# ------------------------------------------- #
+# CONFIGURATION
+# ------------------------------------------- #
 
 # Global
-conf['salt'] = 'y-;1n430^484ylwf$9@`4I1NZ.4xHK'
-conf['store'] = 'folvis'
-conf['first'] = 'firvis'
-
-# Source
-conf['host'] = 'localhost'
-conf['ip'] = '127.0.0.1'
-
-# Encoding
-conf['charset'] = 'utf-8'
-
-# Delta
-conf['maxage'] = 86400
-conf['ndatas'] = 50
+conf = {
+    'appdir':     os.path.dirname(os.path.realpath(__file__)),
+    'taskdir':    os.path.dirname(os.path.realpath(__file__))+'/tasks',
+    'python':     '/bin/python3.5',
+    'binary':     '/bin/bash',
+    'backstart':  '/bin/nohup',
+    'backend':    '&',
+    'checkext':   '.sh',
+    'syslog':     False,
+    'sysloglvl':  5,
+    'killscript': 3600,
+    'host':       'localhost',
+    'ip':         '127.0.0.1',
+    'export':     30,
+    'salt':       'y-;1n430^484ylwf$9@`4I1NZ.4xHK',
+    'store':      'folvis',
+    'first':      'firvis',
+    'charset':    'utf-8',
+    'maxage':     86400,
+    'ndatas':     50,
+}
 
 # Content Type
 conf['contenttype_txt'] = 'text/plain; charset=%s' % conf['charset']
 conf['contenttype_svg'] = 'image/svg+xml; charset=%s' % conf['charset']
 conf['contenttype_js'] = 'application/javascript; charset=%s' % conf['charset']
 
-# Tasks
+# Tasks type
 conf['tasks'] = (
-    (0, 'sort(Recurring)'),
-    (1, 'report(Hourly)'),
-    (2, 'report(Daily)'),
-    (3, 'report(Monthly)'),
-    (4, 'report(Annually)'),
-    (5, 'purge(Visit)'),
-    (6, 'purge(Report)'),
-    (7, 'purge(Task)'),
+    ('TRK_check_os',        _('check(OS)')),
+    ('TRK_sort_reccuring',  _('sort(Recurring)')),
+    ('TRK_report_hourly',   _('report(Hourly)')),
+    ('TRK_report_daily',    _('report(Daily)')),
+    ('TRK_report_monthly',  _('report(Monthly)')),
+    ('TRK_report_annually', _('report(Annually)')),
+    ('TRK_purge_visit',     _('purge(Visit)')),
+    ('TRK_purge_report',    _('purge(Report)')),
+    ('TRK_purge_task',      _('purge(Task)')),
 )
-conf['scripts'] = {
-    'sort(Recurring)':  conf['appdir'] + '/tasks/sort_recurring.py',
-    'report(Hourly)':   conf['appdir'] + '/tasks/report_hourly.py',
-    'report(Daily)':    conf['appdir'] + '/tasks/report_daily.py',
-    'report(Monthly)':  conf['appdir'] + '/tasks/report_monthly.py',
-    'report(Annually)': conf['appdir'] + '/tasks/report_annually.py',
-    'purge(Report)':    conf['appdir'] + '/tasks/purge_visit.py',
-    'purge(Visit)':     conf['appdir'] + '/tasks/purge_report.py',
-    'purge(Task)':      conf['appdir'] + '/tasks/purge_task.py',
-}
+
+# Deltas tasks
 conf['deltas'] = {
-    'sort(Recurring)':  300,
-    'report(Hourly)':   3600,
-    'report(Daily)':    86400,
-    'report(Monthly)':  'Monthly',
-    'report(Annually)': 'Annually',
-    'purge(Report)':    300,
-    'purge(Visit)':     3600,
+    'TRK_sort_reccuring':  300,
+    'TRK_report_hourly',:  3600,
+    'TRK_report_daily':    86400,
+    'TRK_report_monthly':  'Monthly',
+    'TRK_report_annually': 'Annually',
+    'TRK_purge_visit':      300,
+    'TRK_purge_report':     3600,
+    'TRK_purge_task':       86400,
 }
-conf['killscript'] = 1200
+
+# Status
 conf['status'] = (
     (0, _('In error')),
     (1, _('Ordered')),
@@ -66,11 +67,6 @@ conf['status'] = (
     (3, _('Running')),
     (4, _('Complete')),
 )
-conf['error'] = [
-    _('Task unavailable'),
-    _('Delta unavailable'),
-    _('Operating system not supported'),
-]
 
 # Default datas
 conf['datas'] = [
@@ -145,3 +141,13 @@ for k,v in conf.items():
         conf[k] = MANAGER[k]
     except Exception:
         pass
+
+# ------------------------------------------- #
+# LOGMETHIS
+# ------------------------------------------- #
+# Function de log system
+def logmethis(lvl, msg):
+    if conf['syslog'] is True and conf['sysloglvl'] >= lvl:
+        syslog.openlog(logoption=syslog.LOG_PID)
+        syslog.syslog(lvl, msg)
+        syslog.closelog()

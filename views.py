@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseServerError, JsonResponse
+from django.http import HttpResponse, HttpResponseServerError, JsonResponse, StreamingHttpResponse
 from django.contrib.auth.decorators import permission_required
 from django.utils.translation import ugettext as _
 from django.shortcuts import render
@@ -6,13 +6,13 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 
 from .settings import conf
-from .functions import isTrack, firsTrack
+from .functions import isTrack, firsTrack, responseKO
 from .decorators import localcall, localcalloradmin, localcalloradminorstaff
 from .forms import trackFormDatas
 from .models import Tracked, Visitor, DataAssociated, Task
 
 from datetime import datetime, timedelta
-import subprocess
+import subprocess, csv
 
 @localcalloradminorstaff
 def downloadJS(request, domain):
@@ -20,10 +20,6 @@ def downloadJS(request, domain):
     response = render(request, 'tracker/tracker.js', context=context, content_type=conf['contenttype_js'],)
     response['Content-Disposition'] = 'attachment; filename=visit.js'
     return response
-
-def trackerJS(request, domain):
-    context = { 'domain': domain, 'url': request.META['HTTP_HOST'], }
-    return render(request, 'tracker/tracker.js', context=context, content_type=conf['contenttype_js'],)
 
 def trackerSVG(request, domain, visitor=''):
     visitor = isTrack(request, visitor)
@@ -38,6 +34,10 @@ def trackerSVG(request, domain, visitor=''):
     response.set_signed_cookie(conf['store'], visitor, salt=conf['salt'], max_age=conf['maxage'])
     response.set_signed_cookie(conf['first'], visitor, salt=conf['salt'], max_age=conf['maxage'])
     return response
+
+def trackerJS(request, domain):
+    context = { 'domain': domain, 'url': request.META['HTTP_HOST'], }
+    return render(request, 'tracker/tracker.js', context=context, content_type=conf['contenttype_js'],)
 
 @csrf_exempt
 def trackerDATAS(request, domain):
@@ -65,122 +65,86 @@ def trackerDATAS(request, domain):
         form = trackFormDatas()
     return HttpResponse('<form method="POST">%s<input type="submit"></form>' % form)
 
-def NjsonDATAS(request):
+@localcalloradminorstaff
+def ndatasCSV(request):
+    response = HttpResponse(content_type=conf['contenttype_csv'])
+    response['Content-Disposition'] = 'attachment; filename="ndatas.csv"'
+    writer = csv.writer(response)
+    for track in Tracked.objects.reverse()[:conf['ndatas']]:
+        writer.writerow(['visitor', 'key', 'value', 'domain', 'url', 'title', 'create'])
+    return response
+
+@localcalloradminorstaff
+def ndatasJSON(request):
     datas = Tracked.objects.reverse()[:conf['ndatas']]
     return JsonResponse(serializers.serialize('json', datas), safe=False)
 
 @localcalloradminorstaff
-def Order(request, task):
-    if any(int(task) in code for code in conf['tasks']):
-        name = conf['tasks'][int(task)][1]
-        delta = conf['deltas'][name]
-        try:
-            if isinstance(delta, int):
-                delta = datetime.today() - timedelta(seconds=delta)
-                thetask = Task.objects.get(task=task, update__gte=delta)
-            elif delta == 'Monthly':
-                delta = datetime.now()
-                thetask = Task.objects.get(task=task, update__year=delta.year, update__month=delta.month)
-            elif delta == 'Annually':
-                delta = datetime.now()
-                thetask = Task.objects.get(task=task, update__year=delta.year)
-            else:
-                return HttpResponseServerError(_('status: KO\nTask: {}\nerror: 1\ninfo: {}'.format(task, conf['error'][1])), content_type='text/plain')
-        except Task.DoesNotExist:
-            thetask = Task(task=task)
-            thetask.save()
-            if os.name == 'posix': 
-                check = '{0}/bash checkBash.sh {1} {2}'
-                bgtask = '{0}/nohup {0}/bash {1} > /dev/null 2>&1&'
-            #elif os.name == 'nt':
-            #    check = '{0} checkBat.bat  {1} {2}'
-            #    bgtask = 'start {0} {1} > NUL'
-            else:
-                return HttpResponseServerError(_('status: KO\ntask: {}\nerror: 2\ninfo: {}'.format(task, conf['error'][2])), content_type='text/plain')
-            if subprocess.check_output(check.format(conf['binary'], conf['scripts'][name], conf['killscript'])):
-                return HttpResponse(_('status: OK\ntask: {}\ndelta: {}\nid: {}'.format(name, delta, thetask.id)), content_type='text/plain')
-            return HttpResponse(_('status: OK\ntask: {}\ndelta: {}\nid: {}'.format(name, delta, thetask.id)), content_type='text/plain')
-    else:
-        return HttpResponseServerError(_('status: KO\ntask: {}\nerror: 0\ninfo: {}'.format(task, conf['error'][0])), content_type='text/plain')
+def ndatasTXT(request):
+    for track in Tracked.objects.reverse()[:conf['ndatas']]:
+        try: datas = datas + '\n{visitor} | {key} | {value} | {domain} | {url} | {title} | {create}'.format(**track)
+        except NameError: datas = '{visitor} | {key} | {value} | {domain} | {url} | {title} | {create}'.format(**track)
+    return HttpResponse(datas, content_type=conf['contenttype_txt'])
 
-@localcalloradminorstaff
-def Start(request, task):
-    #delta = datetime.today() - timedelta(hours=Activity_Delta)
-    #try:
-    #    delta = datetime.today() - timedelta(hours=Activity_Delta)
-    #    sbactivity = SendinBlueActivity.objects.get(activity=activity, status=True, datecreate__gte=delta)
-    #    canlaunch = True if sbactivity.datecreate < delta else False
-    #except Exception:
-    #    canlaunch = True  
-    #if canlaunch is True:
-    #    if os.name == 'posix': task = 'nohup {0} {1} > /dev/null 2>&1&'
-    #    if os.name == 'nt': task = 'start {0} {1} > NUL'
-    #    try:
-    #        os.popen(task.format( conf['binary'], conf['scripts'][int(activity)]) )
-    #        return HttpResponse(_('OK | Task started: '), content_type='text/plain')
-    #    except Exception as e:
-    #        pass
-    return HttpResponseServerError(_('KO | Unable to start task'), content_type='text/plain')
+"""
+-------------------------------------------------------------------
+TASK MANAGER
+-------------------------------------------------------------------
+Scenario type:
+1-order :    Task ordered
+2-start :    Task started
+3-running :  Task running
+4-complete : Task complete
 
-@localcalloradminorstaff
-def Running(request, task):
-    return HttpResponseServerError(_('KO | Unable to start task'), content_type='text/plain')
-
-@localcalloradminorstaff
-def Complete(request, task):
-    return HttpResponseServerError(_('KO | Unable to start task'), content_type='text/plain')
-
-@localcalloradminorstaff
-def Error(request, task):
-    return HttpResponseServerError(_('KO | Unable to start task'), content_type='text/plain')
-       
-# ------------------------------------------- #
-# START
-# ------------------------------------------- #
-# Enregistre le démarrage d'une activité
-#@localcall
-#@csrf_exempt
-#@login_required(login_url='/authentication/failure/401')
-#@permission_required('SendinBlue.can_start')
-#def start(request, activity):
-#    running = False
-#    try:
-#        delta = timezone.now() - timedelta(hours=Activity_Delta)
-#        activities = SendinBlueActivity.objects.filter(activity=activity, status=True)
-#        for activity in activities:
-#            if activity.datecreate < delta:
-#                activity.status = False
-#                activity.updateby = request.user.username
-#                activity.save()
-#            else:
-#                running = True
-#    except SendinBlueActivity.DoesNotExist:
-#        pass
-#    if running is False:
-#        try:
-#            activity = SendinBlueActivity(activity=activity, updateby=request.user.username)
-#            activity.full_clean()
-#            activity.success()
-#        except Exception:
-#            return HttpResponse(ko(106), content_type='text/plain')
-#    else:
-#        return HttpResponse(ko(108), content_type='text/plain')
-#    return HttpResponse(ok(activity.id), content_type='text/plain')
+Error encountered
+0-error:     Task in error
+-------------------------------------------------------------------
+"""
 
 # ------------------------------------------- #
-# STOP
+# task*
 # ------------------------------------------- #
-# Enregistre la fin d'une activité
-#@localcall
-#@csrf_exempt
-#@login_required(login_url='/authentication/failure/401')
-#@permission_required('SendinBlue.can_stop')
-#def stop(request, activity):
-#    try:
-#        activity = SendinBlueActivity.objects.get(activity=activity, status=True)
-#        activity.status = False
-#        activity.updateby = request.user.username
-#        activity.save()
-#    except Exception:
-#        return HttpResponse(ko(107), content_type='text/plain')
-#    return HttpResponse(ok(False), content_type='text/plain')
+# task: ID task (1, 2, 3, 4, 0)
+# command:
+#    order
+#    start
+#    running
+#    complete
+#    error
+# ------------------------------------------- #
+
+@localcalloradminorstaff
+def taskHTML(request, task, command, message=''):
+    try: script = conf['tasks'][int(task)][0]
+    except NameError: return responseKO('html', task, 404, _('Task not found'))
+    try: delta = conf['deltas'][script]
+    except NameError: return responseKO('html', task, 404, _('Delta not found'))
+    if command == 'order':    return order('html', task, message)
+    if command == 'start':    return start('html', task, message)
+    if command == 'running':  return start('html', task, message)
+    if command == 'complete': return start('html', task, message)
+    if command == 'error':    return start('html', task, message)
+
+@localcalloradminorstaff
+def taskJSON(request, task, command, message=''):
+    try: script = conf['tasks'][int(task)][0]
+    except NameError: return responseKO('json', task, 404, _('Task not found'))
+    try: delta = conf['deltas'][script]
+    except NameError: return responseKO('json', task, 404, _('Delta not found'))
+    if command == 'order':    return order('json', task, message)
+    if command == 'start':    return start('json', task, message)
+    if command == 'running':  return start('json', task, message)
+    if command == 'complete': return start('json', task, message)
+    if command == 'error':    return start('json', task, message)
+        
+@localcalloradminorstaff
+def taskTXT(request, task, command, message=''):
+    try: script = conf['tasks'][int(task)][0]
+    except NameError: return responseKO('txt', task, 404, _('Task not found'))
+    try: delta = conf['deltas'][script]
+    except NameError: return responseKO('txt', task, 404, _('Delta not found'))
+    if command == 'order':    return order('txt', task, message)
+    if command == 'start':    return start('txt', task, message)
+    if command == 'running':  return start('txt', task, message)
+    if command == 'complete': return start('txt', task, message)
+    if command == 'error':    return start('txt', task, message)

@@ -2,15 +2,20 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^visit.js/(?P<domain>.{1,36})/$', views.trackerJS, name='trackerJS'),
-    url(r'^visit.svg/(?P<domain>.{1,36})/$', views.trackerSVG, name='trackerSVG'),
-    url(r'^visit.svg/(?P<domain>.{1,36})/(?P<visitor>.{1,36})/$', views.trackerSVG, name='trackerSVG'),
-    url(r'^visit.html/(?P<domain>.{1,36})/$', views.trackerDATAS, name='trackerDATAS'),
-    url(r'^downlad.js/(?P<domain>.{1,36})/$', views.downloadJS, name='downloadJS'),
-    url(r'^ndatas.json$', views.NjsonDATAS, name='NjsonDATAS'),
-    url(r'^tracker/task/order/(?P<task>\d+)/$', views.Order, name='Order'),
-    url(r'^tracker/task/start/(?P<task>\d+)/$', views.Start, name='Start'),
-    url(r'^tracker/task/running/(?P<task>\d+)/$', views.Running, name='Running'),
-    url(r'^tracker/task/complete/(?P<task>\d+)/$', views.Complete, name='Complete'),
-    url(r'^tracker/task/error/(?P<task>\d+)/$', views.Error, name='Error'),
+    url(r'^/(?P<domain>.{1,36})/downlad.js$', views.downloadJS, name='downloadJS'),
+    url(r'^/(?P<domain>.{1,36})/visit.svg$',  views.trackerSVG, name='trackerSVG'),
+    url(r'^/(?P<domain>.{1,36})/visit.svg?visitor=(?P<visitor>.{1,36})$', views.trackerSVG, name='trackerSVG'),
+    url(r'^/(?P<domain>.{1,36})/visit.js$',   views.trackerJS,    name='trackerJS'),
+    url(r'^/(?P<domain>.{1,36})/visit.html$', views.trackerDATAS, name='trackerDATAS'),
+
+    url(r'^tracker/ndatas.csv$',  views.ndatasCSV,  name='ndatasCSV'),
+    url(r'^tracker/ndatas.json$', views.ndatasJSON, name='ndatasJSON'),
+    url(r'^tracker/ndatas.txt$',  views.ndatasTXT,  name='ndatasTXT'),
+
+    url(r'^tracker/task/(?P<task>\d+)/(?P<command>(order|start|running|complete))/task.json$', views.taskJSON, name='taskJSON'),
+    url(r'^tracker/task/(?P<task>\d+)/(?P<command>(order|start|running|complete))/task.json?message=(?P<message>.+)/$', views.taskJSON, name='taskJSON'),
+    url(r'^tracker/task/(?P<task>\d+)/(?P<command>(order|start|running|complete))/task.txt$', views.taskTXT, name='taskTXT'),
+    url(r'^tracker/task/(?P<task>\d+)/(?P<command>(order|start|running|complete))/task.txt?message=(?P<message>.+)/$', views.taskTXT, name='taskTXT'),
+    url(r'^tracker/task/(?P<task>\d+)/(?P<command>(order|start|running|complete))/task.html$', views.taskHTML, name='taskHTML'),
+    url(r'^tracker/task/(?P<task>\d+)/(?P<command>(order|start|running|complete))/task.html?message=(?P<message>.+)/$', views.taskHTML, name='taskHTML'),
 ]
