@@ -37,7 +37,7 @@ conf['contenttype_js'] = 'application/javascript; charset=%s' % conf['charset']
 # Tasks type
 conf['tasks'] = (
     ('TRK_check_os',        _('check(OS)')),
-    ('TRK_sort_reccuring',  _('sort(Recurring)')),
+    ('TRK_sort_recurring',  _('sort(Recurring)')),
     ('TRK_report_hourly',   _('report(Hourly)')),
     ('TRK_report_daily',    _('report(Daily)')),
     ('TRK_report_monthly',  _('report(Monthly)')),
@@ -49,7 +49,7 @@ conf['tasks'] = (
 
 # Deltas tasks
 conf['deltas'] = {
-    'TRK_sort_reccuring':  300,
+    'TRK_sort_recurring':  300,
     'TRK_report_hourly':  3600,
     'TRK_report_daily':    86400,
     'TRK_report_monthly':  'Monthly',
