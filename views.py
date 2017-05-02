@@ -115,36 +115,24 @@ Error encountered
 
 @localcalloradminorstaff
 def taskHTML(request, task, command, message=''):
-    try: script = conf['tasks'][int(task)][0]
-    except NameError: return responseKO('html', task, 404, _('Task not found'))
-    try: delta = conf['deltas'][script]
-    except NameError: return responseKO('html', task, 404, _('Delta not found'))
     if command == 'order':    return order('html', task, message)
     if command == 'start':    return start('html', task, message)
-    if command == 'running':  return start('html', task, message)
-    if command == 'complete': return start('html', task, message)
-    if command == 'error':    return start('html', task, message)
+    if command == 'running':  return running('html', task, message)
+    if command == 'complete': return complete('html', task, message)
+    if command == 'error':    return error('html', task, message)
 
 @localcalloradminorstaff
 def taskJSON(request, task, command, message=''):
-    try: script = conf['tasks'][int(task)][0]
-    except NameError: return responseKO('json', task, 404, _('Task not found'))
-    try: delta = conf['deltas'][script]
-    except NameError: return responseKO('json', task, 404, _('Delta not found'))
     if command == 'order':    return order('json', task, message)
     if command == 'start':    return start('json', task, message)
-    if command == 'running':  return start('json', task, message)
-    if command == 'complete': return start('json', task, message)
-    if command == 'error':    return start('json', task, message)
+    if command == 'running':  return running('json', task, message)
+    if command == 'complete': return complete('json', task, message)
+    if command == 'error':    return error('json', task, message)
         
 @localcalloradminorstaff
 def taskTXT(request, task, command, message=''):
-    try: script = conf['tasks'][int(task)][0]
-    except NameError: return responseKO('txt', task, 404, _('Task not found'))
-    try: delta = conf['deltas'][script]
-    except NameError: return responseKO('txt', task, 404, _('Delta not found'))
     if command == 'order':    return order('txt', task, message)
     if command == 'start':    return start('txt', task, message)
-    if command == 'running':  return start('txt', task, message)
-    if command == 'complete': return start('txt', task, message)
-    if command == 'error':    return start('txt', task, message)
+    if command == 'running':  return running('txt', task, message)
+    if command == 'complete': return complete('txt', task, message)
+    if command == 'error':    return error('txt', task, message)

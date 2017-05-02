@@ -21,6 +21,15 @@ def firsTrack(request):
     except Exception: pass
     return True
 
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render
+from django.utils.translation import ugettext as _
+
+from .models import Task
+from .settings import conf
+
+from datetime import datetime, timedelta
+import subprocess
 
 """
 -------------------------------------------------------------------
@@ -40,11 +49,11 @@ Content type authorized:
 def responseKOHTML(task, code, error):
     tpl = _('status: KO\ntask: {ntask}\nname: {name}\ntechnical: {technical}\ncode: {code}\nerror: {error}')
     datas = { 'task': task, 'name': conf['tasks'][int(task)][0], 'technical': conf['tasks'][int(task)][1], 'code': code, 'error': error}
-    return response = render(request, 'tracker/failed.html', context=datas)
-def responseOKHTML(task, code, error):
-    tpl = _('status: KO\ntask: {ntask}\nname: {name}\ntechnical: {technical}\ncode: {code}\nerror: {error}')
+    return render(request, 'SendinBlue/failed.html', context=datas)
+def responseOKHTML(task, message):
+    tpl = _('status: KO\ntask: {ntask}\nname: {name}\ntechnical: {technical}\nmessage: {message}')
     datas = { 'task': task, 'name': conf['tasks'][int(task)][0], 'technical': conf['tasks'][int(task)][1], 'code': code, 'error': error}
-    return response = render(request, 'tracker/success.html', context=datas)
+    return render(request, 'SendinBlue/success.html', context=datas)
 
 # ------------------------------------------- #
 # CONTENT TYPE - JSON
@@ -52,8 +61,8 @@ def responseOKHTML(task, code, error):
 def responseKOJSON(task, code, error):
     datas = { 'task': task, 'name': conf['tasks'][int(task)][0], 'technical': conf['tasks'][int(task)][1], 'code': code, 'error': error}
     return JsonResponse(datas, safe=False)
-def responseOKJSON(task, code, error):
-    datas = { 'task': task, 'name': conf['tasks'][int(task)][0], 'technical': conf['tasks'][int(task)][1], 'code': code, 'error': error}
+def responseOKJSON(task, message):
+    datas = { 'task': task, 'name': conf['tasks'][int(task)][0], 'technical': conf['tasks'][int(task)][1], 'message': message}
     return JsonResponse(datas, safe=False)
 
 # ------------------------------------------- #
@@ -63,24 +72,24 @@ def responseKOTXT(task, code, error):
     tpl = _('status: KO\ntask: {ntask}\nname: {name}\ntechnical: {technical}\ncode: {code}\nerror: {error}')
     datas = {'task': task, 'name': conf['tasks'][int(task)][0], 'technical': conf['tasks'][int(task)][1], 'code': code, 'error': error}
     return HttpResponse(tpl.format(**datas), status_code=code, content_type=conf['contenttype_txt'] )
-def responseOKTXT(task, code, error):
-    tpl = _('status: KO\ntask: {ntask}\nname: {name}\ntechnical: {technical}\ncode: {code}\nerror: {error}')
-    datas = {'task': task, 'name': conf['tasks'][int(task)][0], 'technical': conf['tasks'][int(task)][1], 'code': code, 'error': error}
-    return HttpResponse(tpl.format(**datas), status_code=code, content_type=conf['contenttype_txt'] )
+def responseOKTXT(task, message):
+    tpl = _('status: KO\ntask: {task}\nname: {name}\ntechnical: {technical}\nmessage: {message}')
+    datas = {'task': task, 'name': conf['tasks'][int(task)][0], 'technical': conf['tasks'][int(task)][1], 'message': message}
+    return HttpResponse(tpl.format(**datas), content_type=conf['contenttype_txt'] )
 
 # ------------------------------------------- #
 # CONTENT TYPE - PROXY
 # ------------------------------------------- #
 # Content type orientation
 # ------------------------------------------- #
-def reponseKO(contenttype, task, code, error):
-    if conttenttype == 'html': return responseKOHTML(task, code, error)
-    if conttenttype == 'json': return responseKOJSON(task, code, error)
+def responseKO(contenttype, task, code, error):
+    if contenttype == 'html': return responseKOHTML(task, code, error)
+    if contenttype == 'json': return responseKOJSON(task, code, error)
     return responseKOTXT(task, code, error)
-def reponseOK(contenttype, task, code, error):
-    if conttenttype == 'html': return responseOKHTML(task, code, error)
-    if conttenttype == 'json': return responseOKJSON(task, code, error)
-    return responseOKTXT(task, code, error)
+def responseOK(contenttype, task, message):
+    if contenttype == 'html': return responseOKHTML(task, message)
+    if contenttype == 'json': return responseOKJSON(task, message)
+    return responseOKTXT(task, message)
 
 """
 -------------------------------------------------------------------
@@ -120,29 +129,100 @@ def startTask(task):
     return True
 
 # ------------------------------------------- #
+# error
+# ------------------------------------------- #
+# Task in error
+# ------------------------------------------- #
+def error(contenttype, task, error):
+    try: script = conf['tasks'][int(task)][0]
+    except NameError: return responseKO('html', task, 404, _('Task not found'))
+    try: thetask = Task.objects.filter(task=script, status__in=[1, 2, 3]).latest('dateupdate')
+    except Task.DoesNotExist: return responseKO(contenttype, task, 403,  _('No task'))
+    thetask.status = 0
+    if error is None or error == '': thetask.error = _('Error')
+    else: thetask.error = error
+    thetask.save()
+    return responseOK(contenttype, task, error)
+
+# ------------------------------------------- #
 # order
 # ------------------------------------------- #
 # Order a task
 # ------------------------------------------- #
-def order(task, message, contenttype):
+def order(contenttype, task, message):
+    try: script = conf['tasks'][int(task)][0]
+    except NameError: return responseKO('html', task, 404, _('Task not found'))
+    try: delta = conf['deltas'][script]
+    except NameError: return responseKO('html', task, 404, _('Delta not found'))
     try:
         if isinstance(delta, int):
-            if delta > 1000: delta = datetime.today() - timedelta(seconds=delta)
+            if delta > 40: delta = datetime.today() - timedelta(seconds=delta)
             else:            delta = datetime.today() - timedelta(days=delta)
-            thetask = Task.objects.get(task=task, update__gte=delta)
+            thetask = Task.objects.get(task=script, status__in=[1,2,3], dateupdate__gte=delta)
         elif delta == 'Monthly':
-            thetask = Task.objects.get(task=task, update__year=datetime.now().year, update__month=datetime.now().month)
+            thetask = Task.objects.get(task=script, status__in=[1,2,3], dateupdate__year=datetime.now().year, dateupdate__month=datetime.now().month)
         elif delta == 'Annually':
-            thetask = Task.objects.get(task=task, update__year=datetime.now().year)
+            thetask = Task.objects.get(task=script, status__in=[1,2,3], dateupdate__year=datetime.now().year)
         else:
-            return reponseKO(contenttype, task, 403, _('Delta not available'))
+            return responseKO(contenttype, task, 403, _('Delta not available'))
     except Task.DoesNotExist:
         thetask = Task(task=script)
+        if message is not None or message != '': thetask.info = message
         thetask.save()
     if thetask.status >= 1:
         if checkTask(script) is True:
             if startTask(task) is True:
-                if contenttype == 'html': return render(request, 'tracker/success.html', context={'task': thetask, 'message': _('Task ordered')})
-            return reponseKO(contenttype, task, 403, _('Task can\'t be started'))
-        return reponseKO(contenttype, task, 403,  _('Task already running'))
-    return reponseKO(contenttype, task, 403, _('Task can\'t be started'))
+                return responseOK(contenttype, task, message)
+            return responseKO(contenttype, task, 403, _('Task can\'t be started'))
+        return responseKO(contenttype, task, 403,  _('Task already running'))
+    else:
+        return responseKO(contenttype, task, 403, _('Delta too short please wait'))    
+    return responseKO(contenttype, task, 403, _('Task can\'t be started'))
+
+# ------------------------------------------- #
+# start
+# ------------------------------------------- #
+# Start a task
+# ------------------------------------------- #
+def start(contenttype, task, message):
+    try: script = conf['tasks'][int(task)][0]
+    except NameError: return responseKO('html', task, 404, _('Task not found'))
+    try: thetask = Task.objects.filter(task=script, status=1).latest('dateupdate')
+    except Task.DoesNotExist: return responseKO(contenttype, task, 403,  _('No task to start'))
+    thetask.status = 2
+    if message is None or message == '': thetask.info = _('Started')
+    else: thetask.info = message
+    thetask.save()
+    return responseOK(contenttype, task, message)
+
+# ------------------------------------------- #
+# running
+# ------------------------------------------- #
+# Task running
+# ------------------------------------------- #
+def running(contenttype, task, message):
+    try: script = conf['tasks'][int(task)][0]
+    except NameError: return responseKO('html', task, 404, _('Task not found'))
+    try: thetask = Task.objects.filter(task=script, status__in=[2, 3]).latest('dateupdate')
+    except Task.DoesNotExist: return responseKO(contenttype, task, 403,  _('No task running'))
+    thetask.status = 3
+    if message is None or message == '': thetask.info = _('Running')
+    else: thetask.info = message
+    thetask.save()
+    return responseOK(contenttype, task, message)
+
+# ------------------------------------------- #
+# complete
+# ------------------------------------------- #
+# Task completed
+# ------------------------------------------- #
+def complete(contenttype, task, message):
+    try: script = conf['tasks'][int(task)][0]
+    except NameError: return responseKO('html', task, 404, _('Task not found'))
+    try: thetask = Task.objects.filter(task=script, status__in=[2, 3]).latest('dateupdate')
+    except Task.DoesNotExist: return responseKO(contenttype, task, 403,  _('No task to complete'))
+    thetask.status = 4
+    if message is None or message == '': thetask.info = _('Complete')
+    else: thetask.info = message
+    thetask.save()
+    return responseOK(contenttype, task, message)
