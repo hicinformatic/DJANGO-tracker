@@ -27,6 +27,7 @@ conf = {
     'charset':    'utf-8',
     'maxage':     86400,
     'ndatas':     50,
+    'port':       26080,
 }
 
 # Content Type
