@@ -10,7 +10,7 @@ import os, syslog
 conf = {
     'appdir':     os.path.dirname(os.path.realpath(__file__)),
     'taskdir':    os.path.dirname(os.path.realpath(__file__))+'/tasks',
-    'python':     '/bin/python3.5',
+    'python':     '/bin/python3.6',
     'binary':     '/bin/bash',
     'backstart':  '/bin/nohup',
     'backend':    '&',
