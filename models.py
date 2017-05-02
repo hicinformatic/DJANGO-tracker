@@ -83,20 +83,17 @@ class DataAssociated(models.Model):
         return self.key
 
 class Task(models.Model):
-    task = models.PositiveSmallIntegerField(choices=conf['tasks'], default=1, editable=False, verbose_name=_('Activity'), validators=[MinValueValidator(1),MaxValueValidator(8)], )
+    task = models.CharField(max_length=254, choices=conf['tasks'], editable=False, verbose_name=_('Task'), )
     info = models.TextField(blank=True, default=_('Ordered'), editable=False, null=True, verbose_name=_('Information about the task'),)
     status = models.PositiveSmallIntegerField(choices=conf['status'], default=1, editable=False, verbose_name=_('Status'), validators=[MinValueValidator(0),MaxValueValidator(5)], )
     error = models.TextField(blank=True, editable=False, null=True, verbose_name=_('Error encountered'),)
     updateby = models.CharField(blank=True, editable=False, max_length=254, null=True, verbose_name=_('Last update by'),)
-    create = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('Creation date'),)
-    update = models.DateTimeField(auto_now=True, editable=False, verbose_name=_('Last modification date'),)
+    datecreate = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('Creation date'),)
+    dateupdate = models.DateTimeField(auto_now=True, editable=False, verbose_name=_('Last modification date'),)
 
     class Meta:
         verbose_name        = _('#Task')
         verbose_name_plural = _('#Tasks')
-        permissions = (
-            ('can_task', _('Can make task')),
-        )
 
-    def __str__(self):
+     def __str__(self):
         return self.get_task_display()
