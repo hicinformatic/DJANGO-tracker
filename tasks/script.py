@@ -1,4 +1,4 @@
-import urllib, os
+import urllib.request, os
 
 def writePidFile(scriptdir, name):
     pid = str(os.getpid())
