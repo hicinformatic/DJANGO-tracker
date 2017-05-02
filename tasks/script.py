@@ -6,7 +6,7 @@ def writePidFile(scriptdir, name):
     f.write(pid)
     f.close()
 
-def deletePidFile(scriptdir):
+def deletePidFile(scriptdir, name):
     os.unlink(scriptdir+'/'+name+'.pid')
 
 def error(task, message=''):

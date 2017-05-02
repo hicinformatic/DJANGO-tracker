@@ -5,10 +5,10 @@ scriptdir = os.path.dirname(os.path.realpath(__file__))
 taskid = 1
 name = 'TRK_sort_recurring'
 
-writePidFile(name, scriptdir)
+writePidFile(scriptdir, name)
 
 taskme(taskid, 'start')
 taskme(taskid, 'running')
 taskme(taskid, 'complete')
 
-deletePidFile(name, scriptdir)
+deletePidFile(scriptdir, name)
