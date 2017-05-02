@@ -95,5 +95,5 @@ class Task(models.Model):
         verbose_name        = _('#Task')
         verbose_name_plural = _('#Tasks')
 
-     def __str__(self):
+    def __str__(self):
         return self.get_task_display()
