@@ -1,3 +1,5 @@
+import pycurl, os
+
 def writePidFile(scriptdir, name):
     pid = str(os.getpid())
     f = open(scriptdir+'/'+name+'.pid', 'w')
