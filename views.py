@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 
 from .settings import conf
-from .functions import isTrack, firsTrack, responseKO
+from .functions import isTrack, firsTrack, order, start, running, complete, error
 from .decorators import localcall, localcalloradmin, localcalloradminorstaff
 from .forms import trackFormDatas
 from .models import Tracked, Visitor, DataAssociated, Task
