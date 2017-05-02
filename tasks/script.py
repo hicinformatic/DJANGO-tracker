@@ -5,7 +5,7 @@ def writePidFile(scriptdir, name):
     f.close()
 
 def deletePidFile(scriptdir):
-    os.unlink(scriptdir+'/'+name+'.pid'.pid')
+    os.unlink(scriptdir+'/'+name+'.pid')
 
 def error(task, message=''):
     errcurl = pycurl.Curl()
