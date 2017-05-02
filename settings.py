@@ -50,7 +50,7 @@ conf['tasks'] = (
 # Deltas tasks
 conf['deltas'] = {
     'TRK_sort_reccuring':  300,
-    'TRK_report_hourly',:  3600,
+    'TRK_report_hourly':  3600,
     'TRK_report_daily':    86400,
     'TRK_report_monthly':  'Monthly',
     'TRK_report_annually': 'Annually',
