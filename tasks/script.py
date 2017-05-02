@@ -12,7 +12,7 @@ def deletePidFile(scriptdir):
 def error(task, message=''):
     errcurl = pycurl.Curl()
     if message is None or message == '': errcurl.setopt(errcurl.URL, "http://localhost/tracker/task/3/error/task.json")
-    else: errcurl.setopt(errcurl.URL, "http://localhost/tracker/task/%s/error/task.json/%s"% (task, message)
+    else: errcurl.setopt(errcurl.URL, "http://localhost/tracker/task/%s/error/task.json/%s"% (task, message) )
     errcurl.perform()
     return errcurl.getinfo(pycurl.HTTP_CODE)
 
