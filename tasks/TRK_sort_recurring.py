@@ -1,4 +1,6 @@
 from script import writePidFile, deletePidFile, error, taskme
+import os
+
 scriptdir = os.path.dirname(os.path.realpath(__file__))
 taskid = 1
 
