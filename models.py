@@ -88,8 +88,8 @@ class Task(models.Model):
     status = models.PositiveSmallIntegerField(choices=conf['status'], default=1, editable=False, verbose_name=_('Status'), validators=[MinValueValidator(0),MaxValueValidator(5)], )
     error = models.TextField(blank=True, editable=False, null=True, verbose_name=_('Error encountered'),)
     updateby = models.CharField(blank=True, editable=False, max_length=254, null=True, verbose_name=_('Last update by'),)
-    create = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('Creation date'),)
-    update = models.DateTimeField(auto_now=True, editable=False, verbose_name=_('Last modification date'),)
+    datecreate = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('Creation date'),)
+    dateupdate = models.DateTimeField(auto_now=True, editable=False, verbose_name=_('Last modification date'),)
 
     class Meta:
         verbose_name        = _('#Task')

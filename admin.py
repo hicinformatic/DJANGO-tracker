@@ -66,5 +66,5 @@ class VisitorAdmin(admin.ModelAdmin):
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ( 'task', 'info', 'status', 'update', )
-    readonly_fields = ( 'task', 'info', 'status', 'error', 'updateby', 'create', 'update', )
+    list_display = ( 'task', 'info', 'status', 'dateupdate', )
+    readonly_fields = ( 'task', 'info', 'status', 'error', 'updateby', 'datecreate', 'dateupdate', )
