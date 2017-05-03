@@ -9,7 +9,7 @@ function visit(url) {
         this.add('title', document.title);
         params = this.params.join('&');
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", this.url + '/visit.html/{{ domain }}/', true);
+        xhr.open("POST", this.url + '{{ domain }}/visit.html', true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send(params); 
         this.params = [];
