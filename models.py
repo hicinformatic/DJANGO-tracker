@@ -47,8 +47,8 @@ class Domain(models.Model):
     update = models.DateTimeField(auto_now=True, editable=False, verbose_name=_('Last modification date'),)
 
     class Meta:
-        verbose_name        = _('Domain authorized')
-        verbose_name_plural = _('Domains authorized')
+        verbose_name        = _('Domain tracked')
+        verbose_name_plural = _('Domains tracked')
 
     def __str__(self):
         return self.domain
