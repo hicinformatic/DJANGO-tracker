@@ -15,8 +15,8 @@ class Tracked(models.Model):
     create = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('Creation date'),)
 
     class Meta:
-        verbose_name        = _('Tracked data')
-        verbose_name_plural = _('Tracked datas')
+        verbose_name        = _('#- Tracked data -#')
+        verbose_name_plural = _('#- Tracked datas -#')
 
     def __str__(self):
         return self.visitor
