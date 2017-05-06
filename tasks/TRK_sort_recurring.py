@@ -35,6 +35,8 @@ with open(csvndatas, newline='') as csvfile:
         except NameError:
             datas[row[4]][row[1]] = { 'url': {}, 'title': {}, }
             datas[row[4]][row[1]][row[2]] = row[3]
+        except KeyError:
+            pass
         datas[row[4]][row[1]]['url'][row[7]] = row[5]
         datas[row[4]][row[1]]['title'][row[7]] = row[6]
 
