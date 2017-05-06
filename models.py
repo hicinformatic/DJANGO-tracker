@@ -92,8 +92,8 @@ class Task(models.Model):
     dateupdate = models.DateTimeField(auto_now=True, editable=False, verbose_name=_('Last modification date'),)
 
     class Meta:
-        verbose_name        = _('#Task')
-        verbose_name_plural = _('#Tasks')
+        verbose_name        = _('$- Task')
+        verbose_name_plural = _('$- Tasks')
 
     def __str__(self):
         return self.get_task_display()
