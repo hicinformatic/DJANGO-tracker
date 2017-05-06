@@ -28,6 +28,14 @@ with open(csvndatas, newline='') as csvfile:
         except Exception:
             visitors[row[4]] = { row[1]: 1, }
 
+        try:
+        except Exception:
+            datas[row[4]] = {
+                row[1]: {
+                    'url': { row[7]: row[5], },  
+                    'title': { row[7]: row[6], }
+                },
+            }
 
 taskme(port, 'running', taskid, 'writecsv')
 with open(csvvisitor, 'w') as outfile:
