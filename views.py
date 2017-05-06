@@ -77,7 +77,7 @@ def ndatasCSV(request):
 @localcalloradminorstaff
 def ndatasJSON(request):
     datas = Tracked.objects.reverse()[:conf['ndatas']]
-    return JsonResponse(serializers.serialize('json', datas, fields=('visitor','key','value','domain', 'url', )), safe=False, indent=2)
+    return JsonResponse(serializers.serialize('json', datas, fields=('visitor','key','value','domain', 'url'), indent=2), safe=False)
 
 @localcalloradminorstaff
 def ndatasTXT(request):
