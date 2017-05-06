@@ -123,7 +123,7 @@ def checkTask(task):
 # Try to start the task
 # ------------------------------------------- #
 def startTask(task):
-    bgtask = '{0} {1} {2}/{3}.py {4}'.format(conf['backstart'], conf['python'], conf['taskdir'], conf['tasks'][int(task)][0], conf['backend'])
+    bgtask = '{0} {1} {2}/{3}.py {4} {5}'.format(conf['backstart'], conf['python'], conf['taskdir'], conf['tasks'][int(task)][0], conf['port'], conf['backend'])
     try: subprocess.check_call(bgtask, shell=True)
     except subprocess.CalledProcessError: return False
     return True
