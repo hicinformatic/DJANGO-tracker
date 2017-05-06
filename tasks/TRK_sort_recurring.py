@@ -29,6 +29,11 @@ with open(csvndatas, newline='') as csvfile:
             visitors[row[4]] = { row[1]: 1, }
 
         try:
+            datas[row[4]][row[1]] = {
+                    'url': { row[7]: row[5], },  
+                    'title': { row[7]: row[6], }
+                },
+            }
         except Exception:
             datas[row[4]] = {
                 row[1]: {
