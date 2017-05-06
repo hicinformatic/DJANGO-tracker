@@ -24,7 +24,7 @@ with open(csvndatas, newline='') as csvfile:
     datas = {}
     for row in csv.reader(csvfile, delimiter=','):
         try:
-            visitors[row[4]][row[2]] =  1
+            visitors[row[4]][row[1]] =  1
         except Exception:
             visitors[row[4]] = { row[1]: 1, }
 
