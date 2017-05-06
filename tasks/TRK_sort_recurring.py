@@ -18,8 +18,8 @@ with urllib.request.urlopen("http://localhost:%s/tracker/ndatas.csv" % port) as 
     out_file.write(data)
 
 taskme(port, 'running', taskid, 'readcsv')
+visitors = datas = {}
 with open(csvndatas, newline='') as csvfile:
-    visitors = datas = {}
     for row in csv.reader(csvfile, delimiter=','):
         try:
             visitors[row[4]][row[1]] = 1
