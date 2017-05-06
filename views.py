@@ -71,7 +71,7 @@ def ndatasCSV(request):
     response['Content-Disposition'] = 'attachment; filename="ndatas.csv"'
     writer = csv.writer(response)
     for track in Tracked.objects.reverse()[:conf['ndatas']]:
-        writer.writerow(['visitor', 'key', 'value', 'domain', 'url', 'title', 'create'])
+        writer.writerow([track.visitor, track.key, track.value, track.domain, track.url, track.title, track.create])
     return response
 
 @localcalloradminorstaff
