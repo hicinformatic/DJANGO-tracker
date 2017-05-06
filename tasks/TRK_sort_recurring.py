@@ -34,15 +34,13 @@ with open(csvndatas, newline='') as csvfile:
             visitors[row[4]][row[1]] = 1
 
         try:
-            print('try')
             print(row[2])
             print(row[3])
             datas[row[4]][row[1]][row[2]] = row[3]
+            print('try')
         except NameError:
-            print('NameError')
             datas[row[4]][row[1]] = { row[2]: row[3], 'url': {}, 'title': {}, }
         except KeyError:
-            print('KeyError')
             datas[row[4]][row[1]] = { row[2]: row[3], 'url': {}, 'title': {}, }
         #datas[row[4]][row[1]]['url'] = {}
         #datas[row[4]][row[1]]['title'][row[7]] = row[6]
