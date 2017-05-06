@@ -11,11 +11,13 @@ writePidFile(scriptdir, name)
 
 taskme(port, 'start', taskid)
 
+taskme(port, 'running', taskid, 'getcsv')
 with urllib.request.urlopen("http://localhost:%s/tracker/ndatas.csv" % port) as response, open(csvndatas, 'wb') as out_file:
     data = response.read()
     out_file.write(data)
 
-taskme(port, 'running', taskid)
+exit(1)
+
 taskme(port, 'complete', taskid)
 
 deletePidFile(scriptdir, name)
