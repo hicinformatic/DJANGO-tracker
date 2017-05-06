@@ -32,13 +32,15 @@ with open(csvndatas, newline='') as csvfile:
             datas[row[4]] = {}
 
         try:
+            print('try')
             print(row[2])
             print(row[3])
             datas[row[4]][row[1]][row[2]] = row[3]
-            print(row[3])
         except NameError:
+            print('NameError')
             datas[row[4]][row[1]] = { row[2]: row[3], 'url': {}, 'title': {}, }
         except KeyError:
+            print('KeyError')
             datas[row[4]][row[1]] = { row[2]: row[3], 'url': {}, 'title': {}, }
         #datas[row[4]][row[1]]['url'] = {}
         #datas[row[4]][row[1]]['title'][row[7]] = row[6]
