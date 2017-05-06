@@ -81,7 +81,7 @@ def ndatasJSON(request):
 
 @localcalloradminorstaff
 def ndatasTXT(request):
-   tpl = '{0} | {1} | {2} | {3} | {4} | {5} | {6}' 
+    tpl = '{0} | {1} | {2} | {3} | {4} | {5} | {6}' 
     for track in Tracked.objects.reverse()[:conf['ndatas']]:
         try: datas = datas + '\n' +  tpl.format(track.visitor, track.key, track.value, track.domain, track.url, track.title, track.create)
         except NameError: datas = tpl.format(track.visitor, track.key, track.value, track.domain, track.url, track.title, track.create)
