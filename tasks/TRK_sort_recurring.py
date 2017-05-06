@@ -26,7 +26,7 @@ with open(csvndatas, newline='') as csvfile:
         try:
             visitors[row[4]][row[2]] =  1
         except Exception:
-            visitors[row[4]] = { row[2]: 1, }
+            visitors[row[4]] = { row[1]: 1, }
 
 
 taskme(port, 'running', taskid, 'writecsv')
