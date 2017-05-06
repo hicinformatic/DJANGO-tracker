@@ -24,12 +24,14 @@ with open(csvndatas, newline='') as csvfile:
     for row in csv.reader(csvfile, delimiter=','):
         i = i+1
         print(i)
+        print(row[1])
+        print(row[4])
         try:
             visitors[row[4]][row[1]] = 1
         except KeyError:
+            datas[row[4]] = {}
             visitors[row[4]] = {}
             visitors[row[4]][row[1]] = 1
-            datas[row[4]] = {}
 
         try:
             print('try')
