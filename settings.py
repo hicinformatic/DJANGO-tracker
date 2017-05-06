@@ -31,7 +31,7 @@ conf = {
 }
 
 # Content Type
-conf['contenttype_csv'] = 'text/csv'; charset=%s' % conf['charset']
+conf['contenttype_csv'] = 'text/csv; charset=%s' % conf['charset']
 conf['contenttype_txt'] = 'text/plain; charset=%s' % conf['charset']
 conf['contenttype_svg'] = 'image/svg+xml; charset=%s' % conf['charset']
 conf['contenttype_js'] = 'application/javascript; charset=%s' % conf['charset']
