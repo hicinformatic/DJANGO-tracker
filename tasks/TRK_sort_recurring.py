@@ -27,6 +27,8 @@ with open(csvndatas, newline='') as csvfile:
             visitors[row[4]] = {}
             visitors[row[4]][row[1]] = 1
             datas[row[4]] = {}
+        except KeyError:
+            pass
 
         try:
             datas[row[4]][row[1]][row[2]] = row[3]
