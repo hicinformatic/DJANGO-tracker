@@ -82,8 +82,8 @@ def ndatasJSON(request):
 @localcalloradminorstaff
 def ndatasTXT(request):
     for track in Tracked.objects.reverse()[:conf['ndatas']]:
-        try: datas = datas + '\n{visitor} | {key} | {value} | {domain} | {url} | {title} | {create}'.format(**track)
-        except NameError: datas = '{visitor} | {key} | {value} | {domain} | {url} | {title} | {create}'.format(**track)
+        try: datas = datas + '\n{visitor} | {key} | {value} | {domain} | {url} | {title} | {create}'.format(*track)
+        except NameError: datas = '{visitor} | {key} | {value} | {domain} | {url} | {title} | {create}'.format(*track)
     return HttpResponse(datas, content_type=conf['contenttype_txt'])
 
 """
