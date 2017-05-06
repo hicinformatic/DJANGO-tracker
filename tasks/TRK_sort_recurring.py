@@ -26,18 +26,18 @@ with open(csvndatas, newline='') as csvfile:
         except NameError:
             visitors[row[4]] = {}
             visitors[row[4]][row[1]] = 1
-            datas[row[4]] = {}
+            #datas[row[4]] = {}
         except KeyError:
             pass
 
-        try:
-            datas[row[4]][row[1]][row[2]] = row[3]
-        except NameError:
-            datas[row[4]][row[1]] = { row[2]: row[3], 'url': {}, 'title': {}, }
-        except KeyError:
-            pass
-        datas[row[4]][row[1]]['url'][row[7]] = row[5]
-        datas[row[4]][row[1]]['title'][row[7]] = row[6]
+        #try:
+        #    datas[row[4]][row[1]][row[2]] = row[3]
+        #except NameError:
+        #    datas[row[4]][row[1]] = { row[2]: row[3], 'url': {}, 'title': {}, }
+        #except KeyError:
+        #    pass
+        #datas[row[4]][row[1]]['url'][row[7]] = row[5]
+        #datas[row[4]][row[1]]['title'][row[7]] = row[6]
 
 taskme(port, 'running', taskid, 'writecsv')
 with open(csvvisitor, 'w') as outfile:
