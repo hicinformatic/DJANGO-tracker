@@ -29,9 +29,9 @@ with open(csvndatas, newline='') as csvfile:
         try:
             visitors[row[4]][row[1]] = 1
         except KeyError:
-            datas[row[4]] = {}
             visitors[row[4]] = {}
             visitors[row[4]][row[1]] = 1
+            datas[row[4]] = {}
 
         try:
             print('try')
