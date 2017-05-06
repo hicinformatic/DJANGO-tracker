@@ -9,9 +9,9 @@ urlpatterns = [
     url(r'^(?P<domain>.{1,36})/visit.js/(?P<visitor>.{1,36})/?$', views.trackerSVG, name='trackerSVG'),
     url(r'^(?P<domain>.{1,36})/visit.html/?$', views.trackerDATAS, name='trackerDATAS'),
 
-    url(r'^tracker/ndatas.csv$',  views.ndatasCSV,  name='ndatasCSV'),
-    url(r'^tracker/ndatas.json$', views.ndatasJSON, name='ndatasJSON'),
-    url(r'^tracker/ndatas.txt$',  views.ndatasTXT,  name='ndatasTXT'),
+    url(r'^tracker/ndatas.csv/?$',  views.ndatasCSV,  name='ndatasCSV'),
+    url(r'^tracker/ndatas.json/?$', views.ndatasJSON, name='ndatasJSON'),
+    url(r'^tracker/ndatas.txt/?$',  views.ndatasTXT,  name='ndatasTXT'),
 
     url(r'^tracker/task/(?P<task>\d+)/(?P<command>(error|order|start|running|complete))/task.json/?$', views.taskJSON, name='taskJSON'),
     url(r'^tracker/task/(?P<task>\d+)/(?P<command>(error|order|start|running|complete))/task.json/(?P<message>.+)/?$', views.taskJSON, name='taskJSON'),
