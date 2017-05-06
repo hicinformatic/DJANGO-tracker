@@ -65,6 +65,12 @@ def trackerDATAS(request, domain, visitor=''):
         form = trackFormDatas()
     return HttpResponse('<form method="POST">%s<input type="submit"></form>' % form)
 
+"""
+-------------------------------------------------------------------
+GET Ndatas*
+-------------------------------------------------------------------
+"""
+
 @localcalloradminorstaff
 def ndatasCSV(request):
     response = HttpResponse(content_type=conf['contenttype_csv'])
@@ -86,6 +92,34 @@ def ndatasTXT(request):
         try: datas = datas + '\n' +  tpl.format(track.visitor, track.key, track.value, track.domain, track.url, track.title, track.create)
         except NameError: datas = tpl.format(track.visitor, track.key, track.value, track.domain, track.url, track.title, track.create)
     return HttpResponse(datas, content_type=conf['contenttype_txt'])
+
+"""
+-------------------------------------------------------------------
+ADD datas*
+-------------------------------------------------------------------
+"""
+@localcalloradminorstaff
+def addCSV(request):
+    response = HttpResponse(content_type=conf['contenttype_csv'])
+    response['Content-Disposition'] = 'attachment; filename="ndatas.csv"'
+    writer = csv.writer(response)
+    for track in Tracked.objects.reverse()[:conf['ndatas']]:
+        writer.writerow([track.visitor, track.key, track.value, track.domain, track.url, track.title, track.create])
+    return response
+
+@localcalloradminorstaff
+def addJSON(request):
+    datas = Tracked.objects.reverse()[:conf['ndatas']]
+    return JsonResponse(serializers.serialize('json', datas, fields=('visitor','key','value','domain', 'url'), indent=2), safe=False)
+
+@localcalloradminorstaff
+def addTXT(request):
+    tpl = '{0} | {1} | {2} | {3} | {4} | {5} | {6}' 
+    for track in Tracked.objects.reverse()[:conf['ndatas']]:
+        try: datas = datas + '\n' +  tpl.format(track.visitor, track.key, track.value, track.domain, track.url, track.title, track.create)
+        except NameError: datas = tpl.format(track.visitor, track.key, track.value, track.domain, track.url, track.title, track.create)
+    return HttpResponse(datas, content_type=conf['contenttype_txt'])
+
 
 """
 -------------------------------------------------------------------
