@@ -34,7 +34,7 @@ with open(csvndatas, newline='') as csvfile:
         except KeyError:
             datas[row[4]][row[1]] = { row[2]: row[3], 'url': {}, 'title': {}, }
         print(row[7])
-        #datas[row[4]][row[1]]['url'][row[7]] = row[5]
+        datas[row[4]][row[1]]['url'] = {}
         #datas[row[4]][row[1]]['title'][row[7]] = row[6]
 
 taskme(port, 'running', taskid, 'writecsv')
