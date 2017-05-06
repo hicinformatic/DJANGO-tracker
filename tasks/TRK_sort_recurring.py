@@ -33,8 +33,7 @@ with open(csvndatas, newline='') as csvfile:
         try:
             datas[row[4]][row[1]][row[2]] = row[3]
         except NameError:
-            datas[row[4]][row[1]] = { 'url': {}, 'title': {}, }
-            datas[row[4]][row[1]][row[2]] = row[3]
+            datas[row[4]][row[1]] = { row[2]: row[3], 'url': {}, 'title': {}, }
         except KeyError:
             pass
         datas[row[4]][row[1]]['url'][row[7]] = row[5]
