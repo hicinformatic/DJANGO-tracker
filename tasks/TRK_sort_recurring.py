@@ -37,9 +37,9 @@ with open(csvndatas, newline='') as csvfile:
 
 taskme(port, 'running', taskid, 'writecsv')
 with open(csvvisitor, 'w') as outfile:
-    json.dump(visitors, outfile)
+    json.dump(visitors, outfile, indent=4)
 with open(csvdatas, 'w') as outfile:
-    json.dump(datas, outfile)
+    json.dump(datas, outfile, indent=4)
 
 taskme(port, 'complete', taskid)
 deletePidFile(scriptdir, name)
