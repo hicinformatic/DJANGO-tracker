@@ -5,7 +5,7 @@ scriptdir = os.path.dirname(os.path.realpath(__file__))
 taskid = 1
 port = sys.argv[1]
 name = 'TRK_sort_recurring'
-csvndatas = scriptdir + name + '.csv'
+csvndatas = scriptdir + '/' + name + '.csv'
 
 writePidFile(scriptdir, name)
 
