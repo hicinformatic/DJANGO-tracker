@@ -29,7 +29,8 @@ with open(csvndatas, newline='') as csvfile:
             datas[row[4]] = {}
 
         try:
-            datas[row[4]][row[1]][row[2]] = row[3]
+            #datas[row[4]][row[1]][row[2]] = row[3]
+            pass
         except KeyError:
             datas[row[4]][row[1]] = { row[2]: row[3], 'url': {}, 'title': {}, }
         datas[row[4]][row[1]]['url'][row[7]] = row[5]
