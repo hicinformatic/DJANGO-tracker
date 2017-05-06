@@ -20,7 +20,10 @@ with urllib.request.urlopen("http://localhost:%s/tracker/ndatas.csv" % port) as 
 taskme(port, 'running', taskid, 'readcsv')
 visitors = datas = {}
 with open(csvndatas, newline='') as csvfile:
+    i = 0
     for row in csv.reader(csvfile, delimiter=','):
+        i = i+1
+        print(i)
         try:
             visitors[row[4]][row[1]] = 1
         except KeyError:
