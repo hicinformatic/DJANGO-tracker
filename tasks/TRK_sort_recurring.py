@@ -18,26 +18,16 @@ with urllib.request.urlopen("http://localhost:%s/tracker/ndatas.csv" % port) as 
     out_file.write(data)
 
 taskme(port, 'running', taskid, 'readcsv')
-visitors = datas = {}
-with open(csvndatas, newline='') as csvfile:
-    i = 0
-    for row in csv.reader(csvfile, delimiter=','):
-        i = i+1
-        print(i)
-        print(row[1])
-        print(row[4])
-        try:
-            visitors[row[4]][row[1]] = 1
-        except KeyError:
-            visitors[row[4]] = { row[1]: 1, }
 
+with open(csvndatas, newline='') as csvfile:
+    visitors = {}
+    datas = {}
+    for row in csv.reader(csvfile, delimiter=','):
         try:
-            print('try')
-            print(row[2])
-            print(row[3])
-            datas[row[4]][row[1]][row[2]] = row[3]
-        except KeyError:
-            datas[row[4]] = { row[1]: { row[2]: row[3], 'url': {}, 'title': {}, }, }
+            visitors[row[4]][row[2]] =  1
+        except Exception:
+            visitors[row[4]] = { row[2]: 1, }
+
 
 taskme(port, 'running', taskid, 'writecsv')
 with open(csvvisitor, 'w') as outfile:
