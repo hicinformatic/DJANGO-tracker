@@ -29,21 +29,15 @@ with open(csvndatas, newline='') as csvfile:
         try:
             visitors[row[4]][row[1]] = 1
         except KeyError:
-            visitors[row[4]] = {}
-            visitors[row[4]][row[1]] = 1
-            datas[row[4]] = {}
+            visitors[row[4]] = { row[1]: 1, }
 
         try:
             print('try')
             print(row[2])
             print(row[3])
             datas[row[4]][row[1]][row[2]] = row[3]
-        except NameError:
-            datas[row[4]][row[1]] = { row[2]: row[3], 'url': {}, 'title': {}, }
         except KeyError:
-            datas[row[4]][row[1]] = { row[2]: row[3], 'url': {}, 'title': {}, }
-        #datas[row[4]][row[1]]['url'] = {}
-        #datas[row[4]][row[1]]['title'][row[7]] = row[6]t
+            datas[row[4]] = { row[1]: { row[2]: row[3], 'url': {}, 'title': {}, }, }
 
 taskme(port, 'running', taskid, 'writecsv')
 with open(csvvisitor, 'w') as outfile:
