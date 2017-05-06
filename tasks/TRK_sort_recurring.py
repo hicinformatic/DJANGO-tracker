@@ -30,7 +30,8 @@ with open(csvndatas, newline='') as csvfile:
 
         try:
             #datas[row[4]][row[1]][row[2]] = row[3]
-            pass
+        except NameError:
+            datas[row[4]][row[1]] = { row[2]: row[3], 'url': {}, 'title': {}, }
         except KeyError:
             datas[row[4]][row[1]] = { row[2]: row[3], 'url': {}, 'title': {}, }
         print(row[7])
