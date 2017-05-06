@@ -40,13 +40,13 @@ def trackerJS(request, domain):
     return render(request, 'tracker/tracker.js', context=context, content_type=conf['contenttype_js'],)
 
 @csrf_exempt
-def trackerDATAS(request, domain):
+def trackerDATAS(request, domain, visitor=''):
     response = HttpResponse('KO', content_type=conf['contenttype_txt'])
     if request.method == 'POST':
         form = trackFormDatas(request.POST)
         if form.is_valid():
             url = title = None
-            visitor = isTrack(request, form.cleaned_data.pop('visitor'))
+            visitor = isTrack(request, visitor)
             if form.cleaned_data['url'] != '': url = form.cleaned_data.pop('url')
             if form.cleaned_data['title'] != '': title = form.cleaned_data.pop('title')
             datas = []

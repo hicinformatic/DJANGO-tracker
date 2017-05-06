@@ -8,7 +8,6 @@ name = 'TRK_sort_recurring'
 csvndatas = scriptdir + '/' + name + '.csv'
 
 writePidFile(scriptdir, name)
-
 taskme(port, 'start', taskid)
 
 taskme(port, 'running', taskid, 'getcsv')
@@ -16,8 +15,9 @@ with urllib.request.urlopen("http://localhost:%s/tracker/ndatas.csv" % port) as 
     data = response.read()
     out_file.write(data)
 
-exit(1)
+taskme(port, 'running', taskid, 'readcsv')
+
+
 
 taskme(port, 'complete', taskid)
-
 deletePidFile(scriptdir, name)
