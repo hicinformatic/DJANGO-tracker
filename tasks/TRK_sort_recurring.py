@@ -13,14 +13,8 @@ writePidFile(scriptdir, name)
 taskme(port, 'start', taskid)
 
 taskme(port, 'running', taskid, 'getcsv')
-with urllib.request.urlopen("http://localhost:%s/tracker/ndatas.csv" % port) as response, open(csvndatas, 'wb') as out_file:
-    data = response.read()
-    out_file.write(data)
-
-taskme(port, 'running', taskid, 'readcsv')
-with open(csvndatas, newline='') as csvfile:
-    visitors = datas = {}
-    for row in csv.reader(csvfile, delimiter=','):
+with urllib.request.urlopen("http://localhost:%s/tracker/ndatas.csv" % port) as response:
+    for row in csv.reader(response.read(), delimiter=','):
         try:
             visitors[row[4]][row[1]] = 1
         except NameError:
