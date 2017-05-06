@@ -23,22 +23,17 @@ with open(csvndatas, newline='') as csvfile:
     for row in csv.reader(csvfile, delimiter=','):
         try:
             visitors[row[4]][row[1]] = 1
-        except NameError:
-            visitors[row[4]] = {}
-            visitors[row[4]][row[1]] = 1
-            #datas[row[4]] = {}
         except KeyError:
             visitors[row[4]] = {}
             visitors[row[4]][row[1]] = 1
+            datas[row[4]] = {}
 
-        #try:
-        #    datas[row[4]][row[1]][row[2]] = row[3]
-        #except NameError:
-        #    datas[row[4]][row[1]] = { row[2]: row[3], 'url': {}, 'title': {}, }
-        #except KeyError:
-        #    pass
-        #datas[row[4]][row[1]]['url'][row[7]] = row[5]
-        #datas[row[4]][row[1]]['title'][row[7]] = row[6]
+        try:
+            datas[row[4]][row[1]][row[2]] = row[3]
+        except KeyError:
+            datas[row[4]][row[1]] = { row[2]: row[3], 'url': {}, 'title': {}, }
+        datas[row[4]][row[1]]['url'][row[7]] = row[5]
+        datas[row[4]][row[1]]['title'][row[7]] = row[6]
 
 taskme(port, 'running', taskid, 'writecsv')
 with open(csvvisitor, 'w') as outfile:
