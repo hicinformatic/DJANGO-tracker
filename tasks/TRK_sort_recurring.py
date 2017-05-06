@@ -35,7 +35,7 @@ with open(csvndatas, newline='') as csvfile:
             print('try')
             print(row[2])
             print(row[3])
-            datas[row[4]][row[1]][row[2]] = row[3]
+            datas[row[4]][row[1]][row[2]] = "tutu"
         except NameError:
             print('NameError')
             datas[row[4]][row[1]] = { row[2]: row[3], 'url': {}, 'title': {}, }
