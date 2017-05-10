@@ -239,8 +239,9 @@ def addTRK_sort_recurring(contenttype, task, script):
         visitorsJSON = '{}/{}_visitors.json'.format(conf['taskdir'], script)
         with open(visitorsJSON) as json_data:
             visitors = []
-            for domain in json.load(json_data):
-                for k,v in domain.items():
+            domains = json.load(json_data)
+            for domain in domains:
+                for k,v in domains[domain].items():
                     visitors.append(Visitor(visitor=k, domain=domain))
     except IOError as e:
         return responseKO(contenttype, task, 404, str(e))
