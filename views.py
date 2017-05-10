@@ -74,13 +74,13 @@ def trackerEVENTS(request, domain, visitor=''):
             url = title = None
             visitor = isTrack(request, visitor)
             if form.cleaned_data['url'] != '': url = form.cleaned_data.pop('url')
-            if form.cleaned_data['title'] != '': title = form.cleaned_data.pop('title')
+            if form.cleaned_data['title'] != '': title = str(form.cleaned_data.pop('title')).encode('utf-8')
             datas = []
             if firsTrack(request):
                 datas.append(Tracked(visitor=visitor, key='User-Agent', value=request.META['HTTP_USER_AGENT'], domain=domain, url=url, title=title))
                 datas.append(Tracked(visitor=visitor, key='AcceptLanguage', value=request.META['HTTP_ACCEPT_LANGUAGE'], domain=domain, url=url, title=title))
             for key,value in form.cleaned_data.items():
-                if value != '': datas.append(Tracked(visitor=visitor.encode('utf-8'), key=key, value=value.encode('utf-8'), event=True, domain=domain.encode('utf-8'), url=url.encode('utf-8'), title=title.encode('utf-8')))
+                if value != '': datas.append(Tracked(visitor=visitor, key=key, value=value, event=True, domain=domain, url=url, title=title))
             Tracked.objects.bulk_create(datas)
         response = HttpResponse('OK', content_type=conf['contenttype_txt'])
         request.session[conf['store']] = visitor
