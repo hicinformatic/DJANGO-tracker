@@ -21,29 +21,34 @@ taskme(port, 'running', taskid, 'readcsv')
 listid = []
 datas = {}
 
-datas = { 'User-Agent': {}, 'AcceptLanguage': {}, 'datas': {}, 'routes': {}, }
+datas = { 'User-Agent': {}, 'AcceptLanguage': {}, 'datas': {}, 'events': {} 'routes': {}, }
 with open(csvndatas, newline='', encoding='utf-8') as csvfile:
     for row in csv.reader(csvfile, delimiter=','):
         listid.append(row[0])
-        if row[2] == 'User-Agent':
+        if row[3] == 'User-Agent':
             try:
-                datas['User-Agent'][row[1]][row[7]] = row[3]
+                datas['User-Agent'][row[1]][row[8]] = row[4]
             except Exception:
-                datas['User-Agent'][row[1]] = { row[7]: row[3] }
-        elif row[2] == 'AcceptLanguage':
+                datas['User-Agent'][row[1]] = { row[8]: row[4] }
+        elif row[3] == 'AcceptLanguage':
             try:
-                datas['AcceptLanguage'][row[1]][row[7]] = row[3]
+                datas['AcceptLanguage'][row[1]][row[8]] = row[4]
             except Exception:
-                datas['AcceptLanguage'][row[1]] = { row[7]: row[3] }
+                datas['AcceptLanguage'][row[1]] = { row[8]: row[4] }
+        elif row[2] == 'True':
+            try:
+                datas['events'][row[1]][row[8]] =  { row[3]: row[4] }
+            except Exception:
+                datas['events'][row[1]] = { row[8]: { row[3]: row[4] }, }
         else:
             try:
-                datas['datas'][row[1]][row[7]] =  { row[2]: row[3] }
+                datas['datas'][row[1]][row[8]] =  { row[3]: row[4] }
             except Exception:
-                datas['datas'][row[1]] = { row[7]: { row[2]: row[3] }, }
+                datas['datas'][row[1]] = { row[8]: { row[3]: row[4] }, }
         try:
-            datas['routes'][row[1]][row[7]] = { 'title': row[6], 'url': row[5] }
+            datas['routes'][row[1]][row[8]] = { 'title': row[7], 'url': row[6] }
         except Exception:
-            datas['routes'][row[1]] = { row[7]: { 'title': row[6], 'url': row[5] }, }
+            datas['routes'][row[1]] = { row[8]: { 'title': row[7], 'url': row[6] }, }
 
 
 taskme(port, 'running', taskid, 'writejson')
