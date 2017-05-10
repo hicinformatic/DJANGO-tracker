@@ -103,20 +103,20 @@ def ndatasCSV(request):
     response['Content-Disposition'] = 'attachment; filename="ndatas.csv"'
     writer = csv.writer(response)
     for track in Tracked.objects.reverse()[:conf['ndatas']]:
-        writer.writerow([track.id, track.visitor, track.key, track.value, track.domain, track.url, track.title, track.create])
+        writer.writerow([track.id, track.visitor, track.event, track.key, track.value, track.domain, track.url, track.title, track.create])
     return response
 
 @localcalloradminorstaff
 def ndatasJSON(request):
     datas = Tracked.objects.reverse()[:conf['ndatas']]
-    return JsonResponse(serializers.serialize('json', datas, fields=('id', 'visitor','key','value','domain', 'url', 'title', 'create'), indent=2), safe=False)
+    return JsonResponse(serializers.serialize('json', datas, fields=('id', 'visitor', 'event', 'key','value','domain', 'url', 'title', 'create'), indent=2), safe=False)
 
 @localcalloradminorstaff
 def ndatasTXT(request):
     tpl = '{0} | {1} | {2} | {3} | {4} | {5} | {6} | {7}' 
     for track in Tracked.objects.reverse()[:conf['ndatas']]:
-        try: datas = datas + '\n' +  tpl.format(track.id, track.visitor, track.key, track.value, track.domain, track.url, track.title, track.create)
-        except NameError: datas = tpl.format(track.id, track.visitor, track.key, track.value, track.domain, track.url, track.title, track.create)
+        try: datas = datas + '\n' +  tpl.format(track.id, track.visitor, track.event, track.key, track.value, track.domain, track.url, track.title, track.create)
+        except NameError: datas = tpl.format(track.id, track.visitor, track.event, track.key, track.value, track.domain, track.url, track.title, track.create)
     return HttpResponse(datas, content_type=conf['contenttype_txt'])
 
 """
