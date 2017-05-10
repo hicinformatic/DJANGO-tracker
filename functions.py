@@ -226,3 +226,16 @@ def complete(contenttype, task, message):
     else: thetask.info = message
     thetask.save()
     return responseOK(contenttype, task, message)
+
+
+"""
+-------------------------------------------------------------------
+TASK INTEGRATOR
+-------------------------------------------------------------------
+"""
+
+def addTask(contenttype, task):
+    try: script = conf['tasks'][int(task)][0]
+    except NameError: return responseKO(contenttype, task, 404, _('Task not found'))
+    if script == 'TRK_sort_recurring':
+        return responseOK(contenttype, task, 'super')

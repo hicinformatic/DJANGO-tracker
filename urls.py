@@ -15,9 +15,9 @@ urlpatterns = [
     url(r'^tracker/ndatas.json/?$', views.ndatasJSON, name='ndatasJSON'),
     url(r'^tracker/ndatas.txt/?$',  views.ndatasTXT,  name='ndatasTXT'),
 
-    url(r'^tracker/(?P<visitor>.{1,36})/add.csv/?',  views.addCSV,  name='addCSV'),
-    url(r'^tracker/(?P<visitor>.{1,36})/add.json/?', views.addJSON, name='addJSON'),
-    url(r'^tracker/(?P<visitor>.{1,36})/add.txt/?',  views.addTXT,  name='addTXT'),
+    url(r'^tracker/(?P<task>\d+)/add.csv/?',  views.addCSV,  name='addCSV'),
+    url(r'^tracker/(?P<task>\d+)/add.json/?', views.addJSON, name='addJSON'),
+    url(r'^tracker/(?P<task>\d+)/add.txt/?',  views.addTXT,  name='addTXT'),
 
     url(r'^tracker/task/(?P<task>\d+)/(?P<command>(error|order|start|running|complete))/task.json/?$', views.taskJSON, name='taskJSON'),
     url(r'^tracker/task/(?P<task>\d+)/(?P<command>(error|order|start|running|complete))/task.json/(?P<message>.+)/?$', views.taskJSON, name='taskJSON'),

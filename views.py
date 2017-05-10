@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 
 from .settings import conf
-from .functions import isTrack, firsTrack, order, start, running, complete, error
+from .functions import isTrack, firsTrack, order, start, running, complete, error, addTask
 from .decorators import localcall, localcalloradmin, localcalloradminorstaff
 from .forms import trackFormDatas
 from .models import Tracked, Visitor, DataAssociated, Task
@@ -99,26 +99,16 @@ ADD datas*
 -------------------------------------------------------------------
 """
 @localcalloradminorstaff
-def addCSV(request):
-    response = HttpResponse(content_type=conf['contenttype_csv'])
-    response['Content-Disposition'] = 'attachment; filename="ndatas.csv"'
-    writer = csv.writer(response)
-    for track in Tracked.objects.reverse()[:conf['ndatas']]:
-        writer.writerow([track.visitor, track.key, track.value, track.domain, track.url, track.title, track.create])
-    return response
+def addCSV(request, task):
+    return addTask('csv', task)
 
 @localcalloradminorstaff
 def addJSON(request):
-    datas = Tracked.objects.reverse()[:conf['ndatas']]
-    return JsonResponse(serializers.serialize('json', datas, fields=('visitor','key','value','domain', 'url'), indent=2), safe=False)
+    return addTask('json', task)
 
 @localcalloradminorstaff
 def addTXT(request):
-    tpl = '{0} | {1} | {2} | {3} | {4} | {5} | {6}' 
-    for track in Tracked.objects.reverse()[:conf['ndatas']]:
-        try: datas = datas + '\n' +  tpl.format(track.visitor, track.key, track.value, track.domain, track.url, track.title, track.create)
-        except NameError: datas = tpl.format(track.visitor, track.key, track.value, track.domain, track.url, track.title, track.create)
-    return HttpResponse(datas, content_type=conf['contenttype_txt'])
+    return addTaskTXT('txt', task)
 
 """
 -------------------------------------------------------------------
