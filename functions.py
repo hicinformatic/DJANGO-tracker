@@ -236,9 +236,9 @@ TASK INTEGRATOR
 
 def addTRK_sort_recurring(contenttype, task, script):
     try:
-        open(conf['appdir'] + script + '.json')
+        open(conf['taskdir'] + script + '.json')
     except IOError as e:
-        return responseKO(contenttype, task, 404, e)
+        return responseKO(contenttype, task, 404, str(e))
     return responseOK(contenttype, task, 'Success')
 
 def addTask(contenttype, task):
