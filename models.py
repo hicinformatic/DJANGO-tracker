@@ -9,6 +9,7 @@ class Tracked(models.Model):
     visitor = models.CharField(max_length=36, editable=False, verbose_name=_('Unique ID'),)
     key = models.CharField(max_length=254, editable=False, verbose_name=_('Key'),)
     value = models.TextField(editable=False, verbose_name=_('Value'),)
+    event = models.BooleanField(default=False, editable=False, verbose_name=_('Is an event'),)
     domain = models.URLField(editable=False, verbose_name=_('Domain associated'),)
     url = models.URLField(editable=False, verbose_name=_('URL momentary'),)
     title = models.CharField(max_length=254, blank=True, null=True, editable=False, verbose_name=_('Title momentary'),)

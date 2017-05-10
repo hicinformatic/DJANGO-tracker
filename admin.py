@@ -11,29 +11,39 @@ class TrackedAdmin(admin.ModelAdmin):
     list_display = ( 'visitor', 'key', 'value', 'domain', 'url', 'title', )
     readonly_fields = ( 'visitor', 'key', 'value', 'domain', 'url', 'title', 'create', )
 
-def loadDatasAuthorized(modeladmin, request, queryset):
-    with open(conf['appdir'] + '/moreconf.py', 'w') as f:
-        f.write('more = [\n')
-        for q in queryset:
+def loadDatasEventsAuthorized(modeladmin, request, queryset):
+    with open(conf['appdir'] + '/moredatas.py', 'w') as f:
+        f.write('datas = [\n')
+        for q in queryset.filter(events=False):
             if q.status is True:
                 f.write("    '" + q.key + "',\n")
         f.write(']').closed
-        queryset.filter(status=False).update(load=False)
-        queryset.filter(status=True).update(load=True)
+        queryset.filter(status=False, event=False).update(load=False)
+        queryset.filter(status=True, event=False).update(load=True)
         DataAuthorized.objects.exclude(id__in=queryset).update(load=False)
-        modeladmin.message_user(request, _('Authorized data loaded'), 'success')
-loadDatasAuthorized.short_description = _('Loads authorized data')
-def disableDatasAuthorized(modeladmin, request, queryset):
+        modeladmin.message_user(request, _('Authorized datas loaded'), 'success')
+    with open(conf['appdir'] + '/moreevents.py', 'w') as f:
+        f.write('events = [\n')
+        for q in queryset.filter(event=True):
+            if q.status is True:
+                f.write("    '" + q.key + "',\n")
+        f.write(']').closed
+        queryset.filter(status=False, event=True).update(load=False)
+        queryset.filter(status=True, event=True).update(load=True)
+        DataAuthorized.objects.exclude(id__in=queryset).update(load=False)
+        modeladmin.message_user(request, _('Authorized events loaded'), 'success')
+loadDatasEventsAuthorized.short_description = _('Loads authorized datas and events')
+def disableDatasEventsAuthorized(modeladmin, request, queryset):
     with open(conf['appdir'] + '/moreconf.py', 'w') as f:
         queryset.update(status=False, load=True)
         DataAuthorized.objects.exclude(id__in=queryset).update(load=False)
         modeladmin.message_user(request, _('Authorized data disable'), 'success')
-disableDatasAuthorized.short_description = _('Disable authorized data')
+disableDatasEventsAuthorized.short_description = _('Disable authorized datas and events')
 @admin.register(DataAuthorized)
 class DataAuthorizedAdmin(admin.ModelAdmin):
     list_display = ( 'key', 'status', 'load', 'counter', )
     readonly_fields = ( 'create', 'update', 'load', 'counter', )
-    actions = [ loadDatasAuthorized, disableDatasAuthorized, ]
+    actions = [ loadDatasEventsAuthorized, disableDatasEventsAuthorized, ]
 
 @admin.register(Domain)
 class DomainAdmin(admin.ModelAdmin):

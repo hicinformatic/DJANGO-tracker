@@ -116,6 +116,13 @@ conf['datas'] = [
     'Resize_outerHeight',
 ]
 
+conf['events'] = [
+    'stay',
+    'click',
+    'scrolldown',
+    'scrollup',
+]
+
 conf['example'] = """<!--
 [--URL_STATIC--]  -> Static URL hosting the javascript file
 [--URL_TRACKER--] -> URL of the tracker | Leave empty if the host is the same
