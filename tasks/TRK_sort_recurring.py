@@ -20,23 +20,15 @@ with urllib.request.urlopen("http://localhost:%s/tracker/ndatas.csv" % port) as 
 taskme(port, 'running', taskid, 'readcsv')
 
 with open(csvndatas, newline='') as csvfile:
-    visitors = {}
     datas = {}
     for row in csv.reader(csvfile, delimiter=','):
         try:
-            visitors[row[4]][row[1]] =  1
+            datas[row[1]][row[2]] = row[3]
+            datas[row[1]]['route'][row[7]] = { 'title': row[6], 'url': row[5], }
         except Exception:
-            visitors[row[4]] = { row[1]: 1, }
-            datas[row[4]] = {}
-        try:
-            datas[row[4]][row[1]][row[2]] = row[3]
-            datas[row[4]][row[1]]['route'][row[7]] = { 'title': row[6], 'url': row[5], }
-        except Exception:
-           datas[row[4]][row[1]] = { 'domain': row[4], row[2]: row[3], 'route': { row[7]: { 'title': row[6], 'url': row[5], }, } , }
+           datas[row[1]] = { 'domain': row[4], row[2]: row[3], 'route': { row[7]: { 'title': row[6], 'url': row[5], }, } , }
 
 taskme(port, 'running', taskid, 'writecsv')
-with open(csvvisitor, 'w') as outfile:
-    json.dump(visitors, outfile, indent=4)
 with open(csvdatas, 'w') as outfile:
     json.dump(datas, outfile, indent=4)
 
