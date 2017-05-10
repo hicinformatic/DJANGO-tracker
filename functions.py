@@ -25,7 +25,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.utils.translation import ugettext as _
 
-from .models import Task
+from .models import Task, Visitor, RouteAssociated, UserAgentAssociated, AcceptLanguageAssociated, DataAssociated
 from .settings import conf
 
 from datetime import datetime, timedelta
@@ -234,9 +234,17 @@ TASK INTEGRATOR
 -------------------------------------------------------------------
 """
 
+def addTRK_sort_recurring(contenttype, script):
+    try:
+        open(conf['appdir'] + script + '.json')
+    except IOError as e:
+        return responseKO(contenttype, task, 404, e)
+    return responseOK(contenttype, task, 'Success')
+
 def addTask(contenttype, task):
     try: script = conf['tasks'][int(task)][0]
     except NameError: return responseKO(contenttype, task, 404, _('Task not found'))
     if script == 'TRK_sort_recurring':
-        return responseOK(contenttype, task, 'super')
+        return addTRK_sort_recurring(contenttype, script)
+
     return responseKO(contenttype, task, 404, _('Task unavailable'))
