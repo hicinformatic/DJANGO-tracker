@@ -248,6 +248,7 @@ def addTRK_sort_recurring(contenttype, task, script):
                 except Domain.DoesNotExist:
                     for k,v in domains[domain].items():
                         visitors.append(Visitor(visitor=k))
+            Visitor.objects.bulk_create(visitors)
     except IOError as e:
         return responseKO(contenttype, task, 404, str(e))
     return responseOK(contenttype, task, 'Success')
