@@ -6,7 +6,7 @@ taskid = 1
 port = sys.argv[1]
 name = 'TRK_sort_recurring'
 csvndatas = scriptdir + '/' + name + '.csv'
-listid =  scriptdir + '/' + name + '_listid.json'
+listidJSON =  scriptdir + '/' + name + '_listid.json'
 datasJSON =  scriptdir + '/' + name + '_datas.json'
 
 writePidFile(scriptdir, name)
@@ -19,9 +19,9 @@ with urllib.request.urlopen("http://localhost:%s/tracker/ndatas.csv" % port) as 
 
 taskme(port, 'running', taskid, 'readcsv')
 
+listid = []
+datas = {}
 with open(csvndatas, newline='') as csvfile:
-    listid = []
-    datas = {}
     for row in csv.reader(csvfile, delimiter=','):
         listid.append(row[0])
         try:
