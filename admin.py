@@ -8,8 +8,8 @@ from .settings import conf
 
 @admin.register(Tracked)
 class TrackedAdmin(admin.ModelAdmin):
-    list_display = ( 'visitor', 'key', 'value', 'domain', 'url', 'title', )
-    readonly_fields = ( 'visitor', 'key', 'value', 'domain', 'url', 'title', 'create', )
+    list_display = ( 'visitor', 'event', 'key', 'value', 'domain', 'url', 'title', )
+    readonly_fields = ( 'visitor', 'event', 'key', 'value', 'domain', 'url', 'title', 'create', )
 
 def loadDatasAuthorized(modeladmin, request, queryset):
     with open(conf['appdir'] + '/moredatas.py', 'w') as f:
