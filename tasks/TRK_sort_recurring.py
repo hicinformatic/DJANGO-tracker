@@ -7,6 +7,7 @@ port = sys.argv[1]
 name = 'TRK_sort_recurring'
 csvndatas = scriptdir + '/' + name + '.csv'
 listidJSON =  scriptdir + '/' + name + '_listid.json'
+visitorsJSON = scriptdir + '/' + name + '_visitors.json'
 datasJSON =  scriptdir + '/' + name + '_datas.json'
 
 writePidFile(scriptdir, name)
@@ -19,11 +20,16 @@ with urllib.request.urlopen("http://localhost:%s/tracker/ndatas.csv" % port) as 
 
 taskme(port, 'running', taskid, 'readcsv')
 listid = []
+visitors = {}
 datas = {}
 
 datas = { 'User-Agent': {}, 'AcceptLanguage': {}, 'datas': {}, 'events': {}, 'routes': {}, }
 with open(csvndatas, newline='', encoding='utf-8') as csvfile:
     for row in csv.reader(csvfile, delimiter=','):
+        try:
+            visitors[row[5]][row[1]] = 1
+        except Exception:
+            visitors[row[5]] = { row[1]]: 1, }
         listid.append(row[0])
         if row[3] == 'User-Agent':
             try:
@@ -54,6 +60,8 @@ with open(csvndatas, newline='', encoding='utf-8') as csvfile:
 taskme(port, 'running', taskid, 'writejson')
 with open(listidJSON, 'w') as outfile:
     json.dump(listid, outfile, indent=4)
+with open(visitorsJSON, 'w') as outfile:
+    json.dump(datas, outfile, indent=4)
 with open(datasJSON, 'w') as outfile:
     json.dump(datas, outfile, indent=4)
 
