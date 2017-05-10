@@ -54,7 +54,7 @@ def trackerDATAS(request, domain, visitor=''):
                 datas.append(Tracked(visitor=visitor, key='User-Agent', value=request.META['HTTP_USER_AGENT'], domain=domain, url=url, title=title))
                 datas.append(Tracked(visitor=visitor, key='AcceptLanguage', value=request.META['HTTP_ACCEPT_LANGUAGE'], domain=domain, url=url, title=title))
             for key,value in form.cleaned_data.items():
-                if value != '': datas.append(Tracked(visitor=visitor, key=key, value=value, domain=domain, url=url, title=title))
+                if value != '': datas.append(Tracked(visitor=visitor, key=key, value=value.encode('utf-8'), domain=domain, url=url, title=title))
             Tracked.objects.bulk_create(datas)
         response = HttpResponse('OK', content_type=conf['contenttype_txt'])
         request.session[conf['store']] = visitor
