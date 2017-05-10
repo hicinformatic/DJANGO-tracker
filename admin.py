@@ -25,19 +25,17 @@ def loadDatasAuthorized(modeladmin, request, queryset):
     modeladmin.message_user(request, _('Authorized datas loaded'), 'success')
 loadDatasAuthorized.short_description = _('Loads authorized datas')
 
-
-
 def loadEventsAuthorized(modeladmin, request, queryset):
     with open(conf['appdir'] + '/moredatas.py', 'w') as f:
         f.write('datas = [\n')
-        for q in queryset.filter(event=False):
+        for q in queryset.filter(event=True):
             if q.status is True:
                 f.write("    '" + q.key + "',\n")
         f.write(']')
         f.close()
-        queryset.filter(status=False, event=False).update(load=False)
-        queryset.filter(status=True, event=False).update(load=True)
-    DataAuthorized.objects.exclude(id__in=queryset, event=False).update(load=False)
+        queryset.filter(status=False, event=True).update(load=False)
+        queryset.filter(status=True, event=True).update(load=True)
+    DataAuthorized.objects.exclude(id__in=queryset, event=True).update(load=False)
     modeladmin.message_user(request, _('Authorized events loaded'), 'success')
 loadEventsAuthorized.short_description = _('Loads authorized events')
 
