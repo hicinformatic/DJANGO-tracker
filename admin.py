@@ -17,7 +17,8 @@ def loadDatasEventsAuthorized(modeladmin, request, queryset):
         for q in queryset.filter(event=False):
             if q.status is True:
                 f.write("    '" + q.key + "',\n")
-        f.write(']').close()
+        f.write(']')
+        f.close()
         queryset.filter(status=False, event=False).update(load=False)
         queryset.filter(status=True, event=False).update(load=True)
         DataAuthorized.objects.exclude(id__in=queryset).update(load=False)
@@ -27,7 +28,8 @@ def loadDatasEventsAuthorized(modeladmin, request, queryset):
         for q in queryset.filter(event=True):
             if q.status is True:
                 f.write("    '" + q.key + "',\n")
-        f.write(']').close()
+        f.write(']')
+        f.close(
         queryset.filter(status=False, event=True).update(load=False)
         queryset.filter(status=True, event=True).update(load=True)
         DataAuthorized.objects.exclude(id__in=queryset).update(load=False)
