@@ -234,7 +234,7 @@ TASK INTEGRATOR
 -------------------------------------------------------------------
 """
 
-def addTRK_sort_recurring(contenttype, script):
+def addTRK_sort_recurring(contenttype, task, script):
     try:
         open(conf['appdir'] + script + '.json')
     except IOError as e:
@@ -245,6 +245,6 @@ def addTask(contenttype, task):
     try: script = conf['tasks'][int(task)][0]
     except NameError: return responseKO(contenttype, task, 404, _('Task not found'))
     if script == 'TRK_sort_recurring':
-        return addTRK_sort_recurring(contenttype, script)
+        return addTRK_sort_recurring(contenttype, task, script)
 
     return responseKO(contenttype, task, 404, _('Task unavailable'))
