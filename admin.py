@@ -42,7 +42,7 @@ loadEventsAuthorized.short_description = _('Loads authorized events')
 
 @admin.register(DataAuthorized)
 class DataAuthorizedAdmin(admin.ModelAdmin):
-    list_display = ( 'key', 'status', 'load', 'counter', )
+    list_display = ( 'key', 'status', 'load', 'event', 'counter', )
     readonly_fields = ( 'create', 'update', 'load', 'counter', )
     actions = [ loadDatasAuthorized, loadEventsAuthorized, ]
 
