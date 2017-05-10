@@ -17,11 +17,21 @@ def loadDatasEventsAuthorized(modeladmin, request, queryset):
         for q in queryset.filter(event=False):
             if q.status is True:
                 f.write("    '" + q.key + "',\n")
-        f.write(']').closed
+        f.write(']').close()
         queryset.filter(status=False, event=False).update(load=False)
         queryset.filter(status=True, event=False).update(load=True)
         DataAuthorized.objects.exclude(id__in=queryset).update(load=False)
         modeladmin.message_user(request, _('Authorized datas loaded'), 'success')
+    with open(conf['appdir'] + '/moreevents.py', 'w') as f:
+        f.write('events = [\n')
+        for q in queryset.filter(event=True):
+            if q.status is True:
+                f.write("    '" + q.key + "',\n")
+        f.write(']').close()
+        queryset.filter(status=False, event=True).update(load=False)
+        queryset.filter(status=True, event=True).update(load=True)
+        DataAuthorized.objects.exclude(id__in=queryset).update(load=False)
+        modeladmin.message_user(request, _('Authorized events loaded'), 'success')
 loadDatasEventsAuthorized.short_description = _('Loads authorized datas and events')
 def disableDatasEventsAuthorized(modeladmin, request, queryset):
     with open(conf['appdir'] + '/moreconf.py', 'w') as f:
