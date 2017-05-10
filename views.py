@@ -57,10 +57,12 @@ def trackerDATAS(request, domain, visitor=''):
                 if value != '': datas.append(Tracked(visitor=visitor, key=key, value=value, domain=domain, url=url, title=title))
             Tracked.objects.bulk_create(datas)
         response = HttpResponse('OK', content_type=conf['contenttype_txt'])
-        request.session[conf['store']] = visitor
-        request.session[conf['first']] = visitor
-        response.set_signed_cookie(conf['store'], visitor, salt=conf['salt'], max_age=conf['maxage'])
-        response.set_signed_cookie(conf['first'], visitor, salt=conf['salt'], max_age=conf['maxage'])
+        store = conf['store'] + domain
+        first = conf['first'] + domain
+        request.session[store] = visitor
+        request.session[first] = visitor
+        response.set_signed_cookie(store, visitor, salt=conf['salt'], max_age=conf['maxage'])
+        response.set_signed_cookie(first, visitor, salt=conf['salt'], max_age=conf['maxage'])
     else:
         form = trackFormDatas()
     return HttpResponse('<form method="POST">%s<input type="submit"></form>' % form)
@@ -83,10 +85,12 @@ def trackerEVENTS(request, domain, visitor=''):
                 if value != '': datas.append(Tracked(visitor=visitor, key=key, value=value, event=True, domain=domain, url=url, title=title))
             Tracked.objects.bulk_create(datas)
         response = HttpResponse('OK', content_type=conf['contenttype_txt'])
-        request.session[conf['store']] = visitor
-        request.session[conf['first']] = visitor
-        response.set_signed_cookie(conf['store'], visitor, salt=conf['salt'], max_age=conf['maxage'])
-        response.set_signed_cookie(conf['first'], visitor, salt=conf['salt'], max_age=conf['maxage'])
+        store = conf['store'] + domain
+        first = conf['first'] + domain
+        request.session[store] = visitor
+        request.session[first] = visitor
+        response.set_signed_cookie(store, visitor, salt=conf['salt'], max_age=conf['maxage'])
+        response.set_signed_cookie(first, visitor, salt=conf['salt'], max_age=conf['maxage'])
     else:
         form = trackFormEvents()
     return HttpResponse('<form method="POST">%s<input type="submit"></form>' % form)
