@@ -26,8 +26,8 @@ def loadDatasAuthorized(modeladmin, request, queryset):
 loadDatasAuthorized.short_description = _('Loads authorized datas')
 
 def loadEventsAuthorized(modeladmin, request, queryset):
-    with open(conf['appdir'] + '/moredatas.py', 'w') as f:
-        f.write('datas = [\n')
+    with open(conf['appdir'] + '/moreevents.py', 'w') as f:
+        f.write('events = [\n')
         for q in queryset.filter(event=True):
             if q.status is True:
                 f.write("    '" + q.key + "',\n")
