@@ -25,6 +25,7 @@ class Tracked(models.Model):
 class DataAuthorized(models.Model):
     key = models.CharField(max_length=254, unique=True, verbose_name=_('Data'),)
     status = models.BooleanField(default=True, verbose_name=_('Enable'),)
+    event = models.BooleanField(default=False, verbose_name=_('Is an event'),)
     counter = models.BigIntegerField(default=0, verbose_name=_('Counter'),)
     load = models.BooleanField(default=False, verbose_name=_('Load'),)
     create = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('Creation date'),)
