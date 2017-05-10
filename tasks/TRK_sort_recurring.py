@@ -20,24 +20,31 @@ with urllib.request.urlopen("http://localhost:%s/tracker/ndatas.csv" % port) as 
 taskme(port, 'running', taskid, 'readcsv')
 listid = []
 datas = {}
+
+datas = { 'User-Agent': {}, 'AcceptLanguage': {}, 'datas': {}, 'routes': {}, }
 with open(csvndatas, newline='') as csvfile:
     for row in csv.reader(csvfile, delimiter=','):
         listid.append(row[0])
+        if row[2] == 'User-Agent':
+            try:
+                datas['User-Agent'][row[1]][row[7]] = row[3]
+            except Exception:
+                datas['User-Agent'][row[1]] = { row[7]: row[3] }
+        elif row[2] == 'AcceptLanguage':
+            try:
+                datas['AcceptLanguage'][row[1]][row[7]] = row[3]
+            except Exception:
+                datas['AcceptLanguage'][row[1]] = { row[7]: row[3] }
+        else:
+            try:
+                datas['datas'][row[1]][row[7]] =  { row[2]: row[3] }
+            except Exception:
+                datas['datas'][row[1]] = { row[7]: { row[2]: row[3] }, }
         try:
-            if row[2] == 'User-Agent':
-                datas[row[1]]['User-Agent'] = { row[7]: row[3] }
-            elif row[2] == 'AcceptLanguage':
-                datas[row[1]]['AcceptLanguage'] = { row[7]: row[3] }
-            else:
-                datas[row[1]]['datas'][row[7]] = { row[2]: row[3] }
-            datas[row[1]]['route'][row[7]] = { 'title': row[6], 'url': row[5], }
+            datas['routes'][row[1]][row[7]] = { 'title': row[6], 'url': row[5] }
         except Exception:
-            if row[2] == 'User-Agent':
-                datas[row[1]] = { 'domain': row[4], 'User-Agent': { row[7]: row[3] }, 'AcceptLanguage': {}, 'datas': {}, 'route': { row[7]: { 'title': row[6], 'url': row[5] } } , }
-            elif row[2] == 'AcceptLanguage':
-                datas[row[1]] = { 'domain': row[4], 'User-Agent': {}, 'AcceptLanguage': { row[7]: row[3] }, 'datas': {}, 'route': { row[7]: { 'title': row[6], 'url': row[5] } } , }
-            else:
-                datas[row[1]] = { 'domain': row[4], 'User-Agent': {}, 'AcceptLanguage': {}, 'datas': { row[7]: { row[2]: row[3] } }, 'routes': { row[7]: { 'title': row[6], 'url': row[5] } }     , }
+            datas['routes'][row[1]] = { row[7]: { 'title': row[6], 'url': row[5] }, }
+
 
 taskme(port, 'running', taskid, 'writejson')
 with open(listidJSON, 'w') as outfile:
