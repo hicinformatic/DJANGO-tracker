@@ -14,7 +14,7 @@ class TrackedAdmin(admin.ModelAdmin):
 def loadDatasEventsAuthorized(modeladmin, request, queryset):
     with open(conf['appdir'] + '/moredatas.py', 'w') as f:
         f.write('datas = [\n')
-        for q in queryset.filter(events=False):
+        for q in queryset.filter(event=False):
             if q.status is True:
                 f.write("    '" + q.key + "',\n")
         f.write(']').closed
