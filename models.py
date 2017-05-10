@@ -83,7 +83,7 @@ class RouteAssociated(models.Model):
 
 class UserAgentAssociated(models.Model):
     visitor = models.ForeignKey(Visitor, verbose_name=_('Visitor associated'), )
-    UserAgent = models.TextField(editable=False, verbose_name=_('User-Agent'),)
+    useragent = models.TextField(editable=False, verbose_name=_('User-Agent'),)
     create = models.DateTimeField(editable=False, verbose_name=_('Creation date'),)
 
     class Meta:
@@ -91,7 +91,19 @@ class UserAgentAssociated(models.Model):
         verbose_name_plural = _('User-Agents')
 
     def __str__(self):
-        return self.UserAgent
+        return self.useragent
+
+class AcceptLanguageAssociated(models.Model):
+    visitor = models.ForeignKey(Visitor, verbose_name=_('Visitor associated'), )
+    acceptlanguage = models.TextField(editable=False, verbose_name=_('AcceptLanguage'),)
+    create = models.DateTimeField(editable=False, verbose_name=_('Creation date'),)
+
+    class Meta:
+        verbose_name        = _('Accepted Language')
+        verbose_name_plural = _('Accepted Languages')
+
+    def __str__(self):
+        return self.acceptlanguage
 
 class DataAssociated(models.Model):
     visitor = models.ForeignKey(Visitor, verbose_name=_('Visitor associated'), )
