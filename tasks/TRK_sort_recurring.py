@@ -29,7 +29,7 @@ with open(csvndatas, newline='', encoding='utf-8') as csvfile:
         try:
             visitors[row[5]][row[1]] = 1
         except Exception:
-            visitors[row[5]] = { row[1]]: 1, }
+            visitors[row[5]] = { row[1]: 1, }
         listid.append(row[0])
         if row[3] == 'User-Agent':
             try:
