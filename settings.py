@@ -117,6 +117,9 @@ conf['datas'] = [
 ]
 
 conf['events'] = [
+    'visitor',
+    'url',
+    'title',
     'stay',
     'click',
     'scrolldown',
