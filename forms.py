@@ -21,6 +21,6 @@ class trackFormDatas(forms.Form):
 
 class trackFormEvents(forms.Form):
     def __init__(self, *args, **kwargs):
-        super(trackFormDatas, self).__init__(*args, **kwargs)
-        for field in DatasAuthorized:
+        super(trackFormEvents, self).__init__(*args, **kwargs)
+        for field in EventsAuthorized:
             self.fields[field] = forms.CharField(required=False)
