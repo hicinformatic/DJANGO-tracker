@@ -68,11 +68,35 @@ class Visitor(models.Model):
     def __str__(self):
         return self.visitor
 
+class RouteAssociated(models.Model):
+    visitor = models.ForeignKey(Visitor, verbose_name=_('Visitor associated'), )
+    title = models.CharField(max_length=254, verbose_name=_('Data'),)
+    url = models.URLField(max_length=254, verbose_name=_('Data'),)
+    create = models.DateTimeField(editable=False, verbose_name=_('Creation date'),)
+
+    class Meta:
+        verbose_name        = _('Route')
+        verbose_name_plural = _('Routes')
+
+    def __str__(self):
+        return self.url
+
+class UserAgentAssociated(models.Model):
+    visitor = models.ForeignKey(Visitor, verbose_name=_('Visitor associated'), )
+    UserAgent = models.TextField(editable=False, verbose_name=_('User-Agent'),)
+    create = models.DateTimeField(editable=False, verbose_name=_('Creation date'),)
+
+    class Meta:
+        verbose_name        = _('User-Agent')
+        verbose_name_plural = _('User-Agents')
+
+    def __str__(self):
+        return self.UserAgent
+
 class DataAssociated(models.Model):
     visitor = models.ForeignKey(Visitor, verbose_name=_('Visitor associated'), )
-    key = models.CharField(max_length=254, unique=True, verbose_name=_('Key'),)
-    value = models.CharField(max_length=254, unique=True, verbose_name=_('Data'),)
-    status = models.BooleanField(default=True, verbose_name=_('Enable'),)
+    key = models.CharField(max_length=254, verbose_name=_('Key'),)
+    value = models.CharField(max_length=254, verbose_name=_('Data'),)
     create = models.DateTimeField(editable=False, verbose_name=_('Creation date'),)
 
     class Meta:
