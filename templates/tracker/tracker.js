@@ -10,12 +10,23 @@ function visit(url, visitor) {
         params = this.params.join('&');
         var xhr = new XMLHttpRequest();
         if(typeof visitor !== 'undefined') {
-            xhr.open("POST", this.url + '{{ domain }}/visit.html/' + visitor, true);
+            xhr.open("POST", this.url + '{{ domain }}/visitd.svg/' + visitor, true);
         }else{
-            xhr.open("POST", this.url + '{{ domain }}/visit.html', true);
+            xhr.open("POST", this.url + '{{ domain }}/visitd.svg', true);
         }
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send(params); 
         this.params = [];
     };
+    this.event = function(key, value) { 
+        params = [ 'url='+window.location.href, 'title='+document.title ]
+        var xhr = new XMLHttpRequest();
+        if(typeof visitor !== 'undefined') {
+            xhr.open("POST", this.url + '{{ domain }}/visitv.svg/' + visitor, true);
+        }else{
+            xhr.open("POST", this.url + '{{ domain }}/visitv.svg', true);
+        }
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send(params.join('&')); 
+    }
 }
