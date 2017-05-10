@@ -29,7 +29,7 @@ from .models import Task, Visitor, RouteAssociated, UserAgentAssociated, AcceptL
 from .settings import conf
 
 from datetime import datetime, timedelta
-import subprocess
+import json, subprocess
 
 """
 -------------------------------------------------------------------
