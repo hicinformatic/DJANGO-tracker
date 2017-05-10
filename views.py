@@ -103,11 +103,11 @@ def addCSV(request, task):
     return addTask('csv', task)
 
 @localcalloradminorstaff
-def addJSON(request):
+def addJSON(request, task):
     return addTask('json', task)
 
 @localcalloradminorstaff
-def addTXT(request):
+def addTXT(request, task):
     return addTaskTXT('txt', task)
 
 """

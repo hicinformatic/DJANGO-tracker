@@ -18,7 +18,6 @@ with urllib.request.urlopen("http://localhost:%s/tracker/ndatas.csv" % port) as 
     out_file.write(data)
 
 taskme(port, 'running', taskid, 'readcsv')
-
 listid = []
 datas = {}
 with open(csvndatas, newline='') as csvfile:
@@ -30,12 +29,13 @@ with open(csvndatas, newline='') as csvfile:
         except Exception:
            datas[row[1]] = { 'domain': row[4], row[2]: row[3], 'route': { row[7]: { 'title': row[6], 'url': row[5], }, } , }
 
-taskme(port, 'running', taskid, 'writecsv')
-
+taskme(port, 'running', taskid, 'writejson')
 with open(listidJSON, 'w') as outfile:
     json.dump(listid, outfile, indent=4)
 with open(datasJSON, 'w') as outfile:
     json.dump(datas, outfile, indent=4)
+
+taskme(port, 'running', taskid, 'addjson')
 
 taskme(port, 'complete', taskid)
 deletePidFile(scriptdir, name)
