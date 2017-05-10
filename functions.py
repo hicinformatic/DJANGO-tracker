@@ -25,7 +25,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.utils.translation import ugettext as _
 
-from .models import Task, Visitor, RouteAssociated, UserAgentAssociated, AcceptLanguageAssociated, DataAssociated
+from .models import Task, Domain, Visitor, RouteAssociated, UserAgentAssociated, AcceptLanguageAssociated, DataAssociated
 from .settings import conf
 
 from datetime import datetime, timedelta
@@ -241,8 +241,13 @@ def addTRK_sort_recurring(contenttype, task, script):
             visitors = []
             domains = json.load(json_data)
             for domain in domains:
-                for k,v in domains[domain].items():
-                    visitors.append(Visitor(visitor=k, domain=domain))
+                try:
+                    domobj = Domain.objects.get(domain=domain)
+                    for k,v in domains[domain].items():
+                        visitors.append(Visitor(visitor=k, domain=domobj))
+                except Domain.DoesNotExist:
+                    for k,v in domains[domain].items():
+                        visitors.append(Visitor(visitor=k))
     except IOError as e:
         return responseKO(contenttype, task, 404, str(e))
     return responseOK(contenttype, task, 'Success')
