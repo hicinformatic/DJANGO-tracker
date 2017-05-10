@@ -239,3 +239,4 @@ def addTask(contenttype, task):
     except NameError: return responseKO(contenttype, task, 404, _('Task not found'))
     if script == 'TRK_sort_recurring':
         return responseOK(contenttype, task, 'super')
+    return responseKO(contenttype, task, 404, _('Task unavailable'))
