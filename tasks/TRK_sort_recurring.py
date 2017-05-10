@@ -22,8 +22,8 @@ listid = []
 datas = {}
 
 datas = { 'User-Agent': {}, 'AcceptLanguage': {}, 'datas': {}, 'routes': {}, }
-with open(csvndatas, newline='') as csvfile:
-    for row in csv.reader(csvfile, delimiter=',', encoding='utf-8'):
+with open(csvndatas, newline='', encoding='utf-8') as csvfile:
+    for row in csv.reader(csvfile, delimiter=','):
         listid.append(row[0])
         if row[2] == 'User-Agent':
             try:
