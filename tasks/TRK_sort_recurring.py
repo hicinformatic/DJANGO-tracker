@@ -61,7 +61,7 @@ taskme(port, 'running', taskid, 'writejson')
 with open(listidJSON, 'w') as outfile:
     json.dump(listid, outfile, indent=4)
 with open(visitorsJSON, 'w') as outfile:
-    json.dump(datas, outfile, indent=4)
+    json.dump(visitors, outfile, indent=4)
 with open(datasJSON, 'w') as outfile:
     json.dump(datas, outfile, indent=4)
 
