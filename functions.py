@@ -239,12 +239,12 @@ def addVisitors(contenttype, task, script):
         with open(visitorsJSON) as json_data:
             visitors = []
             domains = json.load(json_data)
-            for domain in domains:
+            for key,value in domains:
                 try:
-                    domobj = Domain.objects.get(id=domain)
-                    for k,v in domains[domain].items(): visitors.append(Visitor(visitor=k, domain=domobj))
+                    domain = Domain.objects.get(id=key)
+                    for v in value: visitors.append(Visitor(visitor=value, domain=domain))
                 except Domain.DoesNotExist:
-                    for k,v in domains[domain].items(): visitors.append(Visitor(visitor=k)) 
+                    for v in value: visitors.append(Visitor(visitor=value))
             Visitor.objects.bulk_create([v for v in visitors if v.visitor not in [e for e in Visitor.objects.filter(visitor__in=visitors).values_list('visitor', flat=True)]])
     except Exception as e:
         return str(e)
@@ -265,11 +265,6 @@ def addAllInfos(contenttype, task, script):
         datasJSON = '{}/{}_datas.json'.format(conf['taskdir'], script)
         with open(datasJSON) as json_data:
             datas = json.load(json_data)
-            for key,value in datas.items():
-                if key == 'User-Agent':
-                    for k,v in value.items():
-                        for d in v: useragent.append( UserAgentAssociated(visitor=k, useragent=d['data'], create=d['date']) )
-
     except Exception as e:
         return str(e)
     return True
