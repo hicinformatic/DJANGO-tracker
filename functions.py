@@ -262,7 +262,7 @@ def addAllInfos(contenttype, task, script):
         routes = []
         datas = []
         events = []
-        visitorsJSON = '{}/{}_datas.json'.format(conf['taskdir'], script)
+        datasJSON = '{}/{}_datas.json'.format(conf['taskdir'], script)
         with open(datasJSON) as json_data:
             datas = json.load(json_data)
             for key,value in datas.items():
