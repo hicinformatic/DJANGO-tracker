@@ -239,21 +239,20 @@ def addTRK_sort_recurring(contenttype, task, script):
         visitorsJSON = '{}/{}_visitors.json'.format(conf['taskdir'], script)
         with open(visitorsJSON) as json_data:
             visitors = []
-            visitorslist = []
             domains = json.load(json_data)
             for domain in domains:
                 try:
                     domobj = Domain.objects.get(domain=domain)
                     for k,v in domains[domain].items():
-                        visitorslist.append(k)
                         visitors.append(Visitor(visitor=k, domain=domobj))
                 except Domain.DoesNotExist:
                     for k,v in domains[domain].items():
-                        visitorslist.append(k)
                         visitors.append(Visitor(visitor=k)) 
     except IOError as e:
         return responseKO(contenttype, task, 404, str(e))
     existing = Visitor.objects.filter(visitor__in=visitors)
+    for key in existing:
+        if key in visitors: del visitors[key]
     return responseOK(contenttype, task, 'Success')
 
 def addTask(contenttype, task):
