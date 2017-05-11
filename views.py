@@ -1,5 +1,4 @@
-from django.http import HttpResponse, HttpResponseServerError, JsonResponse, StreamingHttpResponse
-from django.contrib.auth.decorators import permission_required
+from django.http import HttpResponse, JsonResponse
 from django.utils.translation import ugettext as _
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
@@ -13,6 +12,16 @@ from .models import Tracked, Visitor, DataAssociated, Task
 
 from datetime import datetime, timedelta
 import subprocess, csv
+
+"""
+-------------------------------------------------------------------
+JS*
+-------------------------------------------------------------------
+Access to JS
+    - Download for using out platform
+    - tracker for access on platform
+-------------------------------------------------------------------
+"""
 
 @localcalloradminorstaff
 def downloadJS(request, domain):
