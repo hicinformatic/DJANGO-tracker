@@ -21,23 +21,38 @@ def downloadJS(request, domain):
     response['Content-Disposition'] = 'attachment; filename=visit.js'
     return response
 
+def trackerJS(request, domain):
+    context = { 'domain': domain, 'url': request.META['HTTP_HOST'], }
+    return render(request, 'tracker/tracker.js', context=context, content_type=conf['contenttype_js'],)
+
+"""
+-------------------------------------------------------------------
+tracker*
+-------------------------------------------------------------------
+Tracking:
+    User-Agent
+    AcceptedLanguage
+    Route
+    Data
+    Event
+-------------------------------------------------------------------
+"""
+
 def trackerSVG(request, domain, visitor=''):
-    visitor = isTrack(request, visitor)
-    if firsTrack(request):
+    visitor = isTrack(request, store, visitor)
+    if firsTrack(request, first):
         Tracked.objects.bulk_create([
             Tracked(visitor=visitor, key='User-Agent', value=request.META['HTTP_USER_AGENT'], domain=domain),
             Tracked(visitor=visitor, key='AcceptLanguage', value=request.META['HTTP_ACCEPT_LANGUAGE'], domain=domain),
         ])
     response = HttpResponse('<svg width="0" height="0"><text>%s</text></svg>' % visitor, content_type=conf['contenttype_svg'])
-    request.session[conf['store']] = visitor
-    request.session[conf['first']] = visitor
-    response.set_signed_cookie(conf['store'], visitor, salt=conf['salt'], max_age=conf['maxage'])
-    response.set_signed_cookie(conf['first'], visitor, salt=conf['salt'], max_age=conf['maxage'])
+    store = conf['store'] + domain
+    first = conf['first'] + domain
+    request.session[store] = visitor
+    request.session[first] = visitor
+    response.set_signed_cookie(store, visitor, salt=conf['salt'], max_age=conf['maxage'])
+    response.set_signed_cookie(first, visitor, salt=conf['salt'], max_age=conf['maxage'])
     return response
-
-def trackerJS(request, domain):
-    context = { 'domain': domain, 'url': request.META['HTTP_HOST'], }
-    return render(request, 'tracker/tracker.js', context=context, content_type=conf['contenttype_js'],)
 
 @csrf_exempt
 def trackerDATAS(request, domain, visitor=''):
@@ -156,18 +171,6 @@ Error encountered
 0-error:     Task in error
 -------------------------------------------------------------------
 """
-
-# ------------------------------------------- #
-# task*
-# ------------------------------------------- #
-# task: ID task (1, 2, 3, 4, 0)
-# command:
-#    order
-#    start
-#    running
-#    complete
-#    error
-# ------------------------------------------- #
 
 @localcalloradminorstaff
 def taskHTML(request, task, command, message=''):
