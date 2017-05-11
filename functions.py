@@ -266,7 +266,7 @@ def addAllInfos(contenttype, task, script):
         with open(datasJSON) as json_data:
             datas = json.load(json_data)
             visitors = Visitor.objects.filter(visitor__in=datas['visitors'])
-            return str(visitors)
+            return str(visitors[0])
             for k,v in datas['useragents'].items():
                 daazerta = visitors[k]
                 #useragents.append(UserAgentAssociated(visitor=visitors[k], useragent=v['data'], create=v['date']))
