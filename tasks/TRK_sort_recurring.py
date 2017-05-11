@@ -31,7 +31,7 @@ with open(csvndatas, newline='', encoding='utf-8') as csvfile:
         except Exception:
             visitors[row[5]] = { row[1]: 1, }
         
-        datas['visitors'].append(row[1])
+        if row[1] not in datas['visitors']: datas['visitors'].append(row[1])
         listid.append(row[0])
         if row[3] == 'User-Agent':
             try:
@@ -58,7 +58,6 @@ with open(csvndatas, newline='', encoding='utf-8') as csvfile:
         except Exception:
             datas['datas'][row[1]] = [ {'date': row[8], 'url': row[6], 'title': row[7] } ]
 
-datas['visitors'] = set(datas['visitors'])
 taskme(port, 'running', taskid, 'writejson')
 with open(listidJSON, 'w') as outfile:
     json.dump(listid, outfile, indent=4)
