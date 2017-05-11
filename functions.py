@@ -257,7 +257,7 @@ def addTRK_sort_recurring(contenttype, task, script):
     import logging
     logger = logging.getLogger(__name__)
     for i, v in enumerate(visit):
-        del visit[i]
+        visit[i] = 'toto'
     #Visitor.objects.bulk_create(visitors)
     return responseOK(contenttype, task, str(visit) + "existing: " + str(existing))
 
