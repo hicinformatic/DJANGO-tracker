@@ -228,7 +228,7 @@ TASK INTEGRATOR
 -------------------------------------------------------------------
 """
 
-def addTRK_sort_recurring(contenttype, task, script):
+def addVisitors():
     try:
         visitorsJSON = '{}/{}_visitors.json'.format(conf['taskdir'], script)
         with open(visitorsJSON) as json_data:
@@ -243,24 +243,18 @@ def addTRK_sort_recurring(contenttype, task, script):
                 except Domain.DoesNotExist:
                     for k,v in domains[domain].items():
                         visitors.append(Visitor(visitor=k)) 
-    except IOError as e:
-        return responseKO(contenttype, task, 404, str(e))
+            existing = [e for e in Visitor.objects.filter(visitor__in=visitors).values_list('visitor', flat=True)]
+            visitors = [v for v in visitors if v.visitor not in existing ]
+            Visitor.objects.bulk_create(visitors)
+            return True
+    except Exception as e:
+        return str(e)
 
-        
-    existing = Visitor.objects.filter(visitor__in=visitors).values_list('visitor', flat=True)
-    existing = [e for e in existing]
 
-    visit = [v.visitor for v in visitors]
-    visit = [x for x in visit if x not in existing]
-    
-
-    visitors = [v for v in visitors if v.visitor not in existing ]
-
-    L1 = [10,20]
-    L2 = [10,20,30,40,50]
-
-    L2 = [x for x in L2 if x not in L1]
-    Visitor.objects.bulk_create(visitors)
+def addTRK_sort_recurring(contenttype, task, script):
+    addv = addVisitors()
+    if addv is not True:
+        return responseKO(contenttype, task, 500, addv)
     return responseOK(contenttype, task, str(visitors) + "existing: " + str(existing))
 
 def addTask(contenttype, task):
