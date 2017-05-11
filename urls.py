@@ -17,9 +17,9 @@ urlpatterns = [
     url(r'^tracker/ndatas.json/?$', views.ndatasJSON, name='ndatasJSON'),
     url(r'^tracker/ndatas.txt/?$',  views.ndatasTXT,  name='ndatasTXT'),
 
-    url(r'^tracker/(?P<task>\d+)/add.csv/?',  views.subtaskCSV,  name='subtaskCSV'),
-    url(r'^tracker/(?P<task>\d+)/add.json/?', views.subtaskJSON, name='subtaskJSON'),
-    url(r'^tracker/(?P<task>\d+)/add.txt/?',  views.subtaskTXT,  name='subtaskTXT'),
+    url(r'^tracker/(?P<task>\d+)/(?P<subtask>\d+)/add.csv/?',  views.subtaskCSV,  name='subtaskCSV'),
+    url(r'^tracker/(?P<task>\d+)/(?P<subtask>\d+)/add.json/?', views.subtaskJSON, name='subtaskJSON'),
+    url(r'^tracker/(?P<task>\d+)/(?P<subtask>\d+)/add.txt/?',  views.subtaskTXT,  name='subtaskTXT'),
 
     url(r'^tracker/task/(?P<task>\d+)/(?P<command>(error|order|start|running|complete))/task.json/?$', views.taskJSON, name='taskJSON'),
     url(r'^tracker/task/(?P<task>\d+)/(?P<command>(error|order|start|running|complete))/task.json/(?P<message>.+)/?$', views.taskJSON, name='taskJSON'),
