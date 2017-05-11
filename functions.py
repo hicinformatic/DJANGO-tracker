@@ -243,12 +243,12 @@ def addVisitors(contenttype, task, script):
                 except Domain.DoesNotExist:
                     for k,v in domains[domain].items():
                         visitors.append(Visitor(visitor=k)) 
-    except IOError as e:
-        return responseKO(contenttype, task, 404, str(e))
-    existing = [e for e in Visitor.objects.filter(visitor__in=visitors).values_list('visitor', flat=True)]
-    visitors = [v for v in visitors if v.visitor not in existing ]
-    Visitor.objects.bulk_create(visitors)
-    return responseOK(contenttype, task, str(visitors) + "existing: " + str(existing))
+            existing = [e for e in Visitor.objects.filter(visitor__in=visitors).values_list('visitor', flat=True)]
+            visitors = [v for v in visitors if v.visitor not in existing ]
+            Visitor.objects.bulk_create(visitors)
+    except Exception as e:
+        return str(e)
+    return True
 
 def subtask(contenttype, task, secondtask):
     try: script = conf['tasks'][int(task)][0]
@@ -257,6 +257,9 @@ def subtask(contenttype, task, secondtask):
     try: secondtask = conf['subtasks'][script][int(secondtask)]
     except Exception: return responseKO(contenttype, task, 404, _('Subtask not found'))
 
+    result = secondtask(contenttype, task, secondtask)
+    if result is True:
+        return responseOK(contenttype, task, secondtask)
     return responseKO(contenttype, task, 404, _('Task or subtask unavailable'))
 
 
