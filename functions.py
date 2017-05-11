@@ -269,8 +269,7 @@ def addAllInfos(contenttype, task, script):
             for visitor in Visitor.objects.filter(visitor__in=datas['visitors']):
                 visitors[visitor.visitor] = visitor
             for k,v in datas['useragents'].items():
-                daazerta = visitors[k]
-                #useragents.append(UserAgentAssociated(visitor=visitors[k], useragent=v['data'], create=v['date']))
+                useragents.append(UserAgentAssociated(visitor=visitors[k], useragent=v['data'], create=v['date']))
     except Exception as e:
         return str(e)
     return True
