@@ -39,9 +39,9 @@ with open(csvndatas, newline='', encoding='utf-8') as csvfile:
                 datas['acceptlanguages'][row[1]] = {'date': row[8], 'data': row[4] }
         elif row[2] == 'True':
             try:
-                datas['events'][row[1]].append({'date': row[8], 'type': row[3], 'event': row[4] })
+                datas['events'][row[1]].append({'date': row[8], 'type': row[3], 'data': row[4] })
             except Exception:
-                datas['events'][row[1]] = [ {'date': row[8], 'type': row[3], 'event': row[4] } ]
+                datas['events'][row[1]] = [ {'date': row[8], 'type': row[3], 'data': row[4] } ]
         else:
             try:
                 datas['datas'][row[1]].append({'date': row[8], 'type': row[3], 'data': row[4] })
