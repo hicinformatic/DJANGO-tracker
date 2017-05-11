@@ -252,7 +252,7 @@ def addTRK_sort_recurring(contenttype, task, script):
         return responseKO(contenttype, task, 404, str(e))
     existing = Visitor.objects.filter(visitor__in=visitors).values_list("visitor", flat=True)
     for idx, visitor in enumerate(visitors):
-        if visitor in [e[0] for e in existing]: del visitors[idx]
+        if visitor.visitor in existing: del visitors[idx]
     return responseOK(contenttype, task, str(visitors))
 
 def addTask(contenttype, task):
