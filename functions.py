@@ -243,7 +243,7 @@ def addTRK_sort_recurring(contenttype, task, script):
             domains = json.load(json_data)
             for domain in domains:
                 try:
-                    domobj = Domain.objects.get(domain=domain)
+                    domobj = Domain.objects.get(id=domain)
                     for k,v in domains[domain].items():
                         visitors.append(Visitor(visitor=k, domain=domobj))
                 except Domain.DoesNotExist:
