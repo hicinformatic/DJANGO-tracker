@@ -254,7 +254,7 @@ def subtask(contenttype, task, subtask):
     try: script = conf['tasks'][int(task)][0]
     except NameError: return responseKO(contenttype, task, 404, _('Task not found'))
 
-    try: subtask = conf['subtasks'][script][subtask]
+    try: subtask = conf['subtasks'][script][int(subtask)]
     except NameError: return responseKO(contenttype, task, 404, _('Subtask not found'))
     
     return responseKO(contenttype, task, 404, _('Task unavailable'))
