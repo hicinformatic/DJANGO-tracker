@@ -250,7 +250,7 @@ def addVisitors(contenttype, task, script):
     Visitor.objects.bulk_create(visitors)
     return responseOK(contenttype, task, str(visitors) + "existing: " + str(existing))
 
-def subTask(contenttype, task, subtask):
+def subtask(contenttype, task, subtask):
     try: script = conf['tasks'][int(task)][0]
     except NameError: return responseKO(contenttype, task, 404, _('Task not found'))
 
