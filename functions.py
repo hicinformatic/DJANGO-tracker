@@ -265,7 +265,7 @@ def addAllInfos(contenttype, task, script):
         datasJSON = '{}/{}_datas.json'.format(conf['taskdir'], script)
         with open(datasJSON) as json_data:
             datas = json.load(json_data)
-            visitors = Visitor.objects.filter(visitor__in=datas['visitiors'])
+            visitors = Visitor.objects.filter(visitor__in=datas['visitors'])
     except Exception as e:
         return str(e)
     return True
