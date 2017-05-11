@@ -4,7 +4,7 @@ from django.utils.translation import ugettext as _
 
 from .models import Task
 from .settings import conf
-import .subtasks
+import .subtasks import subtaskStore
 from datetime import datetime, timedelta
 import uuid, json, subprocess, sys
 
