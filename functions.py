@@ -268,7 +268,8 @@ def addAllInfos(contenttype, task, script):
             for key,value in datas.items():
                 if key == 'User-Agent':
                     for k,v in value.items():
-                        for ua in v: useragent.append( UserAgentAssociated(visitor=k, useragent=v.data, create=v.date) )
+                        for d in v:
+                        for ua in v: useragent.append( UserAgentAssociated(visitor=k, useragent=d.data, create=d.date) )
 
     except Exception as e:
         return str(e)
