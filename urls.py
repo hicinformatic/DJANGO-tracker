@@ -17,6 +17,10 @@ urlpatterns = [
     url(r'^tracker/ndatas.json/?$', views.ndatasJSON, name='ndatasJSON'),
     url(r'^tracker/ndatas.txt/?$',  views.ndatasTXT,  name='ndatasTXT'),
 
+    url(r'^tracker/hdatas.csv/?$',  views.hdatasCSV,  name='hdatasCSV'),
+    url(r'^tracker/hdatas.json/?$', views.hdatasJSON, name='hdatasJSON'),
+    url(r'^tracker/hdatas.txt/?$',  views.hdatasTXT,  name='hdatasTXT'),
+
     url(r'^tracker/(?P<task>\d+)/(?P<secondtask>\d+)/subtask.csv/?',  views.subtaskCSV,  name='subtaskCSV'),
     url(r'^tracker/(?P<task>\d+)/(?P<secondtask>\d+)/subtask.json/?', views.subtaskJSON, name='subtaskJSON'),
     url(r'^tracker/(?P<task>\d+)/(?P<secondtask>\d+)/subtask.txt/?',  views.subtaskTXT,  name='subtaskTXT'),

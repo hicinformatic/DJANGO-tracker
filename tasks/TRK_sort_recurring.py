@@ -72,5 +72,11 @@ taskme(port, 'running', taskid, 'subtaskDelTracedSort')
 sub =urllib.request.urlopen("http://localhost:%s/tracker/1/2/subtask.json" % port)
 if sub.getcode() != 200: error(port, task, message='subtaskDelTracedSort')
 
+os.unlink(csvndatas)
+os.unlink(visitorsJSON)
+os.unlink(datasJSON)
+os.unlink(listidJSON)
+
+
 taskme(port, 'complete', taskid)
 deletePidFile(scriptdir, name)
