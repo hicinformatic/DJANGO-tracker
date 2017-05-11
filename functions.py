@@ -235,7 +235,6 @@ def subtask(contenttype, task, secondtask):
 
     try: secondtaskname = conf['subtasks'][script][int(secondtask)]
     except Exception: return responseKO(contenttype, task, 404, _('Subtask not found'))
-
-    #getattr(sys.modules[__name__], secondtaskname)(contenttype, task, script)
+    getattr(subtaskStore, secondtaskname)(contenttype, task, script)
     return responseKO(contenttype, task, 404, _('Task or subtask unavailable'))
 
