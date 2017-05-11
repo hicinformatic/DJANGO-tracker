@@ -18,5 +18,5 @@ def taskme(port, command, task, message=''):
     if message is None or message == '': c = urllib.request.urlopen("http://localhost:%s/tracker/task/%s/%s/task.json" % (port, task, command) )
     else: c = urllib.request.urlopen("http://localhost:%s/tracker/task/%s/%s/task.json/%s" % (port, task, command, message) )
     code = c.getcode()
-    if code != 200: error()
+    if code != 200: error(port, task)
     return code

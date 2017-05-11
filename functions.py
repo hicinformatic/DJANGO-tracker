@@ -251,9 +251,9 @@ def addVisitors(contenttype, task, script):
     return True
 
 # ------------------------------------------- #
-# addRoutes
+# addAllInfos
 # ------------------------------------------- #
-# Add visitor in bulk without duplicate
+# Add visitor datas in bulk without duplicate
 # ------------------------------------------- #
 def addAllInfos(contenttype, task, script):
     try:
@@ -287,6 +287,11 @@ def addAllInfos(contenttype, task, script):
         return str(e)
     return True
 
+# ------------------------------------------- #
+# delTrackedSort
+# ------------------------------------------- #
+# Delete tracked datas after sort
+# ------------------------------------------- #
 def delTrackedSort(contenttype, task, script):
     try:
         listidJSON = '{}/{}_listid.json'.format(conf['taskdir'], script)
