@@ -87,7 +87,6 @@ class VisitorAdmin(admin.ModelAdmin):
     list_display = ( 'visitor', 'domain', )
     readonly_fields = ( 'visitor', 'domain', )
     inlines = [ VisitorRouteInline, VisitorUserAgentInline, VisitorAcceptLanguagesInline, VisitorDatasInline, VisitorEventsInline ]
-
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
     list_display = ( 'task', 'info', 'status', 'dateupdate', )

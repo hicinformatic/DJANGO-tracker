@@ -279,11 +279,10 @@ def addAllInfos(contenttype, task, script):
             RouteAssociated.objects.bulk_create(routes)
             for k,v in datasjson['datas'].items():
                 for d in v: datas.append(DataAssociated(visitor=visitors[k], key=d['type'], value=d['data'], create=d['date']))
+            DataAssociated.objects.bulk_create(datas)
             for k,v in datasjson['events'].items():
                 for e in v: events.append(EventAssociated(visitor=visitors[k], key=e['type'], value=e['data'], create=e['date']))
-
-
-                DataAssociated
+            EventAssociated.objects.bulk_create(events)
     except Exception as e:
         return str(e)
     return True
