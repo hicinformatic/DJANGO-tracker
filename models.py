@@ -60,7 +60,7 @@ class Domain(models.Model):
         super(Domain, self).save(*args, **kwargs)
 
 class Visitor(models.Model):
-    id = models.CharField(primary_key=True, max_length=60, verbose_name=_('Unique ID'), )
+    visitor = models.CharField(primary_key=True, max_length=60, verbose_name=_('Unique ID'), )
     domain = models.ForeignKey(Domain, blank=True, null=True, verbose_name=_('Domain associated'), )
 
     class Meta:
