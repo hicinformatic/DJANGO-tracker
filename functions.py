@@ -2,8 +2,9 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.utils.translation import ugettext as _
 
-from .models import Task, Domain, Visitor, RouteAssociated, UserAgentAssociated, AcceptLanguageAssociated, DataAssociated
+from .models import Task
 from .settings import conf
+import .subtasks
 from datetime import datetime, timedelta
 import uuid, json, subprocess, sys
 
@@ -228,28 +229,6 @@ TASK INTEGRATOR
 -------------------------------------------------------------------
 """
 
-def addVisitors(contenttype, task, script):
-    try:
-        visitorsJSON = '{}/{}_visitors.json'.format(conf['taskdir'], script)
-        with open(visitorsJSON) as json_data:
-            visitors = []
-            listtest = []
-            domains = json.load(json_data)
-            for domain in domains:
-                try:
-                    domobj = Domain.objects.get(id=domain)
-                    for k,v in domains[domain].items():
-                        visitors.append(Visitor(visitor=k, domain=domobj))
-                except Domain.DoesNotExist:
-                    for k,v in domains[domain].items():
-                        visitors.append(Visitor(visitor=k)) 
-            existing = [e for e in Visitor.objects.filter(visitor__in=visitors).values_list('visitor', flat=True)]
-            visitors = [v for v in visitors if v.visitor not in existing ]
-            Visitor.objects.bulk_create(visitors)
-    except Exception as e:
-        return str(e)
-    return True
-
 def subtask(contenttype, task, secondtask):
     try: script = conf['tasks'][int(task)][0]
     except NameError: return responseKO(contenttype, task, 404, _('Task not found'))
@@ -257,14 +236,6 @@ def subtask(contenttype, task, secondtask):
     try: secondtaskname = conf['subtasks'][script][int(secondtask)]
     except Exception: return responseKO(contenttype, task, 404, _('Subtask not found'))
 
-    getattr(sys.modules[__name__], secondtaskname)(contenttype, task, script)
-    #locals()["secondtaskname"](contenttype, task, script)
+    #getattr(sys.modules[__name__], secondtaskname)(contenttype, task, script)
     return responseKO(contenttype, task, 404, _('Task or subtask unavailable'))
 
-
-
-    #existing = Visitor.objects.filter(visitor__in=visitors).values_list('visitor', flat=True)
-    #for v in visitors:
-    #    if visitors[v].visitor in existing['visitor']: del visitors[v]
-    #Visitor.objects.bulk_create(visitors for v in visitors if v.id not in existing)
-    #return responseOK(contenttype, task, 'Success')
