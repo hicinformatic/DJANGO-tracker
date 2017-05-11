@@ -257,7 +257,7 @@ def subtask(contenttype, task, secondtask):
     try: secondtaskname = conf['subtasks'][script][int(secondtask)]
     except Exception: return responseKO(contenttype, task, 404, _('Subtask not found'))
 
-    result = secondtaskname(contenttype, task, secondtask)
+    result = secondtaskname(contenttype, task, script)
     if result is True:
         return responseOK(contenttype, task, secondtaskname)
     return responseKO(contenttype, task, 404, _('Task or subtask unavailable'))
