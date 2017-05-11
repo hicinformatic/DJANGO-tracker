@@ -252,7 +252,7 @@ def addTRK_sort_recurring(contenttype, task, script):
         return responseKO(contenttype, task, 404, str(e))
     existing = Visitor.objects.filter(visitor__in=visitors)
     for v in visitors:
-        if visitor[v] in existing: del visitor[v]
+        if visitors[v] in existing: del visitor[v]
     Visitor.objects.bulk_create(visitors for v in visitors if v.id not in existing)
     return responseOK(contenttype, task, 'Success')
 
