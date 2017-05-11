@@ -251,11 +251,11 @@ def addVisitor(contenttype, task, script):
     return responseOK(contenttype, task, str(visitors) + "existing: " + str(existing))
 
 def subtask(contenttype, task, subtask):
-    try: script = conf['tasks'][int(task)][0]
-    except NameError: return responseKO(contenttype, task, 404, _('Task not found'))
-
-    try: subtask = conf['subtasks'][script][int(subtask)]
-    except NameError: return responseKO(contenttype, task, 404, _('Subtask not found'))
+    #try: script = conf['tasks'][int(task)][0]
+    #except NameError: return responseKO(contenttype, task, 404, _('Task not found'))
+#
+    #try: subtask = conf['subtasks'][script][int(subtask)]
+    #except NameError: return responseKO(contenttype, task, 404, _('Subtask not found'))
     
     return responseKO(contenttype, task, 404, _('Task unavailable'))
 
