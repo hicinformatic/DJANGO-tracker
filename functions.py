@@ -245,7 +245,7 @@ def addVisitors(contenttype, task, script):
                     for visitor in value: visitors.append(Visitor(id=visitor, domain=domain))
                 except Domain.DoesNotExist:
                     for visitor in value: visitors.append(Visitor(id=visitor))
-            #Visitor.objects.bulk_create([v for v in visitors if v.id not in [e for e in Visitor.objects.filter(id__in=visitors).values_list('id', flat=True)]])
+            Visitor.objects.bulk_create([v for v in visitors if v.id not in [e for e in Visitor.objects.filter(id__in=visitors).values_list('id', flat=True)]])
     except Exception as e:
         return str(e)
     return True
