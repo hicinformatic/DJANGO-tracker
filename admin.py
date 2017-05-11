@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 
-from .models import Tracked, DataAuthorized, Domain, Visitor, DataAssociated, Task
+from .models import Task, Tracked, DataAuthorized, Domain, Visitor, RouteAssociated, UserAgentAssociated, AcceptLanguageAssociated, DataAssociated, EventAssociated
 from .settings import conf
 
 @admin.register(Tracked)
@@ -66,14 +66,27 @@ class DomainAdmin(admin.ModelAdmin):
     visitSVG.allow_tags = True
     visitSVG.short_description = _('SVG')
 
-class VisitorInline(admin.TabularInline):
+
+class VisitorRouteInline(admin.TabularInline):
+    model = RouteAssociated
+    extra = 0
+class VisitorUserAgentInline(admin.TabularInline):
+    model = UserAgentAssociated
+    extra = 0
+class VisitorAcceptLanguagesInline(admin.TabularInline):
+    model = AcceptLanguageAssociated
+    extra = 0
+class VisitorDatasInline(admin.TabularInline):
     model = DataAssociated
+    extra = 0
+class VisitorEventsInline(admin.TabularInline):
+    model = EventAssociated
     extra = 0
 @admin.register(Visitor)
 class VisitorAdmin(admin.ModelAdmin):
     list_display = ( 'visitor', 'domain', )
     readonly_fields = ( 'visitor', 'domain', )
-    inlines = [ VisitorInline, ]
+    inlines = [ VisitorRouteInline, VisitorUserAgentInline, VisitorAcceptLanguagesInline, VisitorDatasInline, VisitorEventsInline ]
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
