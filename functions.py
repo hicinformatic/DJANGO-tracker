@@ -260,7 +260,7 @@ def addTRK_sort_recurring(contenttype, task, script):
     visit = [x for x in visit if x not in existing]
     
 
-    visitors = [v for v in visitors if v.visitors not in existing ]
+    visitors = [v for v in visitors if v.visitor not in existing ]
 
     L1 = [10,20]
     L2 = [10,20,30,40,50]
