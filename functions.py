@@ -248,13 +248,16 @@ def addVisitors(contenttype, task, script):
                 except Domain.DoesNotExist:
                     for k,v in domains[domain].items():
                         visitors.append(Visitor(visitor=k)) 
-            existing = [e for e in Visitor.objects.filter(visitor__in=visitors).values_list('visitor', flat=True)]
-            visitors = [v for v in visitors if v.visitor not in existing ]
-            Visitor.objects.bulk_create(visitors)
+            Visitor.objects.bulk_create([v for v in visitors if v.visitor not in [e for e in Visitor.objects.filter(visitor__in=visitors).values_list('visitor', flat=True)] ])
     except Exception as e:
         return str(e)
     return True
 
+# ------------------------------------------- #
+# subtask
+# ------------------------------------------- #
+# Start any subtask
+# ------------------------------------------- #
 def subtask(contenttype, task, secondtask):
     try: script = conf['tasks'][int(task)][0]
     except NameError: return responseKO(contenttype, task, 404, _('Task not found'))
