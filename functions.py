@@ -265,16 +265,16 @@ def addAllInfos(contenttype, task, script):
         visitors = {}
         datasJSON = '{}/{}_datas.json'.format(conf['taskdir'], script)
         with open(datasJSON) as json_data:
-            datas = json.load(json_data)
-            for visitor in Visitor.objects.filter(visitor__in=datas['visitors']):
+            datasjson = json.load(json_data)
+            for visitor in Visitor.objects.filter(visitor__in=datasjson['visitors']):
                 visitors[visitor.visitor] = visitor
-            for k,v in datas['useragents'].items():
+            for k,v in datasjson['useragents'].items():
                 useragents.append(UserAgentAssociated(visitor=visitors[k], useragent=v['data'], create=v['date']))
-            for k,v in datas['acceptlanguages'].items():
+            for k,v in datasjson['acceptlanguages'].items():
                 acceptlanguages.append(AcceptLanguageAssociated(visitor=visitors[k], acceptlanguage=v['data'], create=v['date']))
-            for k,v in datas['routes'].items():
+            for k,v in datasjson['routes'].items():
                 for r in v: routes.append(RouteAssociated(visitor=visitors[k], title=r['title'], url=r['url'], create=r['date']))
-            for k,v in datas['datas'].items():
+            for k,v in datasjson['datas'].items():
                 for d in v: datas.append(DataAssociated(visitor=visitors[k], key=d['type'], value=d['data'], create=d['date']))
             #for k,v in datas['events'].items():
             #    for e in v: events.append(EventAssociated(visitor=visitors[k], key=e['type'], value=e['data'], create=e['date']))
