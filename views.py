@@ -130,15 +130,15 @@ ADD datas*
 """
 @localcalloradminorstaff
 def subtaskCSV(request, task):
-    return subtask('csv', task)
+    return subtask('csv', task, task)
 
 @localcalloradminorstaff
 def subtaskJSON(request, task):
-    return subtask('json', task)
+    return subtask('json', task, task)
 
 @localcalloradminorstaff
 def subtaskTXT(request, task):
-    return subtask('txt', task)
+    return subtask('txt', task, task)
 
 """
 -------------------------------------------------------------------
