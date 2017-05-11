@@ -261,7 +261,7 @@ def addAllInfos(contenttype, task, script):
         acceptlanguage = []
         routes = []
         datas = []
-        events []
+        events = []
         visitorsJSON = '{}/{}_datas.json'.format(conf['taskdir'], script)
         with open(datasJSON) as json_data:
             datas = json.load(json_data)
@@ -272,52 +272,6 @@ def addAllInfos(contenttype, task, script):
     except Exception as e:
         return str(e)
     return True
-
-# ------------------------------------------- #
-# addUserAgents
-# ------------------------------------------- #
-# Add visitor in bulk without duplicate
-# ------------------------------------------- #
-def addUserAgents(contenttype, task, script):
-    try:
-        visitorsJSON = '{}/{}_datas.json'.format(conf['taskdir'], script)
-    except Exception as e:
-        return str(e)
-    return True
-
-# ------------------------------------------- #
-# addAcceptLanguages
-# ------------------------------------------- #
-# Add accept language in bulk without duplicate
-# ------------------------------------------- #
-def addAcceptLanguages(contenttype, task, script):
-    try:
-    except Exception as e:
-        return str(e)
-    return True
-
-# ------------------------------------------- #
-# addDatas
-# ------------------------------------------- #
-# Add datas in bulk without duplicate
-# ------------------------------------------- #
-def addDatas(contenttype, task, script):
-    try:
-    except Exception as e:
-        return str(e)
-    return True
-
-# ------------------------------------------- #
-# addEvents
-# ------------------------------------------- #
-# Add events in bulk without duplicate
-# ------------------------------------------- #
-def addEvents(contenttype, task, script):
-    try:
-    except Exception as e:
-        return str(e)
-    return True
-
 
 # ------------------------------------------- #
 # subtask
