@@ -270,10 +270,13 @@ def addAllInfos(contenttype, task, script):
                 visitors[visitor.visitor] = visitor
             for k,v in datasjson['useragents'].items():
                 useragents.append(UserAgentAssociated(visitor=visitors[k], useragent=v['data'], create=v['date']))
+            UserAgentAssociated.objects.bulk_create(useragents)
             for k,v in datasjson['acceptlanguages'].items():
                 acceptlanguages.append(AcceptLanguageAssociated(visitor=visitors[k], acceptlanguage=v['data'], create=v['date']))
+            AcceptLanguageAssociated.objects.bulk_create(acceptlanguages)
             for k,v in datasjson['routes'].items():
                 for r in v: routes.append(RouteAssociated(visitor=visitors[k], title=r['title'], url=r['url'], create=r['date']))
+            RouteAssociated.objects.bulk_create(routes)
             for k,v in datasjson['datas'].items():
                 for d in v: datas.append(DataAssociated(visitor=visitors[k], key=d['type'], value=d['data'], create=d['date']))
             for k,v in datasjson['events'].items():
