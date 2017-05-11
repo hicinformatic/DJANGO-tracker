@@ -7,20 +7,20 @@ from .settings import conf
 from datetime import datetime, timedelta
 import uuid, json, subprocess, sys
 
-def isTrack(request, visitor):
-    try: return request.session[conf['store']]
+def isTrack(request, store, visitor):
+    try: return request.session[store]
     except Exception: pass
-    try: return request.get_signed_cookie(conf['store'], salt=conf['salt'])
+    try: return request.get_signed_cookie(store, salt=conf['salt'])
     except Exception: pass
     return visitor if visitor != '' else str(uuid.uuid4())
 
-def firsTrack(request):
+def firsTrack(request, first):
     try: 
-        request.session[conf['first']]
+        request.session[first]
         return False
     except Exception: pass
     try: 
-        request.get_signed_cookie(conf['first'], salt=conf['salt'])
+        request.get_signed_cookie(first, salt=conf['salt'])
         return False
     except Exception: pass
     return True
@@ -249,6 +249,75 @@ def addVisitors(contenttype, task, script):
     except Exception as e:
         return str(e)
     return True
+
+# ------------------------------------------- #
+# addRoutes
+# ------------------------------------------- #
+# Add visitor in bulk without duplicate
+# ------------------------------------------- #
+def addAllInfos(contenttype, task, script):
+    try:
+        useragent = []
+        acceptlanguage = []
+        routes = []
+        datas = []
+        events []
+        visitorsJSON = '{}/{}_datas.json'.format(conf['taskdir'], script)
+        with open(datasJSON) as json_data:
+            datas = json.load(json_data)
+            for key,value in datas.items():
+                if key == 'User-Agent':
+                    useragent.append("test")
+
+    except Exception as e:
+        return str(e)
+    return True
+
+# ------------------------------------------- #
+# addUserAgents
+# ------------------------------------------- #
+# Add visitor in bulk without duplicate
+# ------------------------------------------- #
+def addUserAgents(contenttype, task, script):
+    try:
+        visitorsJSON = '{}/{}_datas.json'.format(conf['taskdir'], script)
+    except Exception as e:
+        return str(e)
+    return True
+
+# ------------------------------------------- #
+# addAcceptLanguages
+# ------------------------------------------- #
+# Add accept language in bulk without duplicate
+# ------------------------------------------- #
+def addAcceptLanguages(contenttype, task, script):
+    try:
+    except Exception as e:
+        return str(e)
+    return True
+
+# ------------------------------------------- #
+# addDatas
+# ------------------------------------------- #
+# Add datas in bulk without duplicate
+# ------------------------------------------- #
+def addDatas(contenttype, task, script):
+    try:
+    except Exception as e:
+        return str(e)
+    return True
+
+# ------------------------------------------- #
+# addEvents
+# ------------------------------------------- #
+# Add events in bulk without duplicate
+# ------------------------------------------- #
+def addEvents(contenttype, task, script):
+    try:
+    except Exception as e:
+        return str(e)
+    return True
+
 
 # ------------------------------------------- #
 # subtask

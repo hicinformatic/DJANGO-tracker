@@ -43,22 +43,22 @@ def trackerJS(request, domain):
 def trackerDATAS(request, domain, visitor=''):
     response = HttpResponse('KO', content_type=conf['contenttype_txt'])
     if request.method == 'POST':
+        store = conf['store'] + domain
+        first = conf['first'] + domain
         form = trackFormDatas(request.POST)
         if form.is_valid():
             url = title = None
-            visitor = isTrack(request, visitor)
+            visitor = isTrack(request, store, visitor)
             if form.cleaned_data['url'] != '': url = form.cleaned_data.pop('url')
             if form.cleaned_data['title'] != '': title = form.cleaned_data.pop('title')
             datas = []
-            if firsTrack(request):
+            if firsTrack(request, first):
                 datas.append(Tracked(visitor=visitor, key='User-Agent', value=request.META['HTTP_USER_AGENT'], domain=domain, url=url, title=title))
                 datas.append(Tracked(visitor=visitor, key='AcceptLanguage', value=request.META['HTTP_ACCEPT_LANGUAGE'], domain=domain, url=url, title=title))
             for key,value in form.cleaned_data.items():
                 if value != '': datas.append(Tracked(visitor=visitor, key=key, value=value, domain=domain, url=url, title=title))
             Tracked.objects.bulk_create(datas)
         response = HttpResponse('OK', content_type=conf['contenttype_txt'])
-        store = conf['store'] + domain
-        first = conf['first'] + domain
         request.session[store] = visitor
         request.session[first] = visitor
         response.set_signed_cookie(store, visitor, salt=conf['salt'], max_age=conf['maxage'])
@@ -71,14 +71,16 @@ def trackerDATAS(request, domain, visitor=''):
 def trackerEVENTS(request, domain, visitor=''):
     response = HttpResponse('KO', content_type=conf['contenttype_txt'])
     if request.method == 'POST':
+        store = conf['store'] + domain
+        first = conf['first'] + domain
         form = trackFormEvents(request.POST)
         if form.is_valid():
             url = title = None
-            visitor = isTrack(request, visitor)
+            visitor = isTrack(request, store, visitor)
             if form.cleaned_data['url'] != '': url = form.cleaned_data.pop('url')
             if form.cleaned_data['title'] != '': title = form.cleaned_data.pop('title')
             datas = []
-            if firsTrack(request):
+            if firsTrack(request, first):
                 datas.append(Tracked(visitor=visitor, key='User-Agent', value=request.META['HTTP_USER_AGENT'], domain=domain, url=url, title=title))
                 datas.append(Tracked(visitor=visitor, key='AcceptLanguage', value=request.META['HTTP_ACCEPT_LANGUAGE'], domain=domain, url=url, title=title))
             for key,value in form.cleaned_data.items():

@@ -50,7 +50,7 @@ conf['tasks'] = (
 )
 
 conf['subtasks'] = {
-    'TRK_sort_recurring': ['addVisitors', 'addUserAgent', 'addAcceptLanguage', 'addDatas', 'addEvents'],
+    'TRK_sort_recurring': ['addVisitors', 'addAllInfos'],
 }
 
 # Deltas tasks
