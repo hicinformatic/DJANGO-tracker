@@ -5,7 +5,7 @@ from django.utils.translation import ugettext as _
 from .models import Task, Domain, Visitor, RouteAssociated, UserAgentAssociated, AcceptLanguageAssociated, DataAssociated
 from .settings import conf
 from datetime import datetime, timedelta
-import uuid, json, subprocessn sys
+import uuid, json, subprocess, sys
 
 def isTrack(request, visitor):
     try: return request.session[conf['store']]
