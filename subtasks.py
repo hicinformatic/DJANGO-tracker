@@ -4,7 +4,7 @@ from .settings import conf
 
 class subtaskStore:
 
-    def addVisitors(self, contenttype, task, script):
+    def addVisitors(contenttype, task, script):
         try:
             visitorsJSON = '{}/{}_visitors.json'.format(conf['taskdir'], script)
             with open(visitorsJSON) as json_data:
