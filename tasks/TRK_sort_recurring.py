@@ -23,24 +23,26 @@ listid = []
 visitors = {}
 datas = {}
 
-datas = { 'User-Agent': {}, 'AcceptLanguage': {}, 'datas': {}, 'events': {}, 'routes': {}, }
+datas = { 'useragents': {}, 'acceptlanguages': {}, 'datas': {}, 'events': {}, 'routes': {}, 'visitors': [] }
 with open(csvndatas, newline='', encoding='utf-8') as csvfile:
     for row in csv.reader(csvfile, delimiter=','):
         try:
             visitors[row[5]][row[1]] = 1
         except Exception:
             visitors[row[5]] = { row[1]: 1, }
+        
+        datas['visitors'].append(row[1])
         listid.append(row[0])
         if row[3] == 'User-Agent':
             try:
-                datas['User-Agent'][row[1]].append({'date': row[8], 'data': row[4] })
+                datas['useragents'][row[1]].append({'date': row[8], 'data': row[4] })
             except Exception:
-                datas['User-Agent'][row[1]] = [ {'date': row[8], 'data': row[4] } ]
+                datas['useragents'][row[1]] = [ {'date': row[8], 'data': row[4] } ]
         elif row[3] == 'AcceptLanguage':
             try:
-                datas['AcceptLanguage'][row[1]].append({'date': row[8], 'data': row[4] })
+                datas['acceptlanguages'][row[1]].append({'date': row[8], 'data': row[4] })
             except Exception:
-                datas['AcceptLanguage'][row[1]] = [ {'date': row[8], 'data': row[4] } ]
+                datas['acceptlanguages'][row[1]] = [ {'date': row[8], 'data': row[4] } ]
         elif row[2] == 'True':
             try:
                 datas['events'][row[1]].append({'date': row[8], 'type': row[3], 'data': row[4] })
