@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 
 from .settings import conf
-from .functions import isTrack, firsTrack, order, start, running, complete, error, subtask
+from .functions import isTrack, firsTrack, order, start, running, complete, error, addTask
 from .decorators import localcall, localcalloradmin, localcalloradminorstaff
 from .forms import trackFormDatas, trackFormEvents
 from .models import Tracked, Visitor, DataAssociated, Task
@@ -129,16 +129,16 @@ ADD datas*
 -------------------------------------------------------------------
 """
 @localcalloradminorstaff
-def subtaskCSV(request, task, subtask):
-    return subtask('csv', task, subtask)
+def addCSV(request, task):
+    return addTask('csv', task)
 
 @localcalloradminorstaff
-def subtaskJSON(request, task, subtask):
-    return subtask('json', task, subtask)
+def addJSON(request, task):
+    return addTask('json', task)
 
 @localcalloradminorstaff
-def subtaskTXT(request, task, subtask):
-    return subtask('txt', task, subtask)
+def addTXT(request, task):
+    return addTaskTXT('txt', task)
 
 """
 -------------------------------------------------------------------

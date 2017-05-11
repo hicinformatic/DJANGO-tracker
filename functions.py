@@ -228,7 +228,7 @@ TASK INTEGRATOR
 -------------------------------------------------------------------
 """
 
-def addVisitor(contenttype, task, script):
+def addVisitors(contenttype, task, script):
     try:
         visitorsJSON = '{}/{}_visitors.json'.format(conf['taskdir'], script)
         with open(visitorsJSON) as json_data:
@@ -250,14 +250,13 @@ def addVisitor(contenttype, task, script):
     Visitor.objects.bulk_create(visitors)
     return responseOK(contenttype, task, str(visitors) + "existing: " + str(existing))
 
-def subtask(contenttype, task, subtask):
-    #try: script = conf['tasks'][int(task)][0]
-    #except NameError: return responseKO(contenttype, task, 404, _('Task not found'))
-#
-    #try: subtask = conf['subtasks'][script][int(subtask)]
-    #except NameError: return responseKO(contenttype, task, 404, _('Subtask not found'))
-    return HttpResponse('test')
-    #return responseKO(contenttype, task, 404, _('Task unavailable'))
+def addTask(contenttype, task):
+    try: script = conf['tasks'][int(task)][0]
+    except NameError: return responseKO(contenttype, task, 404, _('Task not found'))
+    if script == 'TRK_sort_recurring':
+        return addTRK_sort_recurring(contenttype, task, script)
+
+    return responseKO(contenttype, task, 404, _('Task unavailable'))
 
 
 
