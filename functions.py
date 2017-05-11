@@ -228,7 +228,7 @@ TASK INTEGRATOR
 -------------------------------------------------------------------
 """
 
-def addVisitors():
+def addVisitor(contenttype, task, script):
     try:
         visitorsJSON = '{}/{}_visitors.json'.format(conf['taskdir'], script)
         with open(visitorsJSON) as json_data:
@@ -243,26 +243,20 @@ def addVisitors():
                 except Domain.DoesNotExist:
                     for k,v in domains[domain].items():
                         visitors.append(Visitor(visitor=k)) 
-            existing = [e for e in Visitor.objects.filter(visitor__in=visitors).values_list('visitor', flat=True)]
-            visitors = [v for v in visitors if v.visitor not in existing ]
-            Visitor.objects.bulk_create(visitors)
-            return True
-    except Exception as e:
-        return str(e)
-
-
-def addTRK_sort_recurring(contenttype, task, script):
-    addv = addVisitors()
-    if addv is not True:
-        return responseKO(contenttype, task, 500, addv)
+    except IOError as e:
+        return responseKO(contenttype, task, 404, str(e))
+    existing = [e for e in Visitor.objects.filter(visitor__in=visitors).values_list('visitor', flat=True)]
+    visitors = [v for v in visitors if v.visitor not in existing ]
+    Visitor.objects.bulk_create(visitors)
     return responseOK(contenttype, task, str(visitors) + "existing: " + str(existing))
 
-def addTask(contenttype, task):
+def subtask(contenttype, task, subtask):
     try: script = conf['tasks'][int(task)][0]
     except NameError: return responseKO(contenttype, task, 404, _('Task not found'))
-    if script == 'TRK_sort_recurring':
-        return addTRK_sort_recurring(contenttype, task, script)
 
+    try: subtask = conf['subtasks'][script][subtask]
+    except NameError: return responseKO(contenttype, task, 404, _('Subtask not found'))
+    
     return responseKO(contenttype, task, 404, _('Task unavailable'))
 
 

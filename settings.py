@@ -49,6 +49,10 @@ conf['tasks'] = (
     ('TRK_purge_task',      _('purge(Task)')),
 )
 
+conf['subtasks'] = {
+    'TRK_sort_recurring': ['addVisitors', 'addUserAgent', 'addAcceptLanguage', 'addDatas', 'addEvents'],
+}
+
 # Deltas tasks
 conf['deltas'] = {
     'TRK_sort_recurring':  300,
