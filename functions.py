@@ -267,8 +267,8 @@ def addAllInfos(contenttype, task, script):
             datas = json.load(json_data)
             for key,value in datas.items():
                 if key == 'User-Agent':
-                    for v in value:
-                        for ua in v: useragent.append( UserAgentAssociated(visitor=key, useragent=v.data, create=v.date) )
+                    for k,v in value.items():
+                        for ua in v: useragent.append( UserAgentAssociated(visitor=k, useragent=v.data, create=v.date) )
 
     except Exception as e:
         return str(e)
