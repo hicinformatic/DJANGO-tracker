@@ -269,8 +269,11 @@ def addAllInfos(contenttype, task, script):
             for visitor in Visitor.objects.filter(visitor__in=datas['visitors']):
                 visitors[visitor.visitor] = visitor
             for k,v in datas['useragents'].items():
-                useragents.append(UserAgentAssociated(visitor=visitors[k], useragent=datas['useragents'][k]['data'], create=datas['useragents'][k]['date']))
-            return str(visitors)
+                useragents.append(UserAgentAssociated(visitor=visitors[k], useragent=v['data'], create=v['date']))
+            for k,v in datas['acceptlanguages'].items():
+                acceptlanguages.append(AcceptLanguageAssociated(visitor=visitors[k], acceptlanguage=v['data'], create=v['date']))
+            for k,v in datas['routes'].items():
+                for r in v: routes.append(RouteAssociated(visitor=visitors[k], title=r['title'], url=r['url'], create=r['create']))
     except Exception as e:
         return str(e)
     return True
