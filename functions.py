@@ -250,11 +250,8 @@ def addTRK_sort_recurring(contenttype, task, script):
                         visitors.append(Visitor(visitor=k)) 
     except IOError as e:
         return responseKO(contenttype, task, 404, str(e))
-    existing = Visitor.objects.filter(visitor__in=visitors).values_list('visitor', flat=True)
-    for v in visitors:
-        if visitors[v].visitor in existing['visitor']: del visitors[v]
-    Visitor.objects.bulk_create(visitors for v in visitors if v.id not in existing)
-    return responseOK(contenttype, task, 'Success')
+        existing = set(Visitor.objects.filter(visitor__in=visitors).values_list("visitor", flat=True))
+    return responseOK(contenttype, task, str(existing))
 
 def addTask(contenttype, task):
     try: script = conf['tasks'][int(task)][0]
@@ -263,3 +260,11 @@ def addTask(contenttype, task):
         return addTRK_sort_recurring(contenttype, task, script)
 
     return responseKO(contenttype, task, 404, _('Task unavailable'))
+
+
+
+    #existing = Visitor.objects.filter(visitor__in=visitors).values_list('visitor', flat=True)
+    #for v in visitors:
+    #    if visitors[v].visitor in existing['visitor']: del visitors[v]
+    #Visitor.objects.bulk_create(visitors for v in visitors if v.id not in existing)
+    #return responseOK(contenttype, task, 'Success')
