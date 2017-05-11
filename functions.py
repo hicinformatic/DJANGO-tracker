@@ -276,8 +276,8 @@ def addAllInfos(contenttype, task, script):
                 for r in v: routes.append(RouteAssociated(visitor=visitors[k], title=r['title'], url=r['url'], create=r['date']))
             for k,v in datasjson['datas'].items():
                 for d in v: datas.append(DataAssociated(visitor=visitors[k], key=d['type'], value=d['data'], create=d['date']))
-            #for k,v in datas['events'].items():
-            #    for e in v: events.append(EventAssociated(visitor=visitors[k], key=e['type'], value=e['data'], create=e['date']))
+            for k,v in datasjson['events'].items():
+                for e in v: events.append(EventAssociated(visitor=visitors[k], key=e['type'], value=e['data'], create=e['date']))
 
 
                 DataAssociated
