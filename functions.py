@@ -224,10 +224,15 @@ def complete(contenttype, task, message):
 
 """
 -------------------------------------------------------------------
-TASK INTEGRATOR
+SUBTASK INTEGRATOR
 -------------------------------------------------------------------
 """
 
+# ------------------------------------------- #
+# addVisitors
+# ------------------------------------------- #
+# Add visitor in bulk without duplicate
+# ------------------------------------------- #
 def addVisitors(contenttype, task, script):
     try:
         visitorsJSON = '{}/{}_visitors.json'.format(conf['taskdir'], script)
