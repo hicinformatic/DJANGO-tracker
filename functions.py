@@ -239,7 +239,7 @@ def addVisitors(contenttype, task, script):
         with open(visitorsJSON) as json_data:
             visitors = []
             domains = json.load(json_data)
-            for key,value in domains:
+            for key,value in domains.items():
                 try:
                     domain = Domain.objects.get(id=key)
                     for v in value: visitors.append(Visitor(visitor=value, domain=domain))
