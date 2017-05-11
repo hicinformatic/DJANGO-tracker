@@ -260,7 +260,7 @@ def addTRK_sort_recurring(contenttype, task, script):
     L1 = [10,20]
     L2 = [10,20,30,40,50]
 
-    L2 = [x for x in L2 if L2 not in L1]
+    L2 = [x for x in L2 if x not in L1]
     #Visitor.objects.bulk_create(visitors)
     return responseOK(contenttype, task, str(L2) + "existing: " + str(existing))
 
