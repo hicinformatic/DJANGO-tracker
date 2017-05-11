@@ -120,6 +120,20 @@ class DataAssociated(models.Model):
     def __str__(self):
         return self.key
 
+class EventAssociated(models.Model):
+    visitor = models.ForeignKey(Visitor, verbose_name=_('Visitor associated'), )
+    key = models.CharField(max_length=254, verbose_name=_('Key'),)
+    value = models.CharField(max_length=254, verbose_name=_('Data'),)
+    create = models.DateTimeField(editable=False, verbose_name=_('Creation date'),)
+
+    class Meta:
+        verbose_name        = _('Data')
+        verbose_name_plural = _('Datas')
+
+    def __str__(self):
+        return self.key
+
+
 class Task(models.Model):
     task = models.CharField(max_length=254, choices=conf['tasks'], editable=False, verbose_name=_('Task'), )
     info = models.TextField(blank=True, default=_('Ordered'), editable=False, null=True, verbose_name=_('Information about the task'),)
