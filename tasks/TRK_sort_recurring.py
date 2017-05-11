@@ -33,29 +33,29 @@ with open(csvndatas, newline='', encoding='utf-8') as csvfile:
         listid.append(row[0])
         if row[3] == 'User-Agent':
             try:
-                datas['User-Agent'][row[1]][row[8]] = row[4]
+                datas['User-Agent'][row[1]].append({'date': row[8], 'data': row[4] })
             except Exception:
-                datas['User-Agent'][row[1]] = { row[8]: row[4] }
+                datas['User-Agent'][row[1]] = [ {'date': row[8], 'data': row[4] } ]
         elif row[3] == 'AcceptLanguage':
             try:
-                datas['AcceptLanguage'][row[1]][row[8]] = row[4]
+                datas['AcceptLanguage'][row[1]].append({'date': row[8], 'data': row[4] })
             except Exception:
-                datas['AcceptLanguage'][row[1]] = { row[8]: row[4] }
+                datas['AcceptLanguage'][row[1]] = [ {'date': row[8], 'data': row[4] } ]
         elif row[2] == 'True':
             try:
-                datas['events'][row[1]][row[8]] =  { row[3]: row[4] }
+                datas['events'][row[1]].append({'date': row[8], 'type': row[3], 'data': row[4] })
             except Exception:
-                datas['events'][row[1]] = { row[8]: { row[3]: row[4] }, }
+                datas['events'][row[1]] = [ {'date': row[8], 'type': row[3], 'data': row[4] } ]
         else:
             try:
-                datas['datas'][row[1]][row[8]] =  { row[3]: row[4] }
+                datas['datas'][row[1]].append({'date': row[8], 'type': row[3], 'data': row[4] })
             except Exception:
-                datas['datas'][row[1]] = { row[8]: { row[3]: row[4] }, }
-        try:
-            datas['routes'][row[1]][row[8]] = { 'title': row[7], 'url': row[6] }
-        except Exception:
-            datas['routes'][row[1]] = { row[8]: { 'title': row[7], 'url': row[6] }, }
+                datas['datas'][row[1]] = [ {'date': row[8], 'type': row[3], 'data': row[4] } ]
 
+        try:
+            datas['routes'][row[1]].append({'date': row[8], 'url': row[6], 'title': row[7] })
+        except Exception:
+            datas['datas'][row[1]] = [ {'date': row[8], 'url': row[6], 'title': row[7] } ]
 
 taskme(port, 'running', taskid, 'writejson')
 with open(listidJSON, 'w') as outfile:
