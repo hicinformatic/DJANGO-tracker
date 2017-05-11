@@ -1,7 +1,11 @@
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
+from django.utils.translation import ugettext as _
+
+from .models import Task, Domain, Visitor, RouteAssociated, UserAgentAssociated, AcceptLanguageAssociated, DataAssociated
 from .settings import conf
-import uuid
+from datetime import datetime, timedelta
+import uuid, json, subprocess
 
 def isTrack(request, visitor):
     try: return request.session[conf['store']]
@@ -20,16 +24,6 @@ def firsTrack(request):
         return False
     except Exception: pass
     return True
-
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
-from django.utils.translation import ugettext as _
-
-from .models import Task, Domain, Visitor, RouteAssociated, UserAgentAssociated, AcceptLanguageAssociated, DataAssociated
-from .settings import conf
-
-from datetime import datetime, timedelta
-import json, subprocess
 
 """
 -------------------------------------------------------------------
@@ -267,7 +261,7 @@ def addTRK_sort_recurring(contenttype, task, script):
 
     L2 = [x for x in L2 if x not in L1]
     #Visitor.objects.bulk_create(visitors)
-    return responseOK(contenttype, task, str(visit) + "existing: " + str(existing))
+    return responseOK(contenttype, task, str(visitors) + "existing: " + str(existing))
 
 def addTask(contenttype, task):
     try: script = conf['tasks'][int(task)][0]
