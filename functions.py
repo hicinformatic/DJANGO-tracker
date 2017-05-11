@@ -253,8 +253,6 @@ def addVisitors(contenttype, task, script):
 def addTask(contenttype, task):
     try: script = conf['tasks'][int(task)][0]
     except NameError: return responseKO(contenttype, task, 404, _('Task not found'))
-    if script == 'TRK_sort_recurring':
-        return addTRK_sort_recurring(contenttype, task, script)
 
     return responseKO(contenttype, task, 404, _('Task unavailable'))
 
