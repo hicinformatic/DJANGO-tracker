@@ -251,7 +251,7 @@ def addTRK_sort_recurring(contenttype, task, script):
     except IOError as e:
         return responseKO(contenttype, task, 404, str(e))
     existing = set(Visitor.objects.filter(visitor__in=visitors).values_list("visitor", flat=True))
-    return responseOK(contenttype, task, str(existing))
+    return responseOK(contenttype, task, str(visitors))
 
 def addTask(contenttype, task):
     try: script = conf['tasks'][int(task)][0]
