@@ -257,8 +257,8 @@ def addVisitors(contenttype, task, script):
 # ------------------------------------------- #
 def addAllInfos(contenttype, task, script):
     try:
-        useragent = []
-        acceptlanguage = []
+        useragents = []
+        acceptlanguages = []
         routes = []
         datas = []
         events = []
