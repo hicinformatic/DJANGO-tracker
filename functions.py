@@ -273,7 +273,7 @@ def addAllInfos(contenttype, task, script):
             for k,v in datas['acceptlanguages'].items():
                 acceptlanguages.append(AcceptLanguageAssociated(visitor=visitors[k], acceptlanguage=v['data'], create=v['date']))
             for k,v in datas['routes'].items():
-                for r in v: routes.append(RouteAssociated(visitor=visitors[k], title=r['title'], url=r['url'], create=r['create']))
+                for r in v: routes.append(RouteAssociated(visitor=visitors[k], title=r['title'], url=r['url'], create=r['date']))
     except Exception as e:
         return str(e)
     return True
