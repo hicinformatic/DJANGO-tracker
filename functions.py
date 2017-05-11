@@ -273,11 +273,11 @@ def addAllInfos(contenttype, task, script):
             for k,v in datas['acceptlanguages'].items():
                 acceptlanguages.append(AcceptLanguageAssociated(visitor=visitors[k], acceptlanguage=v['data'], create=v['date']))
             for k,v in datas['routes'].items():
-                for r in v: routes.append(RouteAssociated(visitor=visitors[k], key=r['title'], value=r['url'], create=r['date']))
-            #for k,v in datas['datas'].items():
-            #    for d in v: datas.append(DataAssociated(visitor=visitors[k], key=d['type'], value=d['data'], create=d['date']))
-            #for k,v in datas['events'].items():
-            #    for e in v: events.append(EventAssociated(visitor=visitors[k], key=e['type'], value=e['data'], create=e['date']))
+                for r in v: routes.append(RouteAssociated(visitor=visitors[k], title=r['title'], url=r['url'], create=r['date']))
+            for k,v in datas['datas'].items():
+                for d in v: datas.append(DataAssociated(visitor=visitors[k], key=d['type'], value=d['data'], create=d['date']))
+            for k,v in datas['events'].items():
+                for e in v: events.append(EventAssociated(visitor=visitors[k], key=e['type'], value=e['data'], create=e['date']))
 
 
                 DataAssociated
