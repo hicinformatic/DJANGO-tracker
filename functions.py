@@ -2,7 +2,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.utils.translation import ugettext as _
 
-from .models import Task, Domain, Visitor, RouteAssociated, UserAgentAssociated, AcceptLanguageAssociated, DataAssociated, EventAssociated
+from .models import Task, Tracked, Domain, Visitor, RouteAssociated, UserAgentAssociated, AcceptLanguageAssociated, DataAssociated, EventAssociated
 from .settings import conf
 from datetime import datetime, timedelta
 import uuid, json, subprocess, sys
@@ -283,6 +283,15 @@ def addAllInfos(contenttype, task, script):
             for k,v in datasjson['events'].items():
                 for e in v: events.append(EventAssociated(visitor=visitors[k], key=e['type'], value=e['data'], create=e['date']))
             EventAssociated.objects.bulk_create(events)
+    except Exception as e:
+        return str(e)
+    return True
+
+def delTrackedSort(contenttype, task, script):
+    try:
+        with open(listidJSON) as json_data:
+            listid = json.load(json_data)
+            Tracked.objects.filter(id__in=listid).delete()
     except Exception as e:
         return str(e)
     return True
