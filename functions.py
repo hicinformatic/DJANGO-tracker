@@ -5,7 +5,7 @@ from django.utils.translation import ugettext as _
 from .models import Task, Domain, Visitor, RouteAssociated, UserAgentAssociated, AcceptLanguageAssociated, DataAssociated
 from .settings import conf
 from datetime import datetime, timedelta
-import uuid, json, subprocess
+import uuid, json, subprocessn sys
 
 def isTrack(request, visitor):
     try: return request.session[conf['store']]
@@ -257,6 +257,7 @@ def subtask(contenttype, task, secondtask):
     try: secondtaskname = conf['subtasks'][script][int(secondtask)]
     except Exception: return responseKO(contenttype, task, 404, _('Subtask not found'))
 
+    getattr(sys.modules[__name__], secondtaskname)(contenttype, task, script)
     #locals()["secondtaskname"](contenttype, task, script)
     return responseKO(contenttype, task, 404, _('Task or subtask unavailable'))
 
