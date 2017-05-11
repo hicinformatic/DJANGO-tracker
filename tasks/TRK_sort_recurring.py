@@ -27,9 +27,9 @@ datas = { 'useragents': {}, 'acceptlanguages': {}, 'datas': {}, 'events': {}, 'r
 with open(csvndatas, newline='', encoding='utf-8') as csvfile:
     for row in csv.reader(csvfile, delimiter=','):
         try:
-            visitors[row[5]][row[1]] = 1
+            if row[1] not in visitors[row[5]]: visitors[row[5]].append(row[1])
         except Exception:
-            visitors[row[5]] = { row[1]: 1, }
+            visitors[row[5]] = [ row[1], ]
         
         if row[1] not in datas['visitors']: datas['visitors'].append(row[1])
         listid.append(row[0])
