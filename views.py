@@ -8,10 +8,9 @@ from .settings import conf
 from .functions import isTrack, firsTrack, order, start, running, complete, error, subtask
 from .decorators import localcall, localcalloradmin, localcalloradminorstaff
 from .forms import trackFormDatas, trackFormEvents
-from .models import Tracked, Visitor, DataAssociated, Task
+from .models import Tracked, Visitor, Task
 
-from datetime import datetime, timedelta
-import subprocess, csv
+import  csv
 
 """
 -------------------------------------------------------------------
