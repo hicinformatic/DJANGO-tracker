@@ -254,7 +254,7 @@ def addTRK_sort_recurring(contenttype, task, script):
     existing = Visitor.objects.filter(visitor__in=visitors).values_list('visitor', flat=True)
     existing = [e for e in existing]
     visit = [v.visitor for v in visitors]
-    visit = [x for x in visit if visit.index(x) not in existing]
+    visit = [x for x in visit if x not in existing]
     
 
     L1 = [10,20]
@@ -262,7 +262,7 @@ def addTRK_sort_recurring(contenttype, task, script):
 
     L2 = [x for x in L2 if x not in L1]
     #Visitor.objects.bulk_create(visitors)
-    return responseOK(contenttype, task, str(L2) + "existing: " + str(existing))
+    return responseOK(contenttype, task, str(visit) + "existing: " + str(existing))
 
 def addTask(contenttype, task):
     try: script = conf['tasks'][int(task)][0]
