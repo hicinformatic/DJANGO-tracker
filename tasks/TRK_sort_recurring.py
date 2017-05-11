@@ -53,12 +53,12 @@ with open(csvndatas, newline='', encoding='utf-8') as csvfile:
                 datas['datas'][row[1]].append({'date': row[8], 'type': row[3], 'data': row[4] })
             except Exception:
                 datas['datas'][row[1]] = [ {'date': row[8], 'type': row[3], 'data': row[4] } ]
-
         try:
             datas['routes'][row[1]].append({'date': row[8], 'url': row[6], 'title': row[7] })
         except Exception:
             datas['datas'][row[1]] = [ {'date': row[8], 'url': row[6], 'title': row[7] } ]
 
+datas['visitors'] = set(datas['visitors'])
 taskme(port, 'running', taskid, 'writejson')
 with open(listidJSON, 'w') as outfile:
     json.dump(listid, outfile, indent=4)
