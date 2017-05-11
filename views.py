@@ -134,7 +134,6 @@ def subtaskCSV(request, task, subtask):
 
 @localcalloradminorstaff
 def subtaskJSON(request, task, subtask):
-    return HttpResponse('test')
     return subtask('json', task, subtask)
 
 @localcalloradminorstaff
