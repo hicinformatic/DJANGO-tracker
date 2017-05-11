@@ -72,8 +72,8 @@ class Visitor(models.Model):
 
 class RouteAssociated(models.Model):
     visitor = models.ForeignKey(Visitor, verbose_name=_('Visitor associated'), )
-    title = models.CharField(max_length=254, verbose_name=_('Data'),)
-    url = models.URLField(max_length=254, verbose_name=_('Data'),)
+    title = models.CharField(max_length=254, verbose_name=_('Title'),)
+    url = models.URLField(max_length=254, verbose_name=_('URL'),)
     create = models.DateTimeField(editable=False, verbose_name=_('Creation date'),)
 
     class Meta:
@@ -110,7 +110,7 @@ class AcceptLanguageAssociated(models.Model):
 class DataAssociated(models.Model):
     visitor = models.ForeignKey(Visitor, verbose_name=_('Visitor associated'), )
     key = models.CharField(max_length=254, verbose_name=_('Key'),)
-    value = models.CharField(max_length=254, verbose_name=_('Data'),)
+    value = models.CharField(max_length=254, verbose_name=_('Value'),)
     create = models.DateTimeField(editable=False, verbose_name=_('Creation date'),)
 
     class Meta:
@@ -123,7 +123,7 @@ class DataAssociated(models.Model):
 class EventAssociated(models.Model):
     visitor = models.ForeignKey(Visitor, verbose_name=_('Visitor associated'), )
     key = models.CharField(max_length=254, verbose_name=_('Key'),)
-    value = models.CharField(max_length=254, verbose_name=_('Data'),)
+    value = models.CharField(max_length=254, verbose_name=_('Value'),)
     create = models.DateTimeField(editable=False, verbose_name=_('Creation date'),)
 
     class Meta:
