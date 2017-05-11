@@ -71,8 +71,8 @@ class VisitorInline(admin.TabularInline):
     extra = 0
 @admin.register(Visitor)
 class VisitorAdmin(admin.ModelAdmin):
-    list_display = ( 'visitor', 'domain', )
-    readonly_fields = ( 'visitor', 'domain', )
+    list_display = ( 'id', 'domain', )
+    readonly_fields = ( 'id', 'domain', )
     inlines = [ VisitorInline, ]
 
 @admin.register(Task)
