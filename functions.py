@@ -251,7 +251,7 @@ def addTRK_sort_recurring(contenttype, task, script):
                         visitors.append(Visitor(visitor=k)) 
     except IOError as e:
         return responseKO(contenttype, task, 404, str(e))
-    existing = Visitor.objects.filter(visitor__in=visitors)
+    existing = Visitor.objects.filter(visitor__in=visitors).values_list('visitor', flat=True)
     existing = [e[0] for e in existing]
     for i, v in enumerate(visitors):
         if v in existing: 
