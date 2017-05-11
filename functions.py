@@ -255,6 +255,7 @@ def addTRK_sort_recurring(contenttype, task, script):
     existing = [e for e in existing]
     visit = [v.visitor for v in visitors]
     import logging
+    logger = logging.getLogger(__name__)
     for i, v in enumerate(visit):
         if v in existing: 
             logger.error('del: %S'%v)
