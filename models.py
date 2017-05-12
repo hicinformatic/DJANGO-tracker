@@ -149,3 +149,35 @@ class Task(models.Model):
 
     def __str__(self):
         return self.get_task_display()
+
+class Report(models.Model):
+    domain = models.ForeignKey(Domain, blank=True, null=True, verbose_name=_('Domain associated'), )
+    counter = models.BigIntegerField(default=0, verbose_name=_('Counter'),)
+
+class ReportUserAgent(models.Model):
+    report = models.ForeignKey(Report, blank=True, null=True, verbose_name=_('Domain associated'), )
+    useragent = models.TextField(editable=False, verbose_name=_('User-Agent'),)
+    counter = models.BigIntegerField(default=0, verbose_name=_('Counter'),)
+
+class ReportAcceptLanguage(models.Model):
+    report = models.ForeignKey(Report, blank=True, null=True, verbose_name=_('Domain associated'), )
+    acceptlanguage = models.TextField(editable=False, verbose_name=_('AcceptLanguage'),)
+    counter = models.BigIntegerField(default=0, verbose_name=_('Counter'),)
+
+class ReportRoute(models.Model):
+    report = models.ForeignKey(Report, blank=True, null=True, verbose_name=_('Domain associated'), )
+    title = models.CharField(max_length=254, verbose_name=_('Title'),)
+    url = models.URLField(max_length=254, verbose_name=_('URL'),)
+    counter = models.BigIntegerField(default=0, verbose_name=_('Counter'),)
+
+class  ReportDatas(models.Model):
+    report = models.ForeignKey(Report, blank=True, null=True, verbose_name=_('Domain associated'), )
+    key = models.CharField(max_length=254, verbose_name=_('Key'),)
+    value = models.CharField(max_length=254, verbose_name=_('Value'),)
+    counter = models.BigIntegerField(default=0, verbose_name=_('Counter'),)
+
+class  ReportEvents(models.Model):
+    report = models.ForeignKey(Report, blank=True, null=True, verbose_name=_('Domain associated'), )
+    key = models.CharField(max_length=254, verbose_name=_('Key'),)
+    value = models.CharField(max_length=254, verbose_name=_('Value'),)
+    counter = models.BigIntegerField(default=0, verbose_name=_('Counter'),)

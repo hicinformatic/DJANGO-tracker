@@ -157,7 +157,7 @@ def hdatasCSV(request):
     response = HttpResponse(content_type=conf['contenttype_csv'])
     response['Content-Disposition'] = 'attachment; filename="hdatas.csv"'
     writer = csv.writer(response)
-    for track in Tracked.objects.reverse()[:conf['ndatas']]:
+    for track in Visitors.objects.reverse()[:conf['ndatas']]:
         writer.writerow([track.id, track.visitor, track.event, track.key, track.value, track.domain, track.url, track.title, track.create])
     return response
 
