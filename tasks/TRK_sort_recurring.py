@@ -1,5 +1,5 @@
 from script import writePidFile, deletePidFile, error, taskme
-import csv, os, sys, urllib.request, json
+import csv, os, sys, urllib.request, json, md5
 
 scriptdir = os.path.dirname(os.path.realpath(__file__))
 taskid = 1
@@ -34,19 +34,19 @@ with open(csvndatas, newline='', encoding='utf-8') as csvfile:
         if row[1] not in datas['visitors']: datas['visitors'].append(row[1])
         listid.append(row[0])
         if row[3] == 'User-Agent':
-                datas['useragents'][row[1]] = {'date': row[8], 'data': row[4] }
+                datas['useragents'][row[1]] = {'date': row[8], 'data': row[4], 'url': row[6], 'title': row[7] }
         elif row[3] == 'AcceptLanguage':
-                datas['acceptlanguages'][row[1]] = {'date': row[8], 'data': row[4] }
+                datas['acceptlanguages'][row[1]] = {'date': row[8], 'data': row[4], 'url': row[6], 'title': row[7] }
         elif row[2] == 'True':
             try:
-                datas['events'][row[1]].append({'date': row[8], 'type': row[3], 'data': row[4] })
+                datas['events'][row[1]].append({'date': row[8], 'type': row[3], 'data': row[4],  })
             except Exception:
                 datas['events'][row[1]] = [ {'date': row[8], 'type': row[3], 'data': row[4] } ]
         else:
+            key = md5.new(row[1] + row[3] + row[4]).digest()
             try:
-                datas['datas'][row[1]].append({'date': row[8], 'type': row[3], 'data': row[4] })
-            except Exception:
-                datas['datas'][row[1]] = [ {'date': row[8], 'type': row[3], 'data': row[4] } ]
+                datas['datas'][row[1]][key] = { 'date': row[8], 'type': row[3], 'data': row[4] }
+                datas['datas'][row[1]] = { key :  { 'date': row[8], 'type': row[3], 'data': row[4] } }
         try:
             datas['routes'][row[1]].append({'date': row[8], 'url': row[6], 'title': row[7] })
         except Exception:
