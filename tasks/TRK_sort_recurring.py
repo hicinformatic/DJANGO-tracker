@@ -26,7 +26,9 @@ datas = { 'useragents': {}, 'acceptlanguages': {}, 'routes': {}, 'datas': {}, 'e
 sorts = { 'User-Agent': 'useragents', 'AcceptLanguage': 'acceptlanguages', 'route': 'routes' }
 with open(csvndatas, newline='', encoding='utf-8') as csvfile:
     for row in csv.reader(csvfile, delimiter=','):
-        duplicate = hashlib.md5(row[1] + row[3] + row[4]).digest()     
+        duplicate = row[1] + row[3] + row[4]
+        duplicate = duplicate.encode('utf-8')
+        duplicate = hashlib.md5(duplicate).digest()     
         if any(row[3] in key for key in sorts):
             datas[sorts[row[3]]][duplicate] = { 'user': row[1], 'date': row[8], 'data': row[4], 'url': row[6], 'title': row[7] }
         else:
