@@ -14,7 +14,7 @@ class Tracked(models.Model):
     url = models.URLField(editable=False, verbose_name=_('URL momentary'),)
     title = models.CharField(max_length=254, blank=True, null=True, editable=False, verbose_name=_('Title momentary'),)
     create = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('Creation date'),)
-;
+
     class Meta:
         verbose_name        = _('#- Tracked data')
         verbose_name_plural = _('#- Tracked datas')
