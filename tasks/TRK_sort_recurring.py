@@ -21,7 +21,6 @@ with urllib.request.urlopen("http://localhost:%s/tracker/ndatas.csv" % port) as 
 taskme(port, 'running', taskid, 'readcsv')
 #listid = []
 #visitors = {}
-datas = {}
 
 datas = { 'useragents': {}, 'acceptlanguages': {}, 'routes': {}, 'datas': {}, 'events': {},  'visitors': [], 'id': [] }
 sorts = { 'User-Agent': 'useragents', 'AcceptLanguage': 'acceptlanguages', 'route': 'routes' }
