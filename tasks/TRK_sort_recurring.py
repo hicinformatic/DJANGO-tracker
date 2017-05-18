@@ -19,63 +19,48 @@ with urllib.request.urlopen("http://localhost:%s/tracker/ndatas.csv" % port) as 
     out_file.write(data)
 
 taskme(port, 'running', taskid, 'readcsv')
-listid = []
-visitors = {}
+#listid = []
+#visitors = {}
 datas = {}
 
-datas = { 'useragents': {}, 'acceptlanguages': {}, 'datas': {}, 'events': {}, 'routes': {}, 'visitors': [] }
+datas = { 'useragents': {}, 'acceptlanguages': {}, 'routes': {}, 'datas': {}, 'events': {},  'visitors': [], 'id': [] }
+sorts = { 'User-Agent': 'useragents', 'AcceptLanguage': 'acceptlanguages', 'route': 'routes' }
 with open(csvndatas, newline='', encoding='utf-8') as csvfile:
     for row in csv.reader(csvfile, delimiter=','):
-        try:
-            if row[1] not in visitors[row[5]]: visitors[row[5]].append(row[1])
-        except Exception:
-            visitors[row[5]] = [ row[1], ]
-        
-        if row[1] not in datas['visitors']: datas['visitors'].append(row[1])
-        listid.append(row[0])
-        if row[3] == 'User-Agent':
-                datas['useragents'][row[1]] = {'date': row[8], 'data': row[4], 'url': row[6], 'title': row[7] }
-        elif row[3] == 'AcceptLanguage':
-                datas['acceptlanguages'][row[1]] = {'date': row[8], 'data': row[4], 'url': row[6], 'title': row[7] }
-        elif row[2] == 'True':
-            try:
-                datas['events'][row[1]].append({'date': row[8], 'type': row[3], 'data': row[4],  })
-            except Exception:
-                datas['events'][row[1]] = [ {'date': row[8], 'type': row[3], 'data': row[4] } ]
+        duplicate = md5.new(row[1] + row[3] + row[4]).digest()     
+        if any(row[3] in key for key in sorts):
+            datas[sorts[row[3]]][duplicate] = { 'user': row[1], 'date': row[8], 'data': row[4], 'url': row[6], 'title': row[7] }
         else:
-            key = md5.new(row[1] + row[3] + row[4]).digest()
-            try:
-                datas['datas'][row[1]][key] = { 'date': row[8], 'type': row[3], 'data': row[4] }
-                datas['datas'][row[1]] = { key :  { 'date': row[8], 'type': row[3], 'data': row[4] } }
-        try:
-            datas['routes'][row[1]].append({'date': row[8], 'url': row[6], 'title': row[7] })
-        except Exception:
-            datas['routes'][row[1]] = [ {'date': row[8], 'url': row[6], 'title': row[7] } ]
+            key = 'events' if row[2] == 'True' else 'datas'
+            datas[key][row[1]][duplicate] = { 'user': row[1], 'date': row[8], 'data': row[4], 'url': row[6], 'title': row[7] }
+        if row[1] not in datas['visitors']: datas['visitors'].append(row[1])
+        datas['id'].append(row[0])
+
 
 taskme(port, 'running', taskid, 'writejson')
-with open(listidJSON, 'w') as outfile:
-    json.dump(listid, outfile, indent=4)
-with open(visitorsJSON, 'w') as outfile:
-    json.dump(visitors, outfile, indent=4)
+#with open(listidJSON, 'w') as outfile:
+#    json.dump(listid, outfile, indent=4)
+#with open(visitorsJSON, 'w') as outfile:
+#    json.dump(visitors, outfile, indent=4)
 with open(datasJSON, 'w') as outfile:
     json.dump(datas, outfile, indent=4)
 
-taskme(port, 'running', taskid, 'subtaskVistor')
-sub = urllib.request.urlopen("http://localhost:%s/tracker/1/0/subtask.json" % port)
-if sub.getcode() != 200: error(port, task, message='subtaskVistor')
-
-taskme(port, 'running', taskid, 'subtaskAllinfos')
-sub =urllib.request.urlopen("http://localhost:%s/tracker/1/1/subtask.json" % port)
-if sub.getcode() != 200: error(port, task, message='subtaskAllinfos')
-
-taskme(port, 'running', taskid, 'subtaskDelTracedSort')
-sub =urllib.request.urlopen("http://localhost:%s/tracker/1/2/subtask.json" % port)
-if sub.getcode() != 200: error(port, task, message='subtaskDelTracedSort')
-
-os.unlink(csvndatas)
-os.unlink(visitorsJSON)
-os.unlink(datasJSON)
-os.unlink(listidJSON)
+#taskme(port, 'running', taskid, 'subtaskVistor')
+#sub = urllib.request.urlopen("http://localhost:%s/tracker/1/0/subtask.json" % port)
+#if sub.getcode() != 200: error(port, task, message='subtaskVistor')
+#
+#taskme(port, 'running', taskid, 'subtaskAllinfos')
+#sub =urllib.request.urlopen("http://localhost:%s/tracker/1/1/subtask.json" % port)
+#if sub.getcode() != 200: error(port, task, message='subtaskAllinfos')
+#
+#taskme(port, 'running', taskid, 'subtaskDelTracedSort')
+#sub =urllib.request.urlopen("http://localhost:%s/tracker/1/2/subtask.json" % port)
+#if sub.getcode() != 200: error(port, task, message='subtaskDelTracedSort')
+#
+#os.unlink(csvndatas)
+#os.unlink(visitorsJSON)
+#os.unlink(datasJSON)
+#os.unlink(listidJSON)
 
 
 taskme(port, 'complete', taskid)

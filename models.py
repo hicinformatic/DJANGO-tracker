@@ -14,7 +14,7 @@ class Tracked(models.Model):
     url = models.URLField(editable=False, verbose_name=_('URL momentary'),)
     title = models.CharField(max_length=254, blank=True, null=True, editable=False, verbose_name=_('Title momentary'),)
     create = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('Creation date'),)
-
+;
     class Meta:
         verbose_name        = _('#- Tracked data')
         verbose_name_plural = _('#- Tracked datas')
@@ -60,8 +60,8 @@ class Domain(models.Model):
         super(Domain, self).save(*args, **kwargs)
 
 class Visitor(models.Model):
-    visitor = models.CharField(primary_key=True, max_length=60, verbose_name=_('Unique ID'), )
-    domain = models.ForeignKey(Domain, blank=True, null=True, verbose_name=_('Domain associated'), )
+    visitor = models.CharField(primary_key=True, max_length=60, verbose_name=_('Unique ID'),)
+    domain = models.ForeignKey(Domain, blank=True, null=True, verbose_name=_('Domain associated'),)
 
     class Meta:
         verbose_name        = _('Visitor')
@@ -71,7 +71,7 @@ class Visitor(models.Model):
         return self.visitor
 
 class RouteAssociated(models.Model):
-    visitor = models.ForeignKey(Visitor, verbose_name=_('Visitor associated'), )
+    visitor = models.ForeignKey(Visitor, verbose_name=_('Visitor associated'),)
     title = models.CharField(max_length=254, verbose_name=_('Title'),)
     url = models.URLField(max_length=254, verbose_name=_('URL'),)
     create = models.DateTimeField(editable=False, verbose_name=_('Creation date'),)
@@ -84,7 +84,7 @@ class RouteAssociated(models.Model):
         return self.url
 
 class UserAgentAssociated(models.Model):
-    visitor = models.ForeignKey(Visitor, verbose_name=_('Visitor associated'), )
+    visitor = models.ForeignKey(Visitor, verbose_name=_('Visitor associated'),)
     useragent = models.TextField(editable=False, verbose_name=_('User-Agent'),)
     create = models.DateTimeField(editable=False, verbose_name=_('Creation date'),)
 
@@ -111,6 +111,8 @@ class DataAssociated(models.Model):
     visitor = models.ForeignKey(Visitor, verbose_name=_('Visitor associated'), )
     key = models.CharField(max_length=254, verbose_name=_('Key'),)
     value = models.CharField(max_length=254, verbose_name=_('Value'),)
+    title = models.CharField(max_length=254, verbose_name=_('Title'),)
+    url = models.URLField(max_length=254, verbose_name=_('URL'),)
     create = models.DateTimeField(editable=False, verbose_name=_('Creation date'),)
 
     class Meta:
@@ -124,6 +126,8 @@ class EventAssociated(models.Model):
     visitor = models.ForeignKey(Visitor, verbose_name=_('Visitor associated'), )
     key = models.CharField(max_length=254, verbose_name=_('Key'),)
     value = models.CharField(max_length=254, verbose_name=_('Value'),)
+    title = models.CharField(max_length=254, verbose_name=_('Title'),)
+    url = models.URLField(max_length=254, verbose_name=_('URL'),)
     create = models.DateTimeField(editable=False, verbose_name=_('Creation date'),)
 
     class Meta:
@@ -149,35 +153,3 @@ class Task(models.Model):
 
     def __str__(self):
         return self.get_task_display()
-
-class Report(models.Model):
-    domain = models.ForeignKey(Domain, blank=True, null=True, verbose_name=_('Domain associated'), )
-    counter = models.BigIntegerField(default=0, verbose_name=_('Counter'),)
-
-class ReportUserAgent(models.Model):
-    report = models.ForeignKey(Report, blank=True, null=True, verbose_name=_('Domain associated'), )
-    useragent = models.TextField(editable=False, verbose_name=_('User-Agent'),)
-    counter = models.BigIntegerField(default=0, verbose_name=_('Counter'),)
-
-class ReportAcceptLanguage(models.Model):
-    report = models.ForeignKey(Report, blank=True, null=True, verbose_name=_('Domain associated'), )
-    acceptlanguage = models.TextField(editable=False, verbose_name=_('AcceptLanguage'),)
-    counter = models.BigIntegerField(default=0, verbose_name=_('Counter'),)
-
-class ReportRoute(models.Model):
-    report = models.ForeignKey(Report, blank=True, null=True, verbose_name=_('Domain associated'), )
-    title = models.CharField(max_length=254, verbose_name=_('Title'),)
-    url = models.URLField(max_length=254, verbose_name=_('URL'),)
-    counter = models.BigIntegerField(default=0, verbose_name=_('Counter'),)
-
-class  ReportDatas(models.Model):
-    report = models.ForeignKey(Report, blank=True, null=True, verbose_name=_('Domain associated'), )
-    key = models.CharField(max_length=254, verbose_name=_('Key'),)
-    value = models.CharField(max_length=254, verbose_name=_('Value'),)
-    counter = models.BigIntegerField(default=0, verbose_name=_('Counter'),)
-
-class  ReportEvents(models.Model):
-    report = models.ForeignKey(Report, blank=True, null=True, verbose_name=_('Domain associated'), )
-    key = models.CharField(max_length=254, verbose_name=_('Key'),)
-    value = models.CharField(max_length=254, verbose_name=_('Value'),)
-    counter = models.BigIntegerField(default=0, verbose_name=_('Counter'),)

@@ -56,13 +56,13 @@ conf['subtasks'] = {
 # Deltas tasks
 conf['deltas'] = {
     'TRK_sort_recurring':  300,
-    'TRK_report_hourly':  3600,
+    'TRK_report_hourly':   3600,
     'TRK_report_daily':    86400,
     'TRK_report_monthly':  'Monthly',
     'TRK_report_annually': 'Annually',
-    'TRK_purge_visit':      300,
-    'TRK_purge_report':     3600,
-    'TRK_purge_task':       86400,
+    'TRK_purge_visit':     300,
+    'TRK_purge_report':    3600,
+    'TRK_purge_task':      86400,
 }
 
 # Status
@@ -77,6 +77,7 @@ conf['status'] = (
 # Default datas
 conf['datas'] = [
     'visitor',
+    'route',
     'url',
     'title',
     'connectEnd',
