@@ -1,5 +1,5 @@
 from script import writePidFile, deletePidFile, error, taskme
-import csv, os, sys, urllib.request, json, md5
+import csv, os, sys, urllib.request, json, hashlib
 
 scriptdir = os.path.dirname(os.path.realpath(__file__))
 taskid = 1
@@ -26,7 +26,7 @@ datas = { 'useragents': {}, 'acceptlanguages': {}, 'routes': {}, 'datas': {}, 'e
 sorts = { 'User-Agent': 'useragents', 'AcceptLanguage': 'acceptlanguages', 'route': 'routes' }
 with open(csvndatas, newline='', encoding='utf-8') as csvfile:
     for row in csv.reader(csvfile, delimiter=','):
-        duplicate = md5.new(row[1] + row[3] + row[4]).digest()     
+        duplicate = hashlib.md5(row[1] + row[3] + row[4]).digest()     
         if any(row[3] in key for key in sorts):
             datas[sorts[row[3]]][duplicate] = { 'user': row[1], 'date': row[8], 'data': row[4], 'url': row[6], 'title': row[7] }
         else:
