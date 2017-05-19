@@ -1,32 +1,36 @@
-function visit(url, visitor) {
-    this.params = [];
+function visit(visitor, url) {
+    this.visitor;
     this.url;
-    this.add = function(key, value) { this.params.push(key + '=' + value); };
-    this.start = function() { this.url = typeof url !== 'undefined' ? '//' + url : ''; }
-    this.start();
+    this.domain;
+    this.visitd;
+    this.visitv;
+    this.params = [];
+    this.start = function() {
+        this.url = typeof url !== 'undefined' ? '//' + url : '';
+        this.domain = '{{ domain }}';
+        this.visitd = this.url + this.domain + '/visitd.svg';
+        this.visitv = this.url + this.domain + '/visitv.svg';
+        if(typeof visitor !== 'undefined') {
+            this.visitor = visitor;
+            this.visitd += this.visitor;
+            this.visitv += this.visitor;
+        }
+    };
+    this.addz = function(key, value) { this.params.push(key + '=' + value); };
     this.visit = function() {
         this.add('url', window.location.href);
         this.add('title', document.title);
-        params = this.params.join('&');
         var xhr = new XMLHttpRequest();
-        if(typeof visitor !== 'undefined') {
-            xhr.open("POST", this.url + '{{ domain }}/visitd.svg/' + visitor, true);
-        }else{
-            xhr.open("POST", this.url + '{{ domain }}/visitd.svg', true);
-        }
+        xhr.open("POST", this.visitd, true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhr.send(params); 
+        xhr.send(this.params.join('&'));
         this.params = [];
     };
     this.event = function(key, value) { 
-        params = [ 'url='+window.location.href, 'title='+document.title ]
+        params = [ key+'='+value, 'url='+window.location.href, 'title='+document.title ]
         var xhr = new XMLHttpRequest();
-        if(typeof visitor !== 'undefined') {
-            xhr.open("POST", this.url + '{{ domain }}/visitv.svg/' + visitor, true);
-        }else{
-            xhr.open("POST", this.url + '{{ domain }}/visitv.svg', true);
-        }
+        xhr.open("POST", this.visitd, true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send(params.join('&')); 
-    }
+    };
 }
