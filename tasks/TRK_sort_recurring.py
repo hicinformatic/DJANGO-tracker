@@ -32,8 +32,8 @@ with open(csvndatas, newline='', encoding='utf-8') as csvfile:
         if any(row[3] in key for key in sorts):
             datas[sorts[row[3]]][duplicate] = { 'user': row[1], 'date': row[8], 'data': row[4], 'url': row[6], 'title': row[7] }
         else:
-            key = 'events' if row[2] == 'True' else 'datas'
-            datas[key][row[1]][duplicate] = { 'user': row[1], 'date': row[8], 'data': row[4], 'url': row[6], 'title': row[7] }
+            datatype = 'events' if row[2] == 'True' else 'datas'
+            datas[datatype][row[1]][duplicate] = { 'user': row[1], 'date': row[8], 'data': row[4], 'url': row[6], 'title': row[7] }
         if row[1] not in datas['visitors']: datas['visitors'].append(row[1])
         datas['id'].append(row[0])
 
