@@ -33,7 +33,7 @@ with open(csvndatas, newline='', encoding='utf-8') as csvfile:
             datas[sorts[row[3]]][duplicate] = { 'user': row[1], 'date': row[8], 'data': row[4], 'url': row[6], 'title': row[7] }
         else:
             datatype = 'events' if row[2] == 'True' else 'datas'
-            datas[datatype][row[1]][duplicate] = { 'user': row[1], 'date': row[8], 'data': row[4], 'url': row[6], 'title': row[7] }
+            datas[datatype][duplicate] = { 'user': row[1], 'date': row[8], 'data': row[4], 'url': row[6], 'title': row[7] }
         if row[1] not in datas['visitors']: datas['visitors'].append(row[1])
         datas['id'].append(row[0])
 
