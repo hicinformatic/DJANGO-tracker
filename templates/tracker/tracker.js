@@ -32,7 +32,7 @@ function visit(visitor, url) {
     this.event = function(key, value) { 
         params = [ key+'='+value, 'url='+window.location.href, 'title='+document.title ]
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", this.visitd, true);
+        xhr.open("POST", this.visitv, true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send(params.join('&')); 
     };

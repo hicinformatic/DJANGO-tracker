@@ -82,6 +82,7 @@ conf['datas'] = [
     'title',
     'connectEnd',
     'connectStart',
+    'secureConnectionStart',
     'domComplete',
     'domContentLoadedEventEnd',
     'domContentLoadedEventStart',
@@ -115,10 +116,11 @@ conf['datas'] = [
     'innerHeight',
     'outerWidth',
     'outerHeight',
-    'Resize_innerWidth',
-    'Resize_innerHeight',
-    'Resize_outerWidth',
-    'Resize_outerHeight',
+    'ResizeInnerWidth',
+    'ResizeInnerHeight',
+    'ResizeOuterWidth',
+    'ResizeOuterHeight',
+    'ClickOn',
 ]
 
 conf['events'] = [
