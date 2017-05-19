@@ -33,4 +33,5 @@ function visit(visitor, url) {
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send(params.join('&')); 
     };
+    this.start();
 }
