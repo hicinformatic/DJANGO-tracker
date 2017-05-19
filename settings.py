@@ -120,7 +120,6 @@ conf['datas'] = [
     'ResizeInnerHeight',
     'ResizeOuterWidth',
     'ResizeOuterHeight',
-    'ClickOn',
 ]
 
 conf['events'] = [
