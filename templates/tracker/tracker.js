@@ -15,6 +15,7 @@ function visit(visitor, url) {
             this.visitd += this.visitor;
             this.visitv += this.visitor;
         }
+        this.route();
     };
     this.add = function(key, value) { this.params.push(key + '=' + value); };
     this.visit = function() {
@@ -33,5 +34,13 @@ function visit(visitor, url) {
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send(params.join('&')); 
     };
+    this.route = function() {
+        var loadTime = window.performance.timing.domContentLoadedEventEnd-window.performance.timing.navigationStart;
+        params = [ 'route='+loadTime, 'url='+window.location.href, 'title='+document.title ]
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", this.visitd, true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send(params.join('&')); 
+    }
     this.start();
 }
