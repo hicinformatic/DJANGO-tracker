@@ -11,13 +11,14 @@ function visit(visitor, url) {
         this.domain = '{{ domain }}';
         this.visitd = this.url + this.domain + '/visitd.svg';
         this.visitv = this.url + this.domain + '/visitv.svg';
-        var loadTime = window.performance.timing.domContentLoadedEventEnd-window.performance.timing.navigationStart;
+        var now = new Date().getTime();
+        var load = now - performance.timing.navigationStart;
         if(typeof visitor !== 'undefined') {
             this.visitor = visitor;
             this.visitd += this.visitor;
             this.visitv += this.visitor;
         }
-        this.add('route', loadTime);
+        this.add('route', load);
     };
     this.visit = function() {
         this.add('url', window.location.href);
