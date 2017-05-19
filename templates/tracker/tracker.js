@@ -16,7 +16,7 @@ function visit(visitor, url) {
             this.visitv += this.visitor;
         }
     };
-    this.addz = function(key, value) { this.params.push(key + '=' + value); };
+    this.add = function(key, value) { this.params.push(key + '=' + value); };
     this.visit = function() {
         this.add('url', window.location.href);
         this.add('title', document.title);
