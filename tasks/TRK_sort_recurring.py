@@ -38,8 +38,9 @@ with open(csvndatas, newline='', encoding='utf-8') as csvfile:
         if row[1] not in props['visitors']: props['visitors'].append(row[1])
         props['id'].append(row[0])
 
-for k,v in datas.items():
-    if k in ['datas', 'events']:
+for key,value in datas.items():
+    if key in ['datas', 'events']:
+        for v in value:
         props[k].append({'visitor':v['user'], 'key':v['type'], 'value':v['data'],'title':v['title'], 'url':v['url'], 'create':v['date'] })
 
 
