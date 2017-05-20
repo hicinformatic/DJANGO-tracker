@@ -22,7 +22,8 @@ taskme(port, 'running', taskid, 'readcsv')
 #listid = []
 #visitors = {}
 
-datas = { 'useragents': {}, 'acceptlanguages': {}, 'routes': {}, 'datas': {}, 'events': {},  'visitors': [], 'id': [] }
+datas = { 'useragents': {}, 'acceptlanguages': {}, 'routes': {}, 'datas': {}, 'events': {}, }
+props = { 'useragents': [], 'acceptlanguages': [], 'routes': [], 'datas': [], 'events': [],  'visitors': [], 'id': [] }
 sorts = { 'User-Agent': 'useragents', 'AcceptLanguage': 'acceptlanguages', 'route': 'routes' }
 with open(csvndatas, newline='', encoding='utf-8') as csvfile:
     for row in csv.reader(csvfile, delimiter=','):
@@ -33,9 +34,13 @@ with open(csvndatas, newline='', encoding='utf-8') as csvfile:
             datas[sorts[row[3]]][duplicate] = { 'user': row[1], 'date': row[8], 'data': row[4], 'url': row[6], 'title': row[7] }
         else:
             datatype = 'events' if row[2] == 'True' else 'datas'
-            datas[datatype][duplicate] = { 'user': row[1], 'date': row[8], 'data': row[4], 'url': row[6], 'title': row[7] }
-        if row[1] not in datas['visitors']: datas['visitors'].append(row[1])
-        datas['id'].append(row[0])
+            datas[datatype][duplicate] = { 'user': row[1], 'date': row[8], 'type': row[3], 'data': row[4], 'url': row[6], 'title': row[7] }
+        if row[1] not in props['visitors']: props['visitors'].append(row[1])
+        props['id'].append(row[0])
+
+for k,v in datas.items():
+    if k in ['datas', 'events']:
+        props[k].append({'visitor':v['user'], 'key':v['type'], 'value':v['data'],'title':v['title'], 'url':v['url'], 'create':v['date'] })
 
 
 taskme(port, 'running', taskid, 'writejson')

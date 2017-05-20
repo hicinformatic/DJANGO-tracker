@@ -74,6 +74,7 @@ class RouteAssociated(models.Model):
     visitor = models.ForeignKey(Visitor, verbose_name=_('Visitor associated'),)
     title = models.CharField(max_length=254, verbose_name=_('Title'),)
     url = models.URLField(max_length=254, verbose_name=_('URL'),)
+    load = models.PositiveSmallIntegerField(blank=True, null=True, editable=False, verbose_name=_('Page Loading'),)
     create = models.DateTimeField(editable=False, verbose_name=_('Creation date'),)
 
     class Meta:
