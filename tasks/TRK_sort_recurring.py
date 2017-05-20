@@ -40,7 +40,7 @@ with open(csvndatas, newline='', encoding='utf-8') as csvfile:
 
 for key,value in datas.items():
     if key in ['datas', 'events']:
-        for v in value:
+        for k,v in value.items():
             props[key].append({
                 'visitor':v['user'],
                 'key':v['type'],
