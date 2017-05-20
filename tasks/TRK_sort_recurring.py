@@ -59,6 +59,8 @@ taskme(port, 'running', taskid, 'writejson')
 #    json.dump(visitors, outfile, indent=4)
 with open(datasJSON, 'w') as outfile:
     json.dump(datas, outfile, indent=4)
+with open(propsJSON, 'w') as outfile:
+    json.dump(props, outfile, indent=4)
 
 #taskme(port, 'running', taskid, 'subtaskVistor')
 #sub = urllib.request.urlopen("http://localhost:%s/tracker/1/0/subtask.json" % port)
