@@ -6,9 +6,6 @@ taskid = 1
 port = sys.argv[1]
 name = 'TRK_sort_recurring'
 csvndatas = scriptdir + '/' + name + '.csv'
-listidJSON =  scriptdir + '/' + name + '_listid.json'
-visitorsJSON = scriptdir + '/' + name + '_visitors.json'
-datasJSON =  scriptdir + '/' + name + '_datas.json'
 propsJSON =  scriptdir + '/' + name + '.json'
 
 writePidFile(scriptdir, name)
@@ -20,9 +17,6 @@ with urllib.request.urlopen("http://localhost:%s/tracker/ndatas.csv" % port) as 
     out_file.write(data)
 
 taskme(port, 'running', taskid, 'readcsv')
-#listid = []
-#visitors = {}
-
 datas = { 'useragents': {}, 'acceptlanguages': {}, 'routes': {}, 'datas': {}, 'events': {}, }
 props = { 'useragents': [], 'acceptlanguages': [], 'routes': [], 'datas': [], 'events': [],  'visitors': [], 'id': [] }
 sorts = { 'User-Agent': 'useragents', 'AcceptLanguage': 'acceptlanguages', 'route': 'routes' }
@@ -49,33 +43,25 @@ for key,value in datas.items():
             props[key].append({ 'visitor':v['user'], 'useragent':v['data'], 'create':v['date'] })
         if key == 'acceptlanguages':
             props[key].append({ 'visitor':v['user'], 'acceptlanguage':v['data'], 'create':v['date'] })
-
 taskme(port, 'running', taskid, 'writejson')
-#with open(listidJSON, 'w') as outfile:
-#    json.dump(listid, outfile, indent=4)
-#with open(visitorsJSON, 'w') as outfile:
-#    json.dump(visitors, outfile, indent=4)
-with open(datasJSON, 'w') as outfile:
-    json.dump(datas, outfile, indent=4)
+
 with open(propsJSON, 'w') as outfile:
     json.dump(props, outfile, indent=4)
 
-#taskme(port, 'running', taskid, 'subtaskVistor')
+taskme(port, 'running', taskid, 'subtaskVisitor')
 #sub = urllib.request.urlopen("http://localhost:%s/tracker/1/0/subtask.json" % port)
 #if sub.getcode() != 200: error(port, task, message='subtaskVistor')
 #
-#taskme(port, 'running', taskid, 'subtaskAllinfos')
+taskme(port, 'running', taskid, 'subtaskAllinfos')
 #sub =urllib.request.urlopen("http://localhost:%s/tracker/1/1/subtask.json" % port)
 #if sub.getcode() != 200: error(port, task, message='subtaskAllinfos')
 #
-#taskme(port, 'running', taskid, 'subtaskDelTracedSort')
+taskme(port, 'running', taskid, 'subtaskDelTracedSort')
 #sub =urllib.request.urlopen("http://localhost:%s/tracker/1/2/subtask.json" % port)
 #if sub.getcode() != 200: error(port, task, message='subtaskDelTracedSort')
 #
-#os.unlink(csvndatas)
-#os.unlink(visitorsJSON)
-#os.unlink(datasJSON)
-#os.unlink(listidJSON)
+os.unlink(csvndatas)
+os.unlink(propsJSON)
 
 
 taskme(port, 'complete', taskid)
