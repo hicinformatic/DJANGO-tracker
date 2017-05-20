@@ -18,7 +18,7 @@ with urllib.request.urlopen("http://localhost:%s/tracker/ndatas.csv" % port) as 
 
 taskme(port, 'running', taskid, 'readcsv')
 datas = { 'useragents': {}, 'acceptlanguages': {}, 'routes': {}, 'datas': {}, 'events': {}, }
-props = { 'useragents': [], 'acceptlanguages': [], 'routes': [], 'datas': [], 'events': [],  'visitors': [], 'id': [] }
+props = { 'useragents': [], 'acceptlanguages': [], 'routes': [], 'datas': [], 'events': [],  'visitors': [], 'id': [], 'domains': [] }
 sorts = { 'User-Agent': 'useragents', 'AcceptLanguage': 'acceptlanguages', 'route': 'routes' }
 with open(csvndatas, newline='', encoding='utf-8') as csvfile:
     for row in csv.reader(csvfile, delimiter=','):
@@ -26,11 +26,12 @@ with open(csvndatas, newline='', encoding='utf-8') as csvfile:
         duplicate = duplicate.encode('utf-8')
         duplicate = hashlib.md5(duplicate).hexdigest()
         if any(row[3] in key for key in sorts):
-            datas[sorts[row[3]]][duplicate] = { 'user': row[1], 'date': row[8], 'data': row[4], 'url': row[6], 'title': row[7] }
+            datas[sorts[row[3]]][duplicate] = { 'user':row[1], 'date':row[8], 'data':row[4], 'url':row[6], 'title':row[7] }
         else:
             datatype = 'events' if row[2] == 'True' else 'datas'
-            datas[datatype][duplicate] = { 'user': row[1], 'date': row[8], 'type': row[3], 'data': row[4], 'url': row[6], 'title': row[7] }
-        if row[1] not in props['visitors']: props['visitors'].append(row[1])
+            datas[datatype][duplicate] = { 'user':row[1], 'date':row[8], 'type':row[3], 'data':row[4], 'url':row[6], 'title':row[7] }
+        if row[1] not in props['visitors']: props['visitors'].append({ row[1]:row[5] })
+        if row[5] not in props['domains']: props['domains'].append(row[5])
         props['id'].append(row[0])
 
 for key,value in datas.items():
@@ -60,8 +61,8 @@ taskme(port, 'running', taskid, 'subtaskDelTracedSort')
 #sub =urllib.request.urlopen("http://localhost:%s/tracker/1/2/subtask.json" % port)
 #if sub.getcode() != 200: error(port, task, message='subtaskDelTracedSort')
 #
-os.unlink(csvndatas)
-os.unlink(propsJSON)
+#os.unlink(csvndatas)
+#os.unlink(propsJSON)
 
 
 taskme(port, 'complete', taskid)
