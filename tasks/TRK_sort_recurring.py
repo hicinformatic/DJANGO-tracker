@@ -9,6 +9,7 @@ csvndatas = scriptdir + '/' + name + '.csv'
 listidJSON =  scriptdir + '/' + name + '_listid.json'
 visitorsJSON = scriptdir + '/' + name + '_visitors.json'
 datasJSON =  scriptdir + '/' + name + '_datas.json'
+propsJSON =  scriptdir + '/' + name + '.json'
 
 writePidFile(scriptdir, name)
 taskme(port, 'start', taskid)
