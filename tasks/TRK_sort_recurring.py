@@ -41,7 +41,7 @@ with open(csvndatas, newline='', encoding='utf-8') as csvfile:
 for key,value in datas.items():
     if key in ['datas', 'events']:
         for v in value:
-            props[k].append({'visitor':v['user'], 'key':v['type'], 'value':v['data'],'title':v['title'], 'url':v['url'], 'create':v['date'] })
+            props[key].append({'visitor':v['user'], 'key':v['type'], 'value':v['data'],'title':v['title'], 'url':v['url'], 'create':v['date'] })
 
 
 taskme(port, 'running', taskid, 'writejson')
