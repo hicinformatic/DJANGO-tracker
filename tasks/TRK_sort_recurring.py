@@ -40,17 +40,15 @@ with open(csvndatas, newline='', encoding='utf-8') as csvfile:
         props['id'].append(row[0])
 
 for key,value in datas.items():
-    if key in ['datas', 'events']:
-        for k,v in value.items():
-            props[key].append({
-                'visitor':v['user'],
-                'key':v['type'],
-                'value':v['data'],
-                'title':v['title'],
-                'url':v['url'],
-                'create':v['date'] 
-            })
-
+    for k,v in value.items():
+        if key in ['datas', 'events']:
+            props[key].append({ 'visitor':v['user'], 'key':v['type'], 'value':v['data'], 'title':v['title'], 'url':v['url'], 'create':v['date'] })
+        if key == 'routes':
+            props[key].append({ 'visitor':v['user'], 'title':v['title'], 'url':v['url'], 'load':v['data'], 'create':v['date']  })
+        if key == 'useragents':
+            props[key].append({ 'visitor':v['user'], 'useragent':v['data'], 'create':v['date'] })
+        if key == 'acceptlanguages':
+            props[key].append({ 'visitor':v['user'], 'acceptlanguage':v['data'], 'create':v['date'] })
 
 taskme(port, 'running', taskid, 'writejson')
 #with open(listidJSON, 'w') as outfile:
