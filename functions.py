@@ -241,11 +241,7 @@ def addVisitors(contenttype, task, script):
             datas = json.load(json_data)
             doms = Domain.objects.filter(id__in=datas['domains'])
             for visitor,domain in datas['visitors'].items():
-                try:
-                    doms[domain]
-                    visitors.append(Visitor(visitor=visitor, domain=doms[domain]))
-                except Exception:
-                    visitors.append(Visitor(visitor=visitor))
+                visitors.append(Visitor(visitor=visitor, domain=doms[domain]))
             Visitor.objects.bulk_create([v for v in visitors if v.visitor not in [e for e in Visitor.objects.filter(visitor__in=visitors).values_list('visitor', flat=True)]])
     except Exception as e:
         return str(e)
