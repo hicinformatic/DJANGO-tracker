@@ -52,9 +52,6 @@ class Domain(models.Model):
         verbose_name        = _('Domain tracked')
         verbose_name_plural = _('Domains tracked')
 
-    def __str__(self):
-        return self.domain
-
     def save(self, *args, **kwargs):
         self.javascript = conf['example'].format(reverse('tracker:trackerJS', args=(self.id.hex,)), reverse('tracker:trackerSVG', args=(self.id.hex,)),)
         super(Domain, self).save(*args, **kwargs)
