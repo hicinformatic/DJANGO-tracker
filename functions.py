@@ -270,7 +270,11 @@ def addAllInfos(contenttype, task, script):
         visitorsJSON = '{}/{}.json'.format(conf['taskdir'], script)
         with open(visitorsJSON) as json_data:
             datasjson = json.load(json_data)
-            RouteAssociated.objects.bulk_create(datasjson['routes'])
+            try:
+                RouteAssociated.objects.bulk_create(datasjson['routes'])
+            except Exception as e:
+                with open('log.log') as outfile:
+                    outile.write(str(e))
             #for visitor in Visitor.objects.filter(visitor__in=datasjson['visitors']):
             #    visitors[visitor.visitor] = visitor
             #for k,v in datasjson['useragents'].items():
