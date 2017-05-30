@@ -275,6 +275,7 @@ def addAllInfos(contenttype, task, script):
                 visitors[visitor.visitor] = visitor
             for r in datasjson['routes']:
                 routes.append(RouteAssociated(visitor=visitors[r['visitor']], title=r['title'], url=r['url'], load=r['load'], create=r['create']))
+            RouteAssociated.objects.bulk_create(routes)
             #for k,v in datasjson['useragents'].items():
             #    useragents.append(UserAgentAssociated(visitor=visitors[k], useragent=v['data'], create=v['date']))
             #UserAgentAssociated.objects.bulk_create(useragents)
