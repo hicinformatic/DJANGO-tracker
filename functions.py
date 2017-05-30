@@ -241,9 +241,9 @@ def addVisitors(contenttype, task, script):
             datas = json.load(json_data)
 
             #domains = Tracked.objects.get(id=215)
-            domains = Domain.objects.filter(id__in=[ str(uuid.UUID(uid)) for uid in datas['domains'] ]).values_list('id', flat=True)
+            domains = Domain.objects.filter(id__in=[ str(uuid.UUID(uid)) for uid in datas['domains'] ])
             with open("log.json", 'w') as outfile:
-                outfile.write(str(domains[str(uuid.UUID('7c3b104e-d810-4220-9726-c4f81a463aa7'))]))
+                outfile.write(str(domains))
 
 
             #for visitor,domain in datas['visitors'].items():
