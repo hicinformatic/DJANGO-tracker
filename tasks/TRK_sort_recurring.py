@@ -50,9 +50,9 @@ with open(propsJSON, 'w') as outfile:
     json.dump(props, outfile, indent=4)
 
 taskme(port, 'running', taskid, 'subtaskVisitor')
-#sub = urllib.request.urlopen("http://localhost:%s/tracker/1/0/subtask.json" % port)
-#if sub.getcode() != 200: error(port, task, message='subtaskVistor')
-#
+sub = urllib.request.urlopen("http://localhost:%s/tracker/1/0/subtask.json" % port)
+if sub.getcode() != 200: error(port, task, message='subtaskVistor')
+
 taskme(port, 'running', taskid, 'subtaskAllinfos')
 #sub =urllib.request.urlopen("http://localhost:%s/tracker/1/1/subtask.json" % port)
 #if sub.getcode() != 200: error(port, task, message='subtaskAllinfos')

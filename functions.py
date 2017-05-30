@@ -235,6 +235,24 @@ SUBTASK INTEGRATOR
 # ------------------------------------------- #
 def addVisitors(contenttype, task, script):
     try:
+        visitorsJSON = '{}/{}.json'.format(conf['taskdir'], script)
+        with open(visitorsJSON) as json_data:
+            visitors = []
+            datas = json.load(json_data)
+            domains = Domain.objects.filter(id__in=datas['domains'])
+            for visitor,domain in datas['visitors'].items():
+                if domain in domains:
+                    visitors.append(Visitor(visitor=visitor, domain=domains[domain]))
+                else:
+                    visitors.append(Visitor(visitor=visitor))
+            Visitor.objects.bulk_create([v for v in visitors if v.visitor not in [e for e in Visitor.objects.filter(visitor__in=visitors).values_list('visitor', flat=True)]])
+    except Exception as e:
+        return str(e)
+    return True
+
+"""
+def addVisitors(contenttype, task, script):
+    try:
         visitorsJSON = '{}/{}_visitors.json'.format(conf['taskdir'], script)
         with open(visitorsJSON) as json_data:
             visitors = []
@@ -249,6 +267,7 @@ def addVisitors(contenttype, task, script):
     except Exception as e:
         return str(e)
     return True
+"""
 
 # ------------------------------------------- #
 # addAllInfos
