@@ -240,11 +240,11 @@ def addVisitors(contenttype, task, script):
             domains = {}
             doms = []
             visitors = []
-            datas = json.load(json_data)
-            for dom in Domain.objects.filter(id__in=datas['domains']):
+            datasjson = json.load(json_data)
+            for dom in Domain.objects.filter(id__in=datasjson['domains']):
                 doms.append(dom.id)
                 domains[dom.id] = dom
-            for visitor,domain in datas['visitors'].items():
+            for visitor,domain in datasjson['visitors'].items():
                 if domain in doms:
                     visitors.append(Visitor(visitor=visitor, domain=domains[domain]))
                 else:
@@ -267,26 +267,27 @@ def addAllInfos(contenttype, task, script):
         datas = []
         events = []
         visitors = {}
-        datasJSON = '{}/{}_datas.json'.format(conf['taskdir'], script)
-        with open(datasJSON) as json_data:
+        visitorsJSON = '{}/{}.json'.format(conf['taskdir'], script)
+        with open(visitorsJSON) as json_data:
             datasjson = json.load(json_data)
-            for visitor in Visitor.objects.filter(visitor__in=datasjson['visitors']):
-                visitors[visitor.visitor] = visitor
-            for k,v in datasjson['useragents'].items():
-                useragents.append(UserAgentAssociated(visitor=visitors[k], useragent=v['data'], create=v['date']))
-            UserAgentAssociated.objects.bulk_create(useragents)
-            for k,v in datasjson['acceptlanguages'].items():
-                acceptlanguages.append(AcceptLanguageAssociated(visitor=visitors[k], acceptlanguage=v['data'], create=v['date']))
-            AcceptLanguageAssociated.objects.bulk_create(acceptlanguages)
-            for k,v in datasjson['routes'].items():
-                for r in v: routes.append(RouteAssociated(visitor=visitors[k], title=r['title'], url=r['url'], create=r['date']))
-            RouteAssociated.objects.bulk_create(routes)
-            for k,v in datasjson['datas'].items():
-                for d in v: datas.append(DataAssociated(visitor=visitors[k], key=d['type'], value=d['data'], create=d['date']))
-            DataAssociated.objects.bulk_create(datas)
-            for k,v in datasjson['events'].items():
-                for e in v: events.append(EventAssociated(visitor=visitors[k], key=e['type'], value=e['data'], create=e['date']))
-            EventAssociated.objects.bulk_create(events)
+            RouteAssociated.objects.bulk_create(datasjson['routes'])
+            #for visitor in Visitor.objects.filter(visitor__in=datasjson['visitors']):
+            #    visitors[visitor.visitor] = visitor
+            #for k,v in datasjson['useragents'].items():
+            #    useragents.append(UserAgentAssociated(visitor=visitors[k], useragent=v['data'], create=v['date']))
+            #UserAgentAssociated.objects.bulk_create(useragents)
+            #for k,v in datasjson['acceptlanguages'].items():
+            #    acceptlanguages.append(AcceptLanguageAssociated(visitor=visitors[k], acceptlanguage=v['data'], create=v['date']))
+            #AcceptLanguageAssociated.objects.bulk_create(acceptlanguages)
+            #for k,v in datasjson['routes'].items():
+            #    for r in v: routes.append(RouteAssociated(visitor=visitors[k], title=r['title'], url=r['url'], create=r['date']))
+            #RouteAssociated.objects.bulk_create(routes)
+            #for k,v in datasjson['datas'].items():
+            #    for d in v: datas.append(DataAssociated(visitor=visitors[k], key=d['type'], value=d['data'], create=d['date']))
+            #DataAssociated.objects.bulk_create(datas)
+            #for k,v in datasjson['events'].items():
+            #    for e in v: events.append(EventAssociated(visitor=visitors[k], key=e['type'], value=e['data'], create=e['date']))
+            #EventAssociated.objects.bulk_create(events)
     except Exception as e:
         return str(e)
     return True
