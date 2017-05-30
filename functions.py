@@ -238,11 +238,13 @@ def addVisitors(contenttype, task, script):
         visitorsJSON = '{}/{}.json'.format(conf['taskdir'], script)
         with open(visitorsJSON) as json_data:
             visitors = []
-            domains = []
             datas = json.load(json_data)
-            domains = Domain.objects.filter(id__in=datas['domains'])
+
+            domains = Domain.objects.filter(id__in=[ str(uuid.UUID(uid)) for uid in datas['domains'] ]).values_list('id', flat=True)
             with open("log.json", 'w') as outfile:
                 json.dump(domains, outfile, indent=4)
+
+
             #for visitor,domain in datas['visitors'].items():
             #    visitors.append(Visitor(visitor=visitor, domain=domains[domain]))
             #Visitor.objects.bulk_create([v for v in visitors if v.visitor not in [e for e in Visitor.objects.filter(visitor__in=visitors).values_list('visitor', flat=True)]])
