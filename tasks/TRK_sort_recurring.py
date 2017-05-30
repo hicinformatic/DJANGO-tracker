@@ -54,9 +54,9 @@ sub = urllib.request.urlopen("http://localhost:%s/tracker/1/0/subtask.json" % po
 if sub.getcode() != 200: error(port, task, message='subtaskVistor')
 
 taskme(port, 'running', taskid, 'subtaskAllinfos')
-#sub =urllib.request.urlopen("http://localhost:%s/tracker/1/1/subtask.json" % port)
-#if sub.getcode() != 200: error(port, task, message='subtaskAllinfos')
-#
+sub =urllib.request.urlopen("http://localhost:%s/tracker/1/1/subtask.json" % port)
+if sub.getcode() != 200: error(port, task, message='subtaskAllinfos')
+
 taskme(port, 'running', taskid, 'subtaskDelTracedSort')
 #sub =urllib.request.urlopen("http://localhost:%s/tracker/1/2/subtask.json" % port)
 #if sub.getcode() != 200: error(port, task, message='subtaskDelTracedSort')
