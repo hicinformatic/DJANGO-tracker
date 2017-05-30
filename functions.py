@@ -272,8 +272,8 @@ def addAllInfos(contenttype, task, script):
             datasjson = json.load(json_data)
             try:
                 for r in datasjson['routes']:
-                    routes.append( RouteAssociated(visitor=Visitor.object.get(id=r['visitor']), title=r['title'], url=r['url'], load=r['load'], create=r['date']) )
-                RouteAssociated.objects.bulk_create(routes)
+                    RouteAssociated(visitor=Visitor.object.get(id=r['visitor']), title=r['title'], url=r['url'], load=r['load'], create=r['date']) ).save()
+                #RouteAssociated.objects.bulk_create(routes)
             except Exception as e:
                 with open('log.log') as outfile:
                     outfile.write(str(e))
