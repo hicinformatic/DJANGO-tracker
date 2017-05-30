@@ -18,7 +18,7 @@ with urllib.request.urlopen("http://localhost:%s/tracker/ndatas.csv" % port) as 
 
 taskme(port, 'running', taskid, 'readcsv')
 datas = { 'useragents': {}, 'acceptlanguages': {}, 'routes': {}, 'datas': {}, 'events': {}, }
-props = { 'useragents': [], 'acceptlanguages': [], 'routes': [], 'datas': [], 'events': [],  'visitors': {}, 'id': [], 'domains': [] }
+props = { 'useragents': [], 'acceptlanguages': [], 'routes': [], 'datas': [], 'events': [],  'visitors': {}, 'allvisitors': [], 'id': [], 'domains': [] }
 sorts = { 'User-Agent': 'useragents', 'AcceptLanguage': 'acceptlanguages', 'route': 'routes' }
 with open(csvndatas, newline='', encoding='utf-8') as csvfile:
     for row in csv.reader(csvfile, delimiter=','):
@@ -30,7 +30,9 @@ with open(csvndatas, newline='', encoding='utf-8') as csvfile:
         else:
             datatype = 'events' if row[2] == 'True' else 'datas'
             datas[datatype][duplicate] = { 'user':row[1], 'date':row[8], 'type':row[3], 'data':row[4], 'url':row[6], 'title':row[7] }
-        if row[1] not in props['visitors']: props['visitors'][row[1]] = row[5]
+        if row[1] not in props['visitors']:
+            props['visitors'][row[1]] = row[5]
+            props['allvisitors'].append(row[1])
         if row[5] not in props['domains']: props['domains'].append(row[5])
         props['id'].append(row[0])
 
