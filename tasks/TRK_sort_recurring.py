@@ -39,7 +39,7 @@ for key,value in datas.items():
         if key in ['datas', 'events']:
             props[key].append({ 'visitor':v['user'], 'key':v['type'], 'value':v['data'], 'title':v['title'], 'url':v['url'], 'create':v['date'] })
         if key == 'routes':
-            props[key].append({ 'visitor':v['user'], 'title':v['title'], 'url':v['url'], 'load':v['data'], 'create':v['date']  })
+            props[key].append({ 'pk':v['user'], 'title':v['title'], 'url':v['url'], 'load':v['data'], 'create':v['date']  })
         if key == 'useragents':
             props[key].append({ 'visitor':v['user'], 'useragent':v['data'], 'create':v['date'] })
         if key == 'acceptlanguages':
