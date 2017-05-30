@@ -301,8 +301,8 @@ def addAllInfos(contenttype, task, script):
             #    for e in v: events.append(EventAssociated(visitor=visitors[k], key=e['type'], value=e['data'], create=e['date']))
             #EventAssociated.objects.bulk_create(events)
     except Exception as e:
-    with open("log.json", 'w') as outfile:
-        outfile.write(str(e))
+        with open("log.json", 'w') as outfile:
+            outfile.write(str(e))
         return str(e)
     return True
 
