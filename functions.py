@@ -271,8 +271,7 @@ def addAllInfos(contenttype, task, script):
 
         with open(visitorsJSON) as json_data:
             datasjson = json.load(json_data)
-            #RouteAssociated.objects.bulk_create()
-            for visitor in Visitor.objects.filter(visitor__in=datasjson['visitors']):
+            for visitor in Visitor.objects.filter(visitor__in=datasjson['allvisitors']):
                 visitors[visitor.visitor] = visitor
             for r in datasjson['routes']:
                 routes.append(RouteAssociated(visitor=visitors[r['visitor']], title=r['title'], url=r['url'], load=r['load'], create=r['create']))
