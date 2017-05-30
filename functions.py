@@ -241,7 +241,7 @@ def addVisitors(contenttype, task, script):
             domains = []
             datas = json.load(json_data)
             for domain in datas['domains']:
-                domains.append(uuid.UUID('domain'))
+                domains.append(uuid.UUID(domain))
             domains = Domain.objects.filter(id__in=domains)
             with open("log.json", 'w') as outfile:
                 json.dump(domains, outfile, indent=4)
