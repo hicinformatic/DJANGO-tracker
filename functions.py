@@ -272,17 +272,10 @@ def addAllInfos(contenttype, task, script):
         with open(visitorsJSON) as json_data:
             datasjson = json.load(json_data)
             for visitor in Visitor.objects.filter(visitor__in=datasjson['visitors']): visitors[visitor.visitor] = visitor
-            #for r in datasjson['routes']:
-
-
-                #[ RouteAssociated(visitor=visitors[r['visitor']], title=r['title'], url=r['url'], load=r['load'], create=r['create']) for r in datasjson['routes'] ]
             RouteAssociated.objects.bulk_create([ RouteAssociated(visitor=visitors[r['visitor']], title=r['title'], url=r['url'], load=r['load'], create=r['create']) for r in datasjson['routes'] ])
-            #for k,v in datasjson['useragents'].items():
-            #    useragents.append(UserAgentAssociated(visitor=visitors[k], useragent=v['data'], create=v['date']))
-            #UserAgentAssociated.objects.bulk_create(useragents)
-            #for k,v in datasjson['acceptlanguages'].items():
-            #    acceptlanguages.append(AcceptLanguageAssociated(visitor=visitors[k], acceptlanguage=v['data'], create=v['date']))
-            #AcceptLanguageAssociated.objects.bulk_create(acceptlanguages)
+            UserAgentAssociated.objects.bulk_create([ UserAgentAssociated(visitor=visitors[r['visitor']], useragent=r['useragent'], create=r['create']) for r in datasjson['useragents'] ])
+            AcceptLanguageAssociated.objects.bulk_create([ AcceptLanguageAssociated(visitor=visitors[r['visitor']], acceptlanguage=r['useragent'], create=r['create']) for r in datasjson['acceptlanguages'] ])
+
             #for k,v in datasjson['routes'].items():
             #    for r in v: routes.append(RouteAssociated(visitor=visitors[k], title=r['title'], url=r['url'], create=r['date']))
             #RouteAssociated.objects.bulk_create(routes)
