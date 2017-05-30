@@ -272,7 +272,7 @@ def addAllInfos(contenttype, task, script):
             datasjson = json.load(json_data)
             try:
                 for r in datasjson['routes']:
-                    newroute = RouteAssociated(visitor=Visitor.object.get(id=r['visitor']), title=r['title'], url=r['url'], load=r['load'], create=r['create'])
+                    newroute = RouteAssociated(visitor=Visitor.object.get(id=r['visitor']), title='test', url='test', load='test', create='2017-05-30 18:33:57.696577+00:00')
                     newroute.save()
 
                 #RouteAssociated.objects.bulk_create(routes)
