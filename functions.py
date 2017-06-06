@@ -275,13 +275,8 @@ def addAllInfos(contenttype, task, script):
             RouteAssociated.objects.bulk_create([ RouteAssociated(visitor=visitors[r['visitor']], title=r['title'], url=r['url'], load=r['load'], create=r['create']) for r in datasjson['routes'] ])
             UserAgentAssociated.objects.bulk_create([ UserAgentAssociated(visitor=visitors[ua['visitor']], useragent=ua['useragent'], create=ua['create']) for ua in datasjson['useragents'] ])
             AcceptLanguageAssociated.objects.bulk_create([ AcceptLanguageAssociated(visitor=visitors[al['visitor']], acceptlanguage=al['acceptlanguage'], create=al['create']) for al in datasjson['acceptlanguages'] ])
-
-            #for k,v in datasjson['datas'].items():
-            #    for d in v: datas.append(DataAssociated(visitor=visitors[k], key=d['type'], value=d['data'], create=d['date']))
-            #DataAssociated.objects.bulk_create(datas)
-            #for k,v in datasjson['events'].items():
-            #    for e in v: events.append(EventAssociated(visitor=visitors[k], key=e['type'], value=e['data'], create=e['date']))
-            #EventAssociated.objects.bulk_create(events)
+            DataAssociated.objects.bulk_create([ DataAssociated(visitor=visitors[d['visitor']], key=d['key'], value=d['value'], title=d['title'], url=d['url'],  create=d['create']) for d in datasjson['datas'] ])
+            EventAssociated.objects.bulk_create([ EventAssociated(visitor=visitors[e['visitor']], key=e['key'], value=e['value'], title=e['title'], url=e['url'],  create=e['create']) for e in datasjson['datas'] ])
     except Exception as e:
         with open("log.json", 'w') as outfile:
             outfile.write(str(e))
