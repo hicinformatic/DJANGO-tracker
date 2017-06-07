@@ -291,7 +291,7 @@ def addAllInfos(contenttype, task, script):
 def delTrackedSort(contenttype, task, script):
     try:
         visitorsJSON = '{}/{}.json'.format(conf['taskdir'], script)
-        with open(listidJSON) as json_data:
+        with open(visitorsJSON) as json_data:
             datasjson = json.load(json_data)
             Tracked.objects.filter(id__in=datasjson['id']).delete()
     except Exception as e:
