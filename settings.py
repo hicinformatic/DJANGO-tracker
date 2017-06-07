@@ -77,9 +77,9 @@ conf['status'] = (
 # Default datas
 conf['datas'] = [
     'visitor',
-    'route',
     'url',
     'title',
+    'route',
     'connectEnd',
     'connectStart',
     'secureConnectionStart',

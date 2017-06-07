@@ -3,48 +3,13 @@ from django.contrib import admin
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 
-from .models import Task, Tracked, DataAuthorized, Domain, Visitor, RouteAssociated, UserAgentAssociated, AcceptLanguageAssociated, DataAssociated, EventAssociated
+from .models import Task, Tracked, Domain, Visitor, RouteAssociated, UserAgentAssociated, AcceptLanguageAssociated, DataAssociated, EventAssociated
 from .settings import conf
 
 @admin.register(Tracked)
 class TrackedAdmin(admin.ModelAdmin):
     list_display = ( 'visitor', 'event', 'key', 'value', 'domain', 'url', 'title', )
     readonly_fields = ( 'visitor', 'event', 'key', 'value', 'domain', 'url', 'title', 'create', )
-
-def loadDatasAuthorized(modeladmin, request, queryset):
-    with open(conf['appdir'] + '/moredatas.py', 'w') as f:
-        f.write('datas = [\n')
-        for q in queryset.filter(event=False):
-            if q.status is True:
-                f.write("    '" + q.key + "',\n")
-        f.write(']')
-        f.close()
-        queryset.filter(status=False, event=False).update(load=False)
-        queryset.filter(status=True, event=False).update(load=True)
-    DataAuthorized.objects.exclude(id__in=queryset, event=False).update(load=False)
-    modeladmin.message_user(request, _('Authorized datas loaded'), 'success')
-loadDatasAuthorized.short_description = _('Loads authorized datas')
-
-def loadEventsAuthorized(modeladmin, request, queryset):
-    with open(conf['appdir'] + '/moreevents.py', 'w') as f:
-        f.write('events = [\n')
-        for q in queryset.filter(event=True):
-            if q.status is True:
-                f.write("    '" + q.key + "',\n")
-        f.write(']')
-        f.close()
-        queryset.filter(status=False, event=True).update(load=False)
-        queryset.filter(status=True, event=True).update(load=True)
-    DataAuthorized.objects.exclude(id__in=queryset, event=True).update(load=False)
-    modeladmin.message_user(request, _('Authorized events loaded'), 'success')
-loadEventsAuthorized.short_description = _('Loads authorized events')
-
-
-@admin.register(DataAuthorized)
-class DataAuthorizedAdmin(admin.ModelAdmin):
-    list_display = ( 'key', 'status', 'load', 'event', 'counter', )
-    readonly_fields = ( 'create', 'update', 'load', 'counter', )
-    actions = [ loadDatasAuthorized, loadEventsAuthorized, ]
 
 @admin.register(Domain)
 class DomainAdmin(admin.ModelAdmin):

@@ -22,22 +22,6 @@ class Tracked(models.Model):
     def __str__(self):
         return self.visitor
 
-class DataAuthorized(models.Model):
-    key = models.CharField(max_length=254, unique=True, verbose_name=_('Data'),)
-    status = models.BooleanField(default=True, verbose_name=_('Enable'),)
-    event = models.BooleanField(default=False, verbose_name=_('Is an event'),)
-    counter = models.BigIntegerField(default=0, verbose_name=_('Counter'),)
-    load = models.BooleanField(default=False, verbose_name=_('Load'),)
-    create = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('Creation date'),)
-    update = models.DateTimeField(auto_now=True, editable=False, verbose_name=_('Last modification date'),)
-
-    class Meta:
-        verbose_name        = _('Data authorized')
-        verbose_name_plural = _('Datas authorized')
-
-    def __str__(self):
-        return self.key
-
 class Domain(models.Model):
     id = models.CharField(primary_key=True, max_length=32, default=uuid4, editable=False, verbose_name=_('Unique ID'),)
     domain = models.URLField(verbose_name=_('Domain authorized'),)
