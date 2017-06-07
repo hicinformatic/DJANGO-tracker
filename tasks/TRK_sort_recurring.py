@@ -58,11 +58,11 @@ sub =urllib.request.urlopen("http://localhost:%s/tracker/1/1/subtask.json" % por
 if sub.getcode() != 200: error(port, task, message='subtaskAllinfos')
 
 taskme(port, 'running', taskid, 'subtaskDelTrackedSort')
-#sub =urllib.request.urlopen("http://localhost:%s/tracker/1/2/subtask.json" % port)
-#if sub.getcode() != 200: error(port, task, message='subtaskDelTracedSort')
-#
-#os.unlink(csvndatas)
-#os.unlink(propsJSON)
+sub =urllib.request.urlopen("http://localhost:%s/tracker/1/2/subtask.json" % port)
+if sub.getcode() != 200: error(port, task, message='subtaskDelTracedSort')
+
+os.unlink(csvndatas)
+os.unlink(propsJSON)
 
 
 taskme(port, 'complete', taskid)
