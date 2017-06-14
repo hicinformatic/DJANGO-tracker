@@ -268,7 +268,6 @@ def addAllInfos(contenttype, task, script):
         events = []
         visitors = {}
         visitorsJSON = '{}/{}.json'.format(conf['taskdir'], script)
-
         with open(visitorsJSON) as json_data:
             datasjson = json.load(json_data)
             for visitor in Visitor.objects.filter(visitor__in=datasjson['visitors']): visitors[visitor.visitor] = visitor
@@ -278,8 +277,6 @@ def addAllInfos(contenttype, task, script):
             DataAssociated.objects.bulk_create([ DataAssociated(visitor=visitors[d['visitor']], key=d['key'], value=d['value'], title=d['title'], url=d['url'],  create=d['create']) for d in datasjson['datas'] ])
             EventAssociated.objects.bulk_create([ EventAssociated(visitor=visitors[e['visitor']], key=e['key'], event=e['value'], title=e['title'], url=e['url'],  create=e['create']) for e in datasjson['events'] ])
     except Exception as e:
-        with open("log.json", 'w') as outfile:
-            outfile.write(str(e))
         return str(e)
     return True
 
@@ -294,6 +291,24 @@ def delTrackedSort(contenttype, task, script):
         with open(visitorsJSON) as json_data:
             datasjson = json.load(json_data)
             Tracked.objects.filter(id__in=datasjson['id']).delete()
+    except Exception as e:
+        return str(e)
+    return True
+
+# ------------------------------------------- #
+# delTrackedSort
+# ------------------------------------------- #
+# Delete tracked datas after sort
+# ------------------------------------------- #
+def listConnected(contenttype, task, script):
+    try:
+        visitorsJSON = '{}/{}.json'.format(conf['taskdir'], script)
+        with open(visitorsJSON) as json_data:
+            datasjson = json.load(json_data)
+            for domain,connected in datasjson['connected'].items():
+                jsonoutput = '{}/{}.json'.format(conf['taskdir'], domain)
+                with open(jsonoutput, 'w') as outfile:
+                    json.dump(datasjson['connected'][domain], outfile, indent=4)
     except Exception as e:
         return str(e)
     return True

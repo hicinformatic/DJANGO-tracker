@@ -11,7 +11,7 @@ class Tracked(models.Model):
     value = models.TextField(editable=False, verbose_name=_('Value'),)
     event = models.BooleanField(default=False, editable=False, verbose_name=_('Is an event'),)
     domain = models.CharField(max_length=32, editable=False, verbose_name=_('Domain associated'),)
-    url = models.URLField(editable=False, verbose_name=_('URL momentary'),)
+    url = models.URLField(editable=False, blank=True, null=True, verbose_name=_('URL momentary'),)
     title = models.CharField(max_length=254, blank=True, null=True, editable=False, verbose_name=_('Title momentary'),)
     create = models.DateTimeField(auto_now_add=True, editable=False, verbose_name=_('Creation date'),)
 

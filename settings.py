@@ -29,6 +29,7 @@ conf = {
     'ndatas':     50,
     'port':       27080,
     'connected':  True,
+    'pathConnected': None,
 }
 
 # Content Type
@@ -51,7 +52,7 @@ conf['tasks'] = (
 )
 
 conf['subtasks'] = {
-    'TRK_sort_recurring': ['addVisitors', 'addAllInfos', 'delTrackedSort'],
+    'TRK_sort_recurring': ['addVisitors', 'addAllInfos', 'delTrackedSort', 'listConnected'],
 }
 
 # Deltas tasks

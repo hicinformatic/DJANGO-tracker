@@ -30,7 +30,7 @@ def downloadJS(request, domain):
     return response
 
 def trackerJS(request, domain):
-    context = { 'domain': domain, 'url': request.META['HTTP_HOST'], 'connected': conf['connected'] }
+    context = { 'domain': domain, 'url': request.META['HTTP_HOST'], }
     return render(request, 'tracker/tracker.js', context=context, content_type=conf['contenttype_js'],)
 
 """
@@ -78,6 +78,8 @@ def trackerDATAS(request, domain, visitor=''):
             if firsTrack(request, first):
                 datas.append(Tracked(visitor=visitor, key='User-Agent', value=request.META['HTTP_USER_AGENT'], domain=domain, url=url, title=title))
                 datas.append(Tracked(visitor=visitor, key='AcceptLanguage', value=request.META['HTTP_ACCEPT_LANGUAGE'], domain=domain, url=url, title=title))
+            if conf['connected'] and request.user.is_authenticated:
+                datas.append(Tracked(visitor=visitor, key='Connected', value=request.user.username, domain=domain))
             for key,value in form.cleaned_data.items():
                 if value != '': datas.append(Tracked(visitor=visitor, key=key, value=value, domain=domain, url=url, title=title))
             Tracked.objects.bulk_create(datas)
