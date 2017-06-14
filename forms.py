@@ -6,6 +6,8 @@ class trackFormDatas(forms.Form):
         super(trackFormDatas, self).__init__(*args, **kwargs)
         for field in conf['datas']:
             self.fields[field] = forms.CharField(required=False)
+        if conf['connected']!
+            self.fields['Connected'] = forms.CharField(required=False)
 
 class trackFormEvents(forms.Form):
     def __init__(self, *args, **kwargs):

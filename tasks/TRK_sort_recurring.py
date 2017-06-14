@@ -25,13 +25,16 @@ with open(csvndatas, newline='', encoding='utf-8') as csvfile:
         duplicate = row[1] + row[3] + row[4]
         duplicate = duplicate.encode('utf-8')
         duplicate = hashlib.md5(duplicate).hexdigest()
+        if row[1] not in props['visitors']: props['visitors'][row[1]] = row[5]
+        if row[5] not in props['domains']: props['domains'].append(row[5])
+        if row[5] not in props['connected']: props['connected'][row[5]] = []
         if any(row[3] in key for key in sorts):
             datas[sorts[row[3]]][duplicate] = { 'user':row[1], 'date':row[8], 'data':row[4], 'url':row[6], 'title':row[7] }
+        elif row[3] == 'Connected' and duplicate not in props['connected'][row[5]]:
+            props['connected'][row[5]].append(row[4])
         else:
             datatype = 'events' if row[2] == 'True' else 'datas'
             datas[datatype][duplicate] = { 'user':row[1], 'date':row[8], 'type':row[3], 'data':row[4], 'url':row[6], 'title':row[7] }
-        if row[1] not in props['visitors']: props['visitors'][row[1]] = row[5]
-        if row[5] not in props['domains']: props['domains'].append(row[5])
         props['id'].append(row[0])
 
 for key,value in datas.items():

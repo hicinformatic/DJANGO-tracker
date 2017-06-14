@@ -30,7 +30,7 @@ def downloadJS(request, domain):
     return response
 
 def trackerJS(request, domain):
-    context = { 'domain': domain, 'url': request.META['HTTP_HOST'], }
+    context = { 'domain': domain, 'url': request.META['HTTP_HOST'], 'connected': conf['connected'] }
     return render(request, 'tracker/tracker.js', context=context, content_type=conf['contenttype_js'],)
 
 """

@@ -19,6 +19,9 @@ function visit(visitor, url) {
             this.visitv += this.visitor;
         }
         this.add('route', load);
+        {% if connected and user.is_authenticated %}
+        this.add('connected', '{{user.get_username}}');
+        {% endif %}
     };
     this.visit = function() {
         this.add('url', window.location.href);

@@ -28,6 +28,7 @@ conf = {
     'maxage':     86400,
     'ndatas':     50,
     'port':       27080,
+    'connected':  True,
 }
 
 # Content Type
